@@ -5,7 +5,8 @@ import {
     DashboardOutlined, ScheduleOutlined, SettingOutlined,
     AuditOutlined, SolutionOutlined, TeamOutlined,
     ProjectOutlined, GlobalOutlined, ExceptionOutlined,
-    ProfileOutlined, FileTextOutlined, AreaChartOutlined
+    ProfileOutlined, FileTextOutlined, AreaChartOutlined,
+    ContactsOutlined, InfoOutlined
 } from '@ant-design/icons';
 import MainSection  from './MainSection';
 import { AvatarProfile, Logout } from 'components';
@@ -61,11 +62,23 @@ export default function Dashboard(props) {
                             title='Project'
                             icon={<ProjectOutlined />}
                         >
-                            <Menu.Item key='donor'>
-                            <Link to={Path.donors()}>
-                                <TeamOutlined /> Donor
-                            </Link>
-                            </Menu.Item>
+                            <SubMenu
+                                key='donor-info'
+                                title='Donor Info'
+                                icon={<InfoOutlined />}
+                            >   
+                                <Menu.Item key='donor'>
+                                    <Link to={Path.donors()}>
+                                        <TeamOutlined /> Donor
+                                    </Link>
+                                </Menu.Item>
+
+                                <Menu.Item key='contact'>
+                                    <Link to={'#'}>
+                                        <ContactsOutlined /> Contact
+                                    </Link>
+                                </Menu.Item>
+                            </SubMenu>
 
                             <Menu.Item key='proposals'>
                                 <Link to={Path.proposals()}>
