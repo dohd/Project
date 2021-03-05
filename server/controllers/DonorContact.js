@@ -1,6 +1,3 @@
-// const { DatabaseError } = require('sequelize');
-// const { Op } = require('../utils/database');
-// const createError = require('http-errors');
 const DonorContact = require('../models/DonorContact');
 
 module.exports = {
@@ -11,7 +8,7 @@ module.exports = {
 
             const donor_contact = await DonorContact.create({
                 firstName: data.firstName,
-                lastName: data.firstName,
+                lastName: data.lastName,
                 telephone: data.phone,
                 email: data.email,
                 donorId: data.donorId,
@@ -20,7 +17,7 @@ module.exports = {
 
             const saved_donor_contact = donor_contact.toJSON();
             delete saved_donor_contact.accountId;
-
+            res.send(saved_donor_contact);
         } catch (error) {
             next(error);
         }
@@ -42,6 +39,7 @@ module.exports = {
         try {
             const accountId = req.payload.aud;
             const { id } = req.params;
+            req.body.telephone = req.body.phone;
             await DonorContact.update(req.body, { where: { id, accountId } });
             res.sendStatus(200);
         } catch (err) {
