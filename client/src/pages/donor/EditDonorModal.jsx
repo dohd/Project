@@ -43,7 +43,7 @@ export default function EditDonor(props) {
     
     return (
         <Modal
-            title='Create Donor'
+            title='Edit Donor'
             visible={visible}
             onOk={onOk}
             onCancel={onCancel}
