@@ -1,14 +1,13 @@
 import React from 'react';
-import { Modal, Table } from 'antd';
+import { Modal, Table, Button } from 'antd';
 
-export default function ReportModal({visible, setVisible}) {
+export default function ReportModal({visible, setVisible, viewTable}) {
     
     return (
         <Modal
             title='Reports'
             visible={visible}
-            // onOk={onOk}
-            // okText='Save'           
+            okButtonProps={{ disabled: true }}
             onCancel={() => setVisible(false)}
         >   
             <Table
@@ -25,10 +24,16 @@ export default function ReportModal({visible, setVisible}) {
                 ]}
 
                 columns={[
-                    {
+                    {   
                         title: 'Report',
                         dataIndex: 'report',
-                        key: 'report'
+                        key: 'report',
+                        align: 'center',
+                        render: (text, {key}) => (
+                            <Button type='link' onClick={() => viewTable(key)}>
+                                {text}
+                            </Button>
+                        )
                     }
                 ]}
             />

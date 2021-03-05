@@ -28,7 +28,7 @@ import { Settings } from '../setting';
 import { Home } from '../home';
 import { Objectives, Activities } from './ObjActWrapper';
 import { Bargraph } from '../graphs';
-import { ReportActivity, ReportView } from '../activity_reports';
+import { ReportActivity, ReportTable } from '../activity_reports';
 
 export default function MainSection({ location, history }) {
     // reset scrollbar position
@@ -45,8 +45,9 @@ export default function MainSection({ location, history }) {
                 <Route exact path={Path.settings()} component={Settings} />
                 <Route exact path={Path.graphs()} component={Bargraph} />
                 <Route exact path={Path.reportActivity()} component={ReportActivity} />
-                <Route exact path={Path.reportView()} component={ReportView} />
+                <Route exact path={Path.reportView()} component={ReportTable} />
                 <Route exact path={Path.home()} component={Home} />
+                
                 {/* { !isMatch() && history.push(Path.home()) } */}
             </Switch>
 

@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Card, Table, Button } from 'antd';
-// import UrlPattern from 'url-pattern';
-// import { Path } from 'routes';
+import UrlPattern from 'url-pattern';
+import { Path } from 'routes';
 import ReportModal from './ReportModal';
 
 export default function ReportActivity({ history }) {
-    // const viewReport = key => {
-    //     const pattern = new UrlPattern(Path.reportView());
-    //     const path = pattern.stringify({ activityId: key });
-    //     history.push(path);
-    // };
+    const viewTable = key => {
+        const pattern = new UrlPattern(Path.reportView());
+        const path = pattern.stringify({ activityId: key });
+        history.push(path);
+    };
 
     const [visible, setVisible] = useState(false);
     const viewReport = key => {
@@ -24,7 +24,7 @@ export default function ReportActivity({ history }) {
             <ReportModal 
                 visible={visible}
                 setVisible={setVisible}
-
+                viewTable={viewTable}
             />
 
             <Table 
