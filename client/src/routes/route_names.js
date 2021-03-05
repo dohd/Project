@@ -20,6 +20,7 @@ const RouteNameMap = {
     [Path.updatePendingReport()]: 'Create Narrative Report',
     [Path.pendingReport()]: 'Pending Report Activities',
     [Path.donors()]: 'Project Donors',
+    [Path.donorContacts()]: 'Project -> Donor-Info -> Contact',
     [Path.activityPlans()]: 'Activity Plan',
     [Path.participantAnalysis()]: 'Participant Analysis',
     [Path.regions()]: 'Organisation Target Regions',

@@ -23,6 +23,7 @@ import { Narrative } from '../narative_report';
 import { Agenda } from '../agenda';
 import { Users } from '../user';
 import { Donors } from '../donor';
+import { DonorContact } from '../donor_contact';
 import { Responses } from '../response';
 import { Settings } from '../setting';
 import { Home } from '../home';
@@ -47,7 +48,8 @@ export default function MainSection({ location, history }) {
                 <Route exact path={Path.reportActivity()} component={ReportActivity} />
                 <Route exact path={Path.reportView()} component={ReportTable} />
                 <Route exact path={Path.home()} component={Home} />
-                
+                <Route exact path={Path.donorContacts()} component={DonorContact} />
+
                 {/* { !isMatch() && history.push(Path.home()) } */}
             </Switch>
 

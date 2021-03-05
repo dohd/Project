@@ -74,7 +74,7 @@ export default function Dashboard(props) {
                                 </Menu.Item>
 
                                 <Menu.Item key='contact'>
-                                    <Link to={'#'}>
+                                    <Link to={Path.donorContacts()}>
                                         <ContactsOutlined /> Contact
                                     </Link>
                                 </Menu.Item>

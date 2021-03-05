@@ -8,6 +8,7 @@ export const Path = {
     users: function() { return `${this.home()}/users`; },
     settings: function() { return `${this.home()}/settings`; },
     donors: function() { return `${this.home()}/donors`; },
+    donorContacts: function() { return `${this.home()}/donor-contact-person`; },
     responses: function() { return `${this.home()}/responses`; },
     caseStudies: function() { return `${this.home()}/case-studies`; },
     groups: function() { return `${this.home()}/target-groups`; },
