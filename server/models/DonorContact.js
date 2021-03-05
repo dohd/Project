@@ -1,6 +1,6 @@
 const { db, DataTypes } = require('../utils/database');
 
-const DonorContact = db.define('contact_person', {
+const DonorContact = db.define('donor_contact', {
     accountId: { type: DataTypes.INTEGER, allowNull: false  },
     firstName: { type: DataTypes.STRING, allowNull: false },
     lastName: { type: DataTypes.STRING, allowNull: false },
