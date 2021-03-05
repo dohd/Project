@@ -96,7 +96,7 @@ export default function Donor(props) {
 
     return (
         <Card
-            title='Contact Person'
+            title='Donor Contact Person'
             bordered={false}
             extra={
                 <Space>
