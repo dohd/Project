@@ -91,9 +91,9 @@ export default function Dashboard(props) {
                             title='Narrative Report'
                             icon={<SolutionOutlined />}
                         >
-                            {/* <Menu.Item key='report-activity'>
+                            <Menu.Item key='report-activity'>
                                 <Link to={Path.reportActivity()}>Report Activity</Link>
-                            </Menu.Item> */}
+                            </Menu.Item>
                             <Menu.Item key='response'>
                                 <Link to={Path.responses()}>Response</Link>
                             </Menu.Item>
