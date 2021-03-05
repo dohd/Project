@@ -2,6 +2,7 @@ const { DatabaseError } = require('sequelize');
 const { Op } = require('../utils/database');
 const createError = require('http-errors');
 const Donor = require('../models/Donor');
+const DonorContact = require('../models/DonorContact');
 
 module.exports = {
     create: async (req, res, next) => {
@@ -39,7 +40,14 @@ module.exports = {
             const accountId = req.payload.aud;
             const donors = await Donor.findAll({ 
                 where: { accountId },
-                attributes: ['id','name','phone','email']
+                attributes: ['id','name','phone','email'],
+                include: [
+                    { 
+                        model: DonorContact, 
+                        as: 'donorContact',
+                        attributes: { exclude: ['accountId', 'createdAt', 'updatedAt'] } 
+                    }
+                ]
             });
             res.send(donors);
         } catch (err) {
