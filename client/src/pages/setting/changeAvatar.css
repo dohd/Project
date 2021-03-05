@@ -1,0 +1,28 @@
+.settings-upload-outlined {
+    margin-top: 10%;
+    margin-left: 4%;
+}
+
+.settings-upload {
+    margin-left: 4%;
+}
+
+.settings-avatar-container {
+    display: flex;
+    margin-bottom: 1em;
+    margin-left: 1.5em;
+}
+
+.settings-avatar-content {
+    margin-top: 1em;
+    line-height: normal;
+}
+
+.settings-paragraph {
+    color: grey;
+}
+
+.settings-user-outlined {
+    font-size: 1.5em;
+    padding-top: .4em;
+}

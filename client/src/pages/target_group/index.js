@@ -1,0 +1,1 @@
+export {default as TargetGroups} from './TargetGroupsContainer';

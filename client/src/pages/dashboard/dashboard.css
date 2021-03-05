@@ -1,0 +1,87 @@
+.app-name {
+    color: white;
+    font-weight: bold;
+    margin-left: calc(100% - 160px);
+    margin-top: .5em;
+}
+
+.avatar-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.5em;
+    padding-right: 1em;
+}
+
+.profile-name {
+    color: white;
+    font-family: serif;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding-top: 1em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sider {
+    position: fixed;
+    height: 100vh;
+    overflow: auto;
+    left: 0;
+}
+
+
+/* sider scrollbar */
+.sider {
+    scrollbar-width: 8px;
+    scrollbar-color:  #1890FF;
+}
+.sider::-webkit-scrollbar {
+    width: 8px;
+}
+.sider::-webkit-scrollbar-track {
+    background-color: #001529;
+}
+.sider::-webkit-scrollbar-thumb {
+    background-color: #001529;
+    border-radius: 5px;
+}
+.sider::-webkit-scrollbar-thumb:hover {
+    background-color: #1890FF;
+}
+
+
+.header {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+}
+
+.header-icons {
+    margin-left: calc(100% - 250px);
+}
+
+.content {
+    padding: 0 2em;
+    margin-top: 64px;
+}
+
+.breadcrumb {
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    padding: 1em 0;
+    background-color: #f0f2f5;
+}
+
+.main-section {
+    margin-top: 3.5em;
+    min-height: calc(100vh - 200px);
+    background: white;
+}
+
+.setting-icon {
+    color: white;
+    font-size: 1.5em;
+    display: inline-block;
+    margin-right: 1em;
+}

@@ -1,0 +1,1 @@
+export {default as KeyProgrammes} from './KeyProgrammesContainer';

@@ -1,0 +1,29 @@
+.landing-container {
+    background: linear-gradient(to bottom right, cyan,rgb(47, 34, 131));
+    width: 100%;
+    min-height: 100vh;
+}
+
+.login {
+    width: 30em;
+    padding-top: 5em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.registerText {
+    color: rgb(180, 179, 179);
+    font-size: 1.2em;
+    margin-top: 0.5em;
+    margin-left: 4em;
+}
+
+.passwordText {
+    margin: 0;
+    margin-left: 8em;
+    color: rgb(2, 117, 216);
+}
+
+.whiteText {
+    color: white;
+}

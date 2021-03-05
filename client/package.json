@@ -1,0 +1,46 @@
+{
+  "name": "client-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "antd": "^4.12.3",
+    "axios": "^0.21.1",
+    "babel-plugin-import": "^1.13.3",
+    "chart.js": "^2.9.4",
+    "core-js": "^3.9.0",
+    "dayjs": "^1.10.4",
+    "jwt-decode": "^3.1.2",
+    "pdfmake": "^0.1.70",
+    "react": "^16.14.0",
+    "react-chartjs-2": "^2.11.1",
+    "react-dom": "^16.14.0",
+    "react-highlight-words": "^0.16.0",
+    "react-is": "^16.13.1",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.4.4",
+    "typescript": "^3.9.9",
+    "url-pattern": "^1.0.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "client-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "proxy": "http://localhost:3001/api"
+}

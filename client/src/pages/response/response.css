@@ -1,0 +1,8 @@
+:root {
+    --light-blue: #1890FF;
+}
+
+.cell:hover {
+    color: var(--light-blue);
+    cursor: pointer;
+}

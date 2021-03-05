@@ -1,0 +1,23 @@
+.container { 
+    display: inline-flex; 
+}
+
+.wrapper { 
+    display: flex; 
+}
+
+.btn-next {
+    width: 21%;
+    min-width: 60px;
+    margin-left: 24%;
+}
+
+.btn-next-2 {
+    width: 20%;
+    min-width: 60px; 
+    margin-left: 2%; 
+}
+
+.btn-back {
+    margin-left: 22%;
+}

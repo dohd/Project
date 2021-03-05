@@ -1,0 +1,37 @@
+:root {
+    --light-blue: #1890FF;
+}
+
+.calendar-header {
+    width: 26%;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.outline-icon {
+    font-size: 20px;
+    color: var(--light-blue);
+}
+
+.jump-to {
+    display: inline-flex;
+    margin-bottom: 3px;
+}
+
+.select-drop {
+    width: 6em;
+    margin-left: 5px;
+}
+
+.calendar-table {
+    font-size: 15px;
+}
+
+.plan-cell {
+    background-color: var(--light-blue);
+    color: white;
+    cursor: pointer;
+}

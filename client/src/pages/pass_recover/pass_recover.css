@@ -1,0 +1,12 @@
+.landing-container {
+    background: linear-gradient(to bottom right, cyan,rgb(47, 34, 131));
+    width: 100%;
+    min-height: 100vh;
+}
+
+.pass-recover {
+    width: 30em;
+    padding-top: 5em;
+    margin-left: auto;
+    margin-right: auto;
+}
