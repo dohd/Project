@@ -1,6 +1,7 @@
 const { db } = require('../utils/database');
 const { 
-    NarrativeReport, Response, CaseStudy
+    NarrativeReport, Response, CaseStudy,
+    NarrativeQuiz
 } = require('../models/NarrativeReport');
 const Agenda = require('../models/Agenda');
 const Activity = require('../models/Activity');
@@ -71,6 +72,10 @@ module.exports = {
                                 model: Agenda,
                                 as: 'agenda',
                                 attributes: ['id','task']
+                            },
+                            {
+                                model: NarrativeQuiz,
+                                as: 'narrativeQuiz'
                             }
                         ]
                     }
