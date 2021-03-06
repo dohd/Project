@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Table, Button } from 'antd';
 import UrlPattern from 'url-pattern';
 import { Path } from 'routes';
 import ReportModal from './ReportModal';
+import { useNarrativeContext } from 'contexts';
 
 export default function ReportActivity({ history }) {
+    const [activities, setActivities] = useState([]);
+    const { narratives } = useNarrativeContext();
+    useEffect(() => { 
+        const json_activities = narratives.map(val => JSON.stringify(val.activity));
+        const unique_activities = Array.from(new Set(json_activities));
+        const activityList = unique_activities.map(val => JSON.parse(val));        
+        setActivities(activityList);
+    }, [narratives]);
+
     const viewTable = key => {
         const pattern = new UrlPattern(Path.reportView());
         const path = pattern.stringify({ activityId: key });
@@ -28,24 +38,11 @@ export default function ReportActivity({ history }) {
             />
 
             <Table 
-                dataSource={[
-                    {
-                        key: 1,
-                        activity: 'Counseling and legal support',
-                    },
-                    {
-                        key: 2,
-                        activity: 'Self-help groups establishment',
-                    },
-                    {
-                        key: 3,
-                        activity: 'Baseline survey and focus group discussions',
-                    }
-                ]}
+                dataSource={activities}
                 columns={[
                     {
                         title: 'Activity',
-                        dataIndex: 'activity',
+                        dataIndex: 'action',
                         key: 'activity'
                     },
                     {
