@@ -11,7 +11,7 @@ export default function Tab2(props) {
 
     const [formG] = Form.useForm();
     const onFinishG = values => {
-        values.questionId = 7;
+        values.narrativeQuizId = 7;
         setState(prev => {
             let exists = false;
             prev.formG.forEach(({response}) => {
@@ -27,7 +27,7 @@ export default function Tab2(props) {
 
     const [formH] = Form.useForm();
     const onFinishH = values => {
-        values.questionId = 8;
+        values.narrativeQuizId = 8;
         setState(prev => {
             let exists = false;
             prev.formH.forEach(({response}) => {
