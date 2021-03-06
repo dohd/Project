@@ -45,7 +45,7 @@ export default function MainSection({ location, history }) {
             <Switch>
                 <Route exact path={Path.settings()} component={Settings} />
                 <Route exact path={Path.graphs()} component={Bargraph} />
-                <Route exact path={Path.reportActivity()} component={ReportActivity} />
+                
                 <Route exact path={Path.reportView()} component={ReportTable} />
                 <Route exact path={Path.home()} component={Home} />
                 <Route exact path={Path.donorContacts()} component={DonorContact} />
@@ -129,6 +129,7 @@ export default function MainSection({ location, history }) {
                             <NarrativeProvider>
                                 <Switch>
                                     <Route exact path={Path.responses()} component={Responses} />
+                                    <Route exact path={Path.reportActivity()} component={ReportActivity} />
                                 </Switch>
 
                                 <AgendaProvider>
