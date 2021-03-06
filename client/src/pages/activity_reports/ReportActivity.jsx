@@ -22,8 +22,10 @@ export default function ReportActivity({ history }) {
     };
 
     const [visible, setVisible] = useState(false);
-    const viewReport = key => {
+    const [record, setRecord] = useState({});
+    const viewReport = record => {
         setVisible(true);
+        setRecord(record);
     }
 
     return (
@@ -48,9 +50,9 @@ export default function ReportActivity({ history }) {
                     {
                         title: 'Action',
                         key: 'action',
-                        render: (text, {key}) => {
+                        render: (text, record) => {
                             return (
-                                <Button type='link' onClick={() => viewReport(key)}>
+                                <Button type='link' onClick={() => viewReport(record)}>
                                     reports
                                 </Button>
                             );
