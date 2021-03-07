@@ -94,25 +94,6 @@ export default function MainSection({ location, history }) {
                         <Route exact path={Path.participants()} component={Participants} />
                     </Switch>
 
-                    <ProgrammeProvider>
-                        <Switch>
-                            <Route exact path={Path.programmes()} component={KeyProgrammes} />
-                        </Switch>
-
-                        <GroupProvider>
-                            <Switch>
-                                <Route exact path={Path.groups()} component={TargetGroups} />
-                            </Switch>
-
-                            <RegionProvider>
-                                <Switch>
-                                    <Route exact path={Path.regions()} component={Regions} />
-                                    <Route exact path={Path.createPlan()} component={CreateActivityPlan} />
-                                </Switch>
-                            </RegionProvider>
-                        </GroupProvider>
-                    </ProgrammeProvider>
-
                     <ActivityPlanProvider>
                         <Switch>
                             <Route exact path={Path.createParticipant()} component={CreateParticipant} />
@@ -124,6 +105,25 @@ export default function MainSection({ location, history }) {
                             <Route exact path={Path.activityPlans()} component={ActivityPlans} />
                             <Route exact path={Path.participantAnalysis()} component={ParticipantAnalysis} />
                         </Switch>
+
+                        <ProgrammeProvider>
+                            <Switch>
+                                <Route exact path={Path.programmes()} component={KeyProgrammes} />
+                            </Switch>
+
+                            <GroupProvider>
+                                <Switch>
+                                    <Route exact path={Path.groups()} component={TargetGroups} />
+                                </Switch>
+
+                                <RegionProvider>
+                                    <Switch>
+                                        <Route exact path={Path.regions()} component={Regions} />
+                                        <Route exact path={Path.createPlan()} component={CreateActivityPlan} />
+                                    </Switch>
+                                </RegionProvider>
+                            </GroupProvider>
+                        </ProgrammeProvider>
 
                         <QuizProvider>
                             <NarrativeProvider>
