@@ -186,7 +186,8 @@ export default function ActivityPlans({ history }) {
 
     const calendarProps = {
         state, handleNext, handleBack, isPlan,
-        onChangeMonth, onChangeYear, showModal
+        onChangeMonth, onChangeYear, showModal,
+        history
     };
 
     const modalProps = {

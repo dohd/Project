@@ -7,7 +7,8 @@ import { months, years, days } from './showCalendar';
 export default function PlanCalendar(props) {
     const { 
         state, handleNext, handleBack, isPlan,
-        onChangeMonth, onChangeYear, showModal
+        onChangeMonth, onChangeYear, showModal,
+        history
     } = props;
 
     const monthList = months.map((val, i) => {
