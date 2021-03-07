@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
-import { Card, Table, Select } from 'antd';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { Card, Table, Select, Space } from 'antd';
+import { LeftOutlined, RightOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import './calendar.css';
 import { months, years, days } from './showCalendar';
 
@@ -54,7 +54,15 @@ export default function PlanCalendar(props) {
 
     return (
         <Card
-            title='Activity Plan'
+            title={
+                <Space>
+                    <ArrowLeftOutlined 
+                        onClick={() => history.goBack()}
+                        style={{fontSize: '18px'}} 
+                    />                       
+                    Activity Plan
+                </Space>   
+            }
             bordered={false}
         >
             <div className='calendar-header'>
