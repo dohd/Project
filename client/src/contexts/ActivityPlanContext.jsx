@@ -6,17 +6,17 @@ const ActivityPlanContext = createContext(null);
 export default function ActivityPlanProvider({ children }) {
     const [activityPlans, setActivityPlans] = useState([]);
     
-    const fetchAcitivityPlans = () => {
+    const fetchActivityPlans = () => {
         Api.activityPlan.get()
         .then(res => setActivityPlans(res))
         .catch(err => console.log(err));
     };
 
-    useEffect(fetchAcitivityPlans, []);
+    useEffect(fetchActivityPlans, []);
     
     return (
         <ActivityPlanContext.Provider 
-            value={{ activityPlans, fetchAcitivityPlans }}
+            value={{ activityPlans, fetchActivityPlans }}
         >
             { children }
         </ActivityPlanContext.Provider>
