@@ -2,7 +2,7 @@ import React, { useState,useRef } from 'react';
 import moment from 'moment';
 import showCalendar, { currentYear, currentMonth } from './showCalendar';
 import { useActivityPlanContext } from 'contexts';
-import Calendar from './Calendar';
+import PlanCalendar from './PlanCalendar';
 import ActivityPlanModal from './ActivityPlanModal';
 
 import pdfMake from 'pdfmake/build/pdfmake';
@@ -199,7 +199,7 @@ export default function ActivityPlans({ history }) {
     
     return (
         <div>
-            <Calendar {...calendarProps} />
+            <PlanCalendar {...calendarProps} />
             <ActivityPlanModal {...modalProps} />
         </div>
     );

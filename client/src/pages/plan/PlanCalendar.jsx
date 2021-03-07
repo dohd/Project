@@ -4,7 +4,7 @@ import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import './calendar.css';
 import { months, years, days } from './showCalendar';
 
-export default function Calendar(props) {
+export default function PlanCalendar(props) {
     const { 
         state, handleNext, handleBack, isPlan,
         onChangeMonth, onChangeYear, showModal
