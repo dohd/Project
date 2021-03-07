@@ -167,7 +167,7 @@ module.exports = {
             });
             const participant = await Participant.findOne({
                 where: { activityId: plan.activityId },
-                attributes: [id]
+                attributes: ['id']
             });
             // plan was already executed thus can't be deleted;
             if (participant) throw new createError.FailedDependency(
