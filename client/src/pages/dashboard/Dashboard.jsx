@@ -89,7 +89,7 @@ export default function Dashboard(props) {
 
                         <Menu.Item key='activity-plans'>
                             <Link to={Path.activityPlans()}>
-                                <ScheduleOutlined /> Activity Plan
+                                <ScheduleOutlined /> Event Calendar
                             </Link>
                         </Menu.Item>
 

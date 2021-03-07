@@ -60,7 +60,7 @@ export default function Home(params) {
                 }
                 extra={
                     <Link to={Path.activityPlans()}>
-                        <Tooltip title='Activity Plan'>
+                        <Tooltip title='Event Calendar'>
                             <EllipsisOutlined style={{ fontSize: '2em' }} />
                         </Tooltip>
                     </Link>

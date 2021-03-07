@@ -4,7 +4,7 @@ import { LeftOutlined, RightOutlined, ArrowLeftOutlined } from '@ant-design/icon
 import './calendar.css';
 import { months, years, days } from './showCalendar';
 
-export default function PlanCalendar(props) {
+export default function EventCalendar(props) {
     const { 
         state, handleNext, handleBack, isPlan,
         onChangeMonth, onChangeYear, showModal,
@@ -60,7 +60,7 @@ export default function PlanCalendar(props) {
                         onClick={() => history.goBack()}
                         style={{fontSize: '18px'}} 
                     />                       
-                    Activity Plan
+                    Event Calendar
                 </Space>   
             }
             bordered={false}
