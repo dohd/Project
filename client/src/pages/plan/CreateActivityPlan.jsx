@@ -3,7 +3,7 @@ import { Card, Form, Space, Input, Select, Button, Row, Col, message } from 'ant
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import Api from 'api';
 import DateModal from './DateModal';
-import { useGroupContext, useProgrammeContext } from 'contexts';
+import { useGroupContext, useProgrammeContext, useActivityPlanContext } from 'contexts';
 
 const layout = { labelCol: { span: 4 }, wrapperCol: { span: 16 } };
 
@@ -11,6 +11,7 @@ export default function CreateActivityPlan({ match, history }) {
     const { activityId } = match.params;    
     const [state, setState] = useState({ events: [ [],[] ] });
 
+    const { fetchActivityPlans } = useActivityPlanContext();
     const [form] = Form.useForm();
     const onFinish = values => {
         values.activityId = activityId;
@@ -24,6 +25,7 @@ export default function CreateActivityPlan({ match, history }) {
         .then(res => {
             form.resetFields();
             message.success('Form submitted successfully');
+            fetchActivityPlans();
         })
         .catch(err => {
             console.log(err);
