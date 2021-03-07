@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Table, Row, Col, Space } from 'antd';
+import { Card, Table, Row, Col, Space, Tooltip } from 'antd';
 import { 
     ProjectOutlined, TeamOutlined, ScheduleOutlined,
     EllipsisOutlined, FileDoneOutlined, CarryOutOutlined
@@ -60,7 +60,9 @@ export default function Home(params) {
                 }
                 extra={
                     <Link to={Path.activityPlans()}>
-                        <EllipsisOutlined style={{ fontSize: '2em' }} />
+                        <Tooltip title='Activity Plan'>
+                            <EllipsisOutlined style={{ fontSize: '2em' }} />
+                        </Tooltip>
                     </Link>
                 }
             >
