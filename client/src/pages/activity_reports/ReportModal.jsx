@@ -1,8 +1,8 @@
 import React from 'react';
 import { Modal, Table, Button } from 'antd';
 
-export default function ReportModal({visible, setVisible, viewTable}) {
-    
+export default function ReportModal(props) {
+    const {visible, setVisible, viewTable, record} = props;
     return (
         <Modal
             title='Reports'

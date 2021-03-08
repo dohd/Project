@@ -37,6 +37,7 @@ export default function ReportActivity({ history }) {
                 visible={visible}
                 setVisible={setVisible}
                 viewTable={viewTable}
+                record={record}
             />
 
             <Table 
