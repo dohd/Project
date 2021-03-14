@@ -13,7 +13,8 @@ const sampleData = [
     }
 ];
 
-export default function ActivityPlans(params) {
+export default function ActivityPlans(props) {
+    const { addPlanPage } = props;
     return (
         <Card
             bordered={false}
@@ -23,7 +24,7 @@ export default function ActivityPlans(params) {
                 </Space>
             }
             extra={
-                <Button type='primary'>
+                <Button type='primary' onClick={addPlanPage}>
                     <PlusOutlined /> Plan
                 </Button>
             }
