@@ -11,6 +11,6 @@ export default function ActivityPlansContainer({ match, history }) {
         history.push(path);
     };
     
-    const props = { addPlanPage };
+    const props = { history, addPlanPage };
     return <ActivityPlans {...props} />
 }

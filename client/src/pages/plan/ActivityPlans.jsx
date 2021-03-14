@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Space, Table, Button } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 
 const sampleData = [
     {
@@ -14,12 +14,16 @@ const sampleData = [
 ];
 
 export default function ActivityPlans(props) {
-    const { addPlanPage } = props;
+    const { history, addPlanPage } = props;
     return (
         <Card
             bordered={false}
             title={
                 <Space>
+                    <ArrowLeftOutlined 
+                        style={{ fontSize: '18px' }}
+                        onClick={() => history.goBack()} 
+                    />
                     Activity Plans
                 </Space>
             }
