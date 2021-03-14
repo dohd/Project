@@ -67,6 +67,13 @@ export default function PlanActivitiesContainer({ match, history }) {
         history.push(path);
     };
 
+    const plansPage = key => {
+        const params = new UrlPattern(Path.activities()).match(match.url);
+        const pattern = new UrlPattern(Path.activityPlans());
+        const path = pattern.stringify({ activityId: key, ...params });
+        history.push(path);
+    }
+
     const { activityPlans } = useActivityPlanContext();
     const participantList = key => {
         let exists;
@@ -111,7 +118,8 @@ export default function PlanActivitiesContainer({ match, history }) {
     const props = {
         state, fetchProposals, visible, setVisible, history, 
         showModal, participantList, createReport, createPlan,
-        agendaList, objectiveId, tableView, onExport, onPageChange
+        agendaList, objectiveId, tableView, onExport, onPageChange,
+        plansPage
     };
 
     return <PlanActivities {...props} />

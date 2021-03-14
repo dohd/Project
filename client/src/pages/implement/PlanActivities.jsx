@@ -12,7 +12,7 @@ import AddActivity from './AddActivityModal';
 export default function PlanActivities(props) {
     const {
         state, fetchProposals, visible, setVisible, history, showModal,
-        objectiveId, tableView, onExport, onPageChange,
+        objectiveId, tableView, onExport, onPageChange, plansPage
     } = props;
 
     // custom search filter 
@@ -145,7 +145,9 @@ export default function PlanActivities(props) {
                             key: 'action',
                             render: (text, {key}) => {
                                 return (
-                                    <Button type='link'>Plans</Button>
+                                    <Button type='link' onClick={() => plansPage(key)}>
+                                        Plans
+                                    </Button>
                                 );
                             }
                         }
