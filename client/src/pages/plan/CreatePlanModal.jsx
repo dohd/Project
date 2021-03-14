@@ -42,9 +42,12 @@ export default function CreatePlan(props) {
                 <Row>
                     <Col xs={24} sm={23}>
                         <Form.Item
-                            label='Event dates'
+                            label='Event Dates'
                             name='events'
-                            rules={[{ required: true }]}
+                            rules={[{ 
+                                required: true, 
+                                message: 'event dates are required'
+                            }]}
                         >
                             <Select 
                                 mode='multiple' 
