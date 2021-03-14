@@ -25,7 +25,6 @@ export const Path = {
 
     reportView: function() { return `${this.reportActivity()}/:activityId/report`; },
 
-    activityPlans: function() { return `${this.reportActivity()}/:activityId/activity-plans`; },
 
     updatePendingAgenda: function() { return `${this.pendingReport()}/:activityId/agenda`; },
     updatePendingReport: function() { 
@@ -42,6 +41,7 @@ export const Path = {
     objectives: function() { return `${this.proposals()}/:proposalId/objectives`; },
 
     activities: function() { return `${this.objectives()}/:objectiveId/activities`; },
+    activityPlans: function() { return `${this.activities()}/:activityId/activity-plans`; },
 
     agenda: function() { return `${this.activities()}/:activityId/agenda`; },
     createPlan: function() { return `${this.activities()}/:activityId/create-plan`; },

@@ -97,7 +97,7 @@ export default function MainSection({ location, history }) {
 
                     <ActivityPlanProvider>
                         <Switch>
-                            <Route exact path={Path.createParticipant()} component={ActivityPlans} />
+                            <Route exact path={Path.activityPlans()} component={ActivityPlans} />
                             <Route exact path={Path.createParticipant()} component={CreateParticipant} />
                             <Route exact path={Path.planParticipant()} component={CreateParticipant} />
                             <Route exact path={Path.implementParticipant()} component={CreateParticipant} />
