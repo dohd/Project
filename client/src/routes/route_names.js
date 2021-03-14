@@ -22,6 +22,7 @@ const RouteNameMap = {
     [Path.donors()]: 'Project --> Donors',
     [Path.donorContacts()]: 'Project -> Donor-Info -> Contact',
     [Path.eventPlans()]: 'Event Plan',
+    [Path.activityPlans()]: 'Activity Plans',
     [Path.participantAnalysis()]: 'Participant Analysis',
     [Path.regions()]: 'Organisation --> Target Regions',
     [Path.programmes()]: 'Organisation --> Key Programmes',

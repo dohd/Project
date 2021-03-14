@@ -25,6 +25,8 @@ export const Path = {
 
     reportView: function() { return `${this.reportActivity()}/:activityId/report`; },
 
+    activityPlans: function() { return `${this.reportActivity()}/:activityId/activity-plans`; },
+
     updatePendingAgenda: function() { return `${this.pendingReport()}/:activityId/agenda`; },
     updatePendingReport: function() { 
         return `${this.pendingReport()}/:activityId/create-narrative-report`; 
