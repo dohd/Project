@@ -42,9 +42,9 @@ export const Path = {
 
     activities: function() { return `${this.objectives()}/:objectiveId/activities`; },
     activityPlans: function() { return `${this.activities()}/:activityId/activity-plans`; },
+    participants: function() { return `${this.activityPlans()}/:activityPlanId/participants`; },
 
     agenda: function() { return `${this.activities()}/:activityId/agenda`; },
-    participants: function() { return `${this.activities()}/:activityId/participants`; },
     narrativeReport: function() { 
         return `${this.activities()}/:activityId/create-narrative-report`; 
     },

@@ -14,7 +14,7 @@ const sampleData = [
 ];
 
 export default function ActivityPlans(props) {
-    const { history, toggleCreatePlan } = props;
+    const { history, toggleCreatePlan, participantsPage } = props;
     return (
         <Card
             bordered={false}
@@ -46,7 +46,10 @@ export default function ActivityPlans(props) {
                         key: 'action',
                         render: (txt, {key}) => {
                             return (
-                                <Button type='link'>
+                                <Button 
+                                    type='link' 
+                                    onClick={() => participantsPage(key)}
+                                >
                                     Participants
                                 </Button>
                             );

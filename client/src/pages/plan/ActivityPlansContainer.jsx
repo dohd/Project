@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Form, message } from 'antd';
+import UrlPattern from 'url-pattern';
 
 import ActivityPlans from './ActivityPlans';
 import CreatePlanModal from './CreatePlanModal';
 import Api from 'api';
 import { useActivityPlanContext } from 'contexts';
+import { Path } from 'routes';
 
 export default function ActivityPlansContainer({ match, history }) {
     const { activityId } = match.params;
@@ -37,11 +39,18 @@ export default function ActivityPlansContainer({ match, history }) {
     };
     const onFinishFailed = err => console.log('Error:',err);
 
+    const participantsPage = key => {
+        const params = new UrlPattern(Path.activityPlans()).match(match.url);
+        const pattern = new UrlPattern(Path.participants());
+        const path = pattern.stringify({ activityPlanId: key, ...params });
+        history.push(path);
+    };
+
     const modal_props = { 
         visible, setVisible, state, setState, onFinish,
         onFinishFailed
     };
-    const props = { history, toggleCreatePlan };
+    const props = { history, toggleCreatePlan, participantsPage };
     return (
         <div>
             <ActivityPlans {...props} />
