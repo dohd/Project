@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import UrlPattern from 'url-pattern';
+
+import Participants from './Participants';
+import pdfExport from './participantsPdfExport';
 import { useParticipantContext } from 'contexts';
 import Api from 'api';
-import Participants from './Participants';
 import { Path } from 'routes';
-import pdfExport from './participantsPdfExport';
 
 export default function ParticipantsContainer({ match, history }) {
     const { activityId } = match.params;
@@ -60,10 +61,17 @@ export default function ParticipantsContainer({ match, history }) {
     const tableView = useRef();
     const onExport = () => pdfExport(tableView, state);
 
+    const agendaPage = () => {
+        const params  = new UrlPattern(Path.participants()).match(match.url);
+        const pattern = new UrlPattern(Path.agenda());
+        const path = pattern.stringify({ ...params });
+        history.push(path);
+    };
+
     const props = { 
         state, onDelete, history, onExport, 
         tableView, onPageChange, createParticipant,
-        updateParticipant
+        updateParticipant, agendaPage
     };
 
     return <Participants {...props} />;

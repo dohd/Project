@@ -2,14 +2,14 @@ import React, { useRef, useState } from 'react';
 import { Card, Table, Button, Space, Input } from 'antd';
 import { 
     PlusOutlined, EditTwoTone, DeleteOutlined, 
-    ArrowLeftOutlined, SearchOutlined, FilePdfOutlined
+    ArrowLeftOutlined, SearchOutlined
 } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 
 export default function Participants(props) {
     const { 
         state, onDelete, history,
-        onExport, tableView, onPageChange,
+        agendaPage, tableView, onPageChange,
         createParticipant, updateParticipant
     } = props;
 
@@ -108,8 +108,8 @@ export default function Participants(props) {
                     <Button type='primary' onClick={createParticipant}>
                         <PlusOutlined />Create
                     </Button>
-                    <Button type='primary' onClick={onExport}>
-                        <FilePdfOutlined />Export
+                    <Button type='primary' onClick={agendaPage}>
+                        Agenda
                     </Button>
                 </Space>
             }
