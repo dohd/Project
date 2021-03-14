@@ -14,7 +14,7 @@ export const Path = {
     groups: function() { return `${this.home()}/target-groups`; },
     programmes: function() { return `${this.home()}/key-programmes`; },
     regions: function() { return `${this.home()}/target-regions`; },
-    activityPlans: function() { return `${this.home()}/activity-plans`; },
+    eventPlans: function() { return `${this.home()}/activity-plans`; },
     participantAnalysis: function() { return `${this.home()}/participant-analysis`; },
     proposals: function() { return `${this.home()}/proposals`; },
     eventPhotos: function() { return `${this.home()}/event-activities`; },
@@ -48,7 +48,7 @@ export const Path = {
         return `${this.activities()}/:activityId/create-narrative-report`; 
     },
 
-    planParticipant: function () { return`${this.activityPlans()}/:planId/create-participant`; },
+    planParticipant: function () { return`${this.eventPlans()}/:planId/create-participant`; },
 
     createParticipant: function() { return `${this.participants()}/create`; },
     updateParticipant: function() { return `${this.participants()}/:participantId/update`; },

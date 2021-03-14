@@ -21,7 +21,7 @@ const RouteNameMap = {
     [Path.pendingReport()]: 'Pending Report Activities',
     [Path.donors()]: 'Project --> Donors',
     [Path.donorContacts()]: 'Project -> Donor-Info -> Contact',
-    [Path.activityPlans()]: 'Activity Plan',
+    [Path.eventPlans()]: 'Event Plan',
     [Path.participantAnalysis()]: 'Participant Analysis',
     [Path.regions()]: 'Organisation --> Target Regions',
     [Path.programmes()]: 'Organisation --> Key Programmes',

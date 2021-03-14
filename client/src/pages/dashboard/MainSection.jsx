@@ -19,7 +19,7 @@ import { TargetGroups } from '../target_group';
 import { KeyProgrammes } from '../key_programme';
 import { Regions } from '../target_region';
 import { EventPlans } from '../event';
-import { CreateActivityPlan  } from '../plan';
+import { CreateActivityPlan, ActivityPlans  } from '../plan';
 import { Narrative } from '../narative_report';
 import { Agenda } from '../agenda';
 import { Users } from '../user';
@@ -97,13 +97,14 @@ export default function MainSection({ location, history }) {
 
                     <ActivityPlanProvider>
                         <Switch>
+                            <Route exact path={Path.createParticipant()} component={ActivityPlans} />
                             <Route exact path={Path.createParticipant()} component={CreateParticipant} />
                             <Route exact path={Path.planParticipant()} component={CreateParticipant} />
                             <Route exact path={Path.implementParticipant()} component={CreateParticipant} />
 
                             <Route exact path={Path.updateParticipant()} component={UpdateParticipant} />
 
-                            <Route exact path={Path.activityPlans()} component={EventPlans} />
+                            <Route exact path={Path.eventPlans()} component={EventPlans} />
                             <Route exact path={Path.participantAnalysis()} component={ParticipantAnalysis} />
                         </Switch>
 
