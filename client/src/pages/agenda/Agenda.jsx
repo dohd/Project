@@ -4,7 +4,7 @@ import {
 } from 'antd';
 import { 
     PlusOutlined, ArrowLeftOutlined, EditTwoTone, 
-    DeleteOutlined, SearchOutlined, FilePdfOutlined 
+    DeleteOutlined, SearchOutlined
 } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import CreateAgenda from './AddAgendaModal';
@@ -14,7 +14,7 @@ export default function Agenda(props) {
     const {
         state, visible, setVisible, showCreateModal, 
         showUpdateModal, history, fetchAgenda, onDelete,
-        tableView, onExport, onPageChange
+        tableView, reportPage, onPageChange
     } = props;
 
     // custom search filter 
@@ -111,10 +111,10 @@ export default function Agenda(props) {
             extra={
                 <Space>
                     <Button type='primary' onClick={showCreateModal}>
-                        <PlusOutlined /> Create
+                        <PlusOutlined /> Agenda
                     </Button>
-                    <Button type='primary' onClick={onExport}>
-                        <FilePdfOutlined /> Export
+                    <Button type='primary' onClick={reportPage}>
+                        <PlusOutlined /> NarrativeReport
                     </Button>
                 </Space>
             } 

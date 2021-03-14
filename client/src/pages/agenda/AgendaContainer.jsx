@@ -3,6 +3,8 @@ import { useAgendaContext } from 'contexts';
 import Api from 'api';
 import Agenda from './Agenda';
 import pdfExport from './pdfExport';
+import UrlPattern from 'url-pattern';
+import { Path } from 'routes';
 
 export default function AgendaContainer({ history, match }) { 
     const [visible, setVisible] = useState({ create: false, update: false });
@@ -46,10 +48,17 @@ export default function AgendaContainer({ history, match }) {
     const tableView = useRef();
     const onExport = () => pdfExport(tableView, state);
 
+    const reportPage = () => {
+        const params = new UrlPattern(Path.agenda()).match(match.url);
+        const pattern = new UrlPattern(Path.narrativeReport());
+        const path = pattern.stringify({...params});
+        history.push(path);
+    };
+
     const props = {
         state, visible, setVisible, showCreateModal, 
         showUpdateModal, history, fetchAgenda, onDelete,
-        tableView, onExport, onPageChange
+        tableView, onExport, onPageChange, reportPage
     };
 
     return <Agenda {...props} />;
