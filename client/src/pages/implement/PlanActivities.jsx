@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { 
-    Card, Table, Button, Space, Menu, Dropdown, Input, Tag 
+    Card, Table, Button, Space,  Input,
 } from 'antd';
 import { 
     ArrowLeftOutlined, PlusOutlined, SearchOutlined,
-    FilePdfOutlined, DownOutlined
+    FilePdfOutlined
 } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import AddActivity from './AddActivityModal';
@@ -12,7 +12,6 @@ import AddActivity from './AddActivityModal';
 export default function PlanActivities(props) {
     const {
         state, fetchProposals, visible, setVisible, history, showModal,
-        createReport, participantList, createPlan, agendaList,
         objectiveId, tableView, onExport, onPageChange,
     } = props;
 
@@ -141,50 +140,12 @@ export default function PlanActivities(props) {
                             ...getColumnSearchProps('activity')
                         },
                         {
-                            title: 'Participant Status',
-                            dataIndex: 'participantStatus',
-                            key: 'participantStatus',
-                            render: text => text? <Tag color='geekblue'>{ text }</Tag> : '_'
-                        },
-                        {
-                            title: 'Reports',
-                            dataIndex: 'reports',
-                            key: 'reports',
-                            render: text => text? text : '_'
-                        },
-                        {
                             title: 'Action',
                             dataIndex: 'action',
                             key: 'action',
                             render: (text, {key}) => {
                                 return (
-                                    <Dropdown
-                                        overlay={
-                                            <Menu>
-                                                <Menu.Item onClick={() => createPlan(key)}>
-                                                    <PlusOutlined />Plan
-                                                </Menu.Item>
-                                                
-                                                <Menu.Item
-                                                    onClick={() => participantList(key)}
-                                                >
-                                                    <PlusOutlined />Participants
-                                                </Menu.Item>
-
-                                                <Menu.Item onClick={() => agendaList(key)}>
-                                                    <PlusOutlined />Agenda
-                                                </Menu.Item>
-
-                                                <Menu.Item onClick={() => createReport(key)}>
-                                                    <PlusOutlined />Narrative Report
-                                                </Menu.Item>
-                                            </Menu>
-                                        }
-                                    >
-                                        <Button type='link'>
-                                            actions <DownOutlined />
-                                        </Button>
-                                    </Dropdown>
+                                    <Button type='link'>Plans</Button>
                                 );
                             }
                         }
