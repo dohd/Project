@@ -44,6 +44,7 @@ export default function DateModal({ state, setState }) {
                 size='middle'
                 onClick={showModal}
                 icon={<PlusOutlined />}
+                style={{ marginTop: '1.9em' }}
             />
 
             <Modal

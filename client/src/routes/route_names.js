@@ -10,7 +10,6 @@ const RouteNameMap = {
     [Path.implement()]: 'Pending Implementation Action',
     [Path.agenda()]: 'Agenda',
     [Path.updatePendingAgenda()]: 'Agenda',
-    [Path.createPlan()]: 'Create Plan',
     [Path.participants()]: 'Participants',
     [Path.createParticipant()]: 'Create',
     [Path.planParticipant()]: 'Create Participant',

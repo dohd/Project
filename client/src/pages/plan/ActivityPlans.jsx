@@ -14,7 +14,7 @@ const sampleData = [
 ];
 
 export default function ActivityPlans(props) {
-    const { history, addPlanPage } = props;
+    const { history, toggleCreatePlan } = props;
     return (
         <Card
             bordered={false}
@@ -28,7 +28,7 @@ export default function ActivityPlans(props) {
                 </Space>
             }
             extra={
-                <Button type='primary' onClick={addPlanPage}>
+                <Button type='primary' onClick={toggleCreatePlan}>
                     <PlusOutlined /> Plan
                 </Button>
             }
