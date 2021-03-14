@@ -18,7 +18,7 @@ import { CaseStudy } from '../case_study';
 import { TargetGroups } from '../target_group';
 import { KeyProgrammes } from '../key_programme';
 import { Regions } from '../target_region';
-import { CreateActivityPlan, ActivityPlans } from '../plan';
+import { CreateActivityPlan, EventPlans } from '../plan';
 import { Narrative } from '../narative_report';
 import { Agenda } from '../agenda';
 import { Users } from '../user';
@@ -102,7 +102,7 @@ export default function MainSection({ location, history }) {
 
                             <Route exact path={Path.updateParticipant()} component={UpdateParticipant} />
 
-                            <Route exact path={Path.activityPlans()} component={ActivityPlans} />
+                            <Route exact path={Path.activityPlans()} component={EventPlans} />
                             <Route exact path={Path.participantAnalysis()} component={ParticipantAnalysis} />
                         </Switch>
 

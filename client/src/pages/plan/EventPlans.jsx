@@ -3,7 +3,7 @@ import moment from 'moment';
 import showCalendar, { currentYear, currentMonth } from './showCalendar';
 import { useActivityPlanContext } from 'contexts';
 import EventCalendar from './EventCalendar';
-import ActivityPlanModal from './ActivityPlanModal';
+import EventPlan from './EventPlanModal';
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -11,7 +11,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const { singleMonth, title } = showCalendar(currentMonth, currentYear);
 
-export default function ActivityPlans({ history }) {
+export default function EventPlans({ history }) {
     const [state, setState] = useState({ 
         singleMonth, currentMonth, currentYear, title, 
         load: false
@@ -201,7 +201,7 @@ export default function ActivityPlans({ history }) {
     return (
         <div>
             <EventCalendar {...calendarProps} />
-            <ActivityPlanModal {...modalProps} />
+            <EventPlan {...modalProps} />
         </div>
     );
 }

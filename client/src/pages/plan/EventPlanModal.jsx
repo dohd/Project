@@ -6,7 +6,7 @@ import { useParticipantContext } from 'contexts';
 import Api from 'api';
 import { Path } from 'routes';
 
-export default function ActivityPlanModal(props) {
+export default function EventPlan(props) {
     const { 
         visible, setVisible, activityPlans, fetchActivityPlans,
         eventDate, tableView, onExport, pageSize,
