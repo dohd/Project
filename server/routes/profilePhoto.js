@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const ProfilePhoto = require('../controllers/ProfilePhoto');
-const checkRole = require('../utils/checkRole')
+const authRole = require('../utils/authRole')
 
 router.get('/', ProfilePhoto.findAll);
 
-router.post('/', checkRole.isAdmin, ProfilePhoto.create);
+router.post('/', authRole.isAdmin, ProfilePhoto.create);
 
 module.exports = router;

@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const Region = require('../controllers/Region');
-const checkRole = require('../utils/checkRole');
+const authRole = require('../utils/authRole');
 
 router.get('/', Region.findAll);
 
-router.post('/', checkRole.isAdmin, Region.create);
+router.post('/', authRole.isAdmin, Region.create);
 
-router.patch('/:id', checkRole.isAdmin, Region.update);
+router.patch('/:id', authRole.isAdmin, Region.update);
 
-router.delete('/:id', checkRole.isAdmin, Region.delete);
+router.delete('/:id', authRole.isAdmin, Region.delete);
 
 module.exports = router;

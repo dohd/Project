@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../controllers/User');
-const checkRole = require('../utils/checkRole');
+const authRole = require('../utils/authRole');
 
-router.post('/', checkRole.isAdmin, User.create);
+router.post('/', authRole.isAdmin, User.create);
 
-router.get('/', checkRole.isAdmin, User.findAll);
+router.get('/', authRole.isAdmin, User.findAll);
 
-router.patch('/:id', checkRole.isAdmin, User.update);
+router.patch('/:id', authRole.isAdmin, User.update);
 
-router.delete('/:id', checkRole.isAdmin, User.delete);
+router.delete('/:id', authRole.isAdmin, User.delete);
 
 module.exports = router;

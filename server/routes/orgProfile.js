@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const OrgProfile = require('../controllers/OrgProfile');
-const checkRole = require('../utils/checkRole');
+const authRole = require('../utils/authRole');
 
 router.get('/', OrgProfile.findOne);
 
-router.post('/', checkRole.isAdmin, OrgProfile.update);
+router.post('/', authRole.isAdmin, OrgProfile.update);
 
 module.exports = router;
