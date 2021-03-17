@@ -55,7 +55,7 @@ module.exports = {
         try {
             const accountId = req.payload.aud;
             const reports = await NarrativeReport.findAll({
-                where: { accountId },
+                where: { accountId, activityId: req.query.activityIds },
                 attributes: ['id','title'],
                 include: [
                     {
