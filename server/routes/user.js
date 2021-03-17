@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../controllers/User');
-const authRole = require('../utils/authRole');
+const authRole = require('../middlewares/authRole');
 
 router.post('/', authRole.isAdmin, User.create);
 
