@@ -66,7 +66,7 @@ module.exports = {
                     {
                         model: Response,
                         as: 'responses',
-                        attributes: ['id','response','narrativeQuizId'],
+                        attributes: ['id','response'],
                         include: [
                             {
                                 model: Agenda,
