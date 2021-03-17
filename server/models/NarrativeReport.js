@@ -5,7 +5,8 @@ const NarrativeQuiz = db.define('narrative_quiz', {
 }, { freezeTableName: true, timestamps: false });
 
 const NarrativeReport = db.define('narrative_report', {
-    accountId: { type: DataTypes.INTEGER, allowNull: false }
+    accountId: { type: DataTypes.INTEGER, allowNull: false },
+    title: { type: DataTypes.STRING, allowNull: true }
 });
 
 const Response = db.define('response', {
