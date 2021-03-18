@@ -1,4 +1,5 @@
 const DonorContact = require('../models/DonorContact');
+const Donor = require('../models/Donor');
 
 module.exports = {
     create: async (req, res, next) => {
@@ -27,7 +28,13 @@ module.exports = {
         try {
             const accountId = req.payload.aud;
             const donor_contacts = await DonorContact.findAll({
-                where: { accountId }, attributes: { exclude: ['accountId'] }
+                where: { accountId }, 
+                attributes: { exclude: ['accountId'] },
+                include: [{
+                    model: Donor,
+                    as: 'donor',
+                    attributes: ['id','name']
+                }]
             });
             res.send(donor_contacts);
         } catch (error) {
