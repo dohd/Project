@@ -5,13 +5,13 @@ import Api from 'api';
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 16 } };
 
 export default function AddContact(props) {
-    const { fetchDonors, visible, setVisible } = props;
+    const { fetchDonorContacts, visible, setVisible } = props;
 
     const [form] = Form.useForm();
     const onCreate = values => {
-        Api.donor.post(values)
+        Api.donorContact.post(values)
         .then(res => {
-            fetchDonors();
+            fetchDonorContacts();
             form.resetFields();
         })
         .catch(err => {

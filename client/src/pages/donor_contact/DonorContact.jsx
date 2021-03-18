@@ -11,7 +11,7 @@ import EditContact from './EditContactModal';
 export default function Donor(props) {
     const {
         state, visible, setVisible,
-        showModal, showUpdateModal, onDelete, fetchDonors,
+        showModal, showUpdateModal, onDelete, fetchDonorContacts,
         tableView, onExport, onPageChange
     } = props;
 
@@ -110,23 +110,23 @@ export default function Donor(props) {
             }
         >
             <AddContact 
-                fetchDonors={fetchDonors}
+                fetchDonorContacts={fetchDonorContacts}
                 visible={visible.create} 
                 setVisible={setVisible} 
             />
             
             <EditContact
                 record={state.record}
-                fetchDonors={fetchDonors}
+                fetchDonorContacts={fetchDonorContacts}
                 visible={visible.update} 
                 setVisible={setVisible} 
             />
             <div ref={tableView}>
                 <Table
-                    dataSource={state.donors} 
+                    dataSource={state.contacts} 
                     pagination={{
                         pageSize: state.pageSize,
-                        total: state.donors.length,
+                        total: state.contacts.length,
                         onChange: onPageChange
                     }}
                     columns={[
@@ -142,9 +142,9 @@ export default function Donor(props) {
                             ...getColumnSearchProps('contactName')
                         },
                         {
-                            title: 'Phone',
-                            dataIndex: 'phone',
-                            key: 'phone'
+                            title: 'Telephone',
+                            dataIndex: 'telephone',
+                            key: 'telephone'
                         },
                         {
                             title: 'Email',
