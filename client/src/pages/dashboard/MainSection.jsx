@@ -5,8 +5,10 @@ import {
     AgendaProvider, ProposalProvider, ParticipantProvider, 
     DonorProvider, GroupProvider, ProgrammeProvider, RegionProvider,
     UserProvider, RoleProvider, ActivityPlanProvider, QuizProvider,
-    NarrativeProvider, CaseStudyProvider, EventPhotoProvider
+    NarrativeProvider, CaseStudyProvider, EventPhotoProvider,
+    DonorContactProvider
 } from 'contexts';
+
 import { CreateProposal, Proposals, PendingProposal } from '../proposal';
 import { 
     CreateParticipant, Participants, UpdateParticipant, 
@@ -49,10 +51,15 @@ export default function MainSection({ location, history }) {
                 
                 <Route exact path={Path.reportView()} component={ReportTable} />
                 <Route exact path={Path.home()} component={Home} />
-                <Route exact path={Path.donorContacts()} component={DonorContact} />
 
                 {/* { !isMatch() && history.push(Path.home()) } */}
             </Switch>
+
+            <DonorContactProvider>
+                <Switch>
+                    <Route exact path={Path.donorContacts()} component={DonorContact} />
+                </Switch>
+            </DonorContactProvider>
 
             <EventPhotoProvider>
                 <Switch>
