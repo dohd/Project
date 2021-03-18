@@ -1,9 +1,7 @@
-const { TargetGroup, Region, KeyProgramme } = require('../models/Essential');
 const { 
     ActivityPlan, PlanRegion, PlanEvent, 
-    PlanMaterial, PlanGroup, PlanProgramme  
+    PlanGroup, PlanProgramme  
 } = require('../models/ActivityPlan');
-const { NarrativeReport } = require('../models/NarrativeReport');
 
 // Array intersection
 const intersect = (a1, a2, ...rest) => {

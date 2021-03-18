@@ -101,7 +101,7 @@ module.exports = {
             const accountId = req.payload.aud;
             const activity_plans = await ActivityPlan.findAll({
                 where: { accountId },
-                attributes: ['id'],
+                attributes: ['id','title'],
                 include: [
                     {
                         model: Activity,
