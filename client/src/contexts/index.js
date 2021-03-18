@@ -14,3 +14,4 @@ export { default as RegionProvider, useRegionContext } from './RegionContext';
 export { default as QuizProvider, useQuizContext } from './QuizContext';
 export { default as NarrativeProvider, useNarrativeContext } from './NarrativeContext';
 export { default as CaseStudyProvider, useCaseStudyContext } from './CaseStudyContext';
+export { default as DonorContactProvider, useDonorContactContext } from './DonorContactContext';
