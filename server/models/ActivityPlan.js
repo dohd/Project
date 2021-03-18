@@ -2,6 +2,7 @@ const { db, DataTypes } = require('../utils/database');
 
 const ActivityPlan = db.define('activity_plan', {
     accountId: { type: DataTypes.INTEGER, allowNull: false },
+    title: { type: DataTypes.STRING, allowNull: false }
 });
 
 const PlanEvent = db.define('plan_event', {
