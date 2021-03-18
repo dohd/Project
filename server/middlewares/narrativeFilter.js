@@ -13,7 +13,10 @@ const intersect = (a1, a2, ...rest) => {
 module.exports = async (req, res, next) => {
     try {
         const paramKeys = Object.keys(req.query);
-        if (!paramKeys.length) return next();
+        if (!paramKeys.length) {
+            req.query.activityIds = null;
+            return next();
+        }
 
         // activity_plan_Ids
         let region_Ids = [];
