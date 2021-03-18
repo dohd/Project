@@ -6,6 +6,7 @@ const endpoints = {
     targetRegion: '/target-regions',
     keyProgramme: '/key-programmes',
     donor: '/donors',
+    donorContact: '/donor-contacts',
     participant: '/participants',
     proposal: '/proposals',
     objective: '/objectives',
