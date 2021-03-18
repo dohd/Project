@@ -7,8 +7,8 @@ module.exports = {
             const data = req.body;
 
             const donor_contact = await DonorContact.create({
-                firstName: data.firstName,
-                lastName: data.lastName,
+                fName: data.fName,
+                lName: data.lName,
                 telephone: data.phone,
                 email: data.email,
                 donorId: data.donorId,
