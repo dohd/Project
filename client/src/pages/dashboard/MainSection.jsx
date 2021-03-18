@@ -55,11 +55,7 @@ export default function MainSection({ location, history }) {
                 {/* { !isMatch() && history.push(Path.home()) } */}
             </Switch>
 
-            <DonorContactProvider>
-                <Switch>
-                    <Route exact path={Path.donorContacts()} component={DonorContact} />
-                </Switch>
-            </DonorContactProvider>
+            
 
             <EventPhotoProvider>
                 <Switch>
@@ -95,6 +91,11 @@ export default function MainSection({ location, history }) {
                         <Route exact path={Path.updateProposal()} component={PendingProposal} />
                         <Route exact path={Path.donors()} component={Donors} />
                     </Switch>
+                    <DonorContactProvider>
+                        <Switch>
+                            <Route exact path={Path.donorContacts()} component={DonorContact} />
+                        </Switch>
+                    </DonorContactProvider>
                 </DonorProvider>
 
                 <ParticipantProvider>

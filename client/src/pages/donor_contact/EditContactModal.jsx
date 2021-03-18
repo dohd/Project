@@ -1,12 +1,16 @@
 import React, { useEffect } from 'react';
-import { Form, Input, Modal, message } from 'antd';
+import { Form, Input, Modal, message, Select } from 'antd';
+
 import Api from 'api';
+import { useDonorContactContext, useDonorContext } from 'contexts';
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 16 } };
 
 export default function EditContact(props) {
-    const { record, fetchDonorContacts, visible, setVisible } = props;
+    const { record, visible, setVisible } = props;
 
+    const { fetchDonorContacts } = useDonorContactContext();
+    
     const [form] = Form.useForm();
     const onCreate = values => {
         Api.donor.patch(record.key, values)
@@ -36,7 +40,7 @@ export default function EditContact(props) {
             form.setFieldsValue({
                 donor: record.donor,
                 contactName: record.contactName,
-                phone: record.phone,
+                telephone: record.telephone,
                 email: record.email,
             });    
         }
@@ -48,6 +52,11 @@ export default function EditContact(props) {
         if (regex.test(value)) return Promise.resolve();
         return Promise.reject('contact-name is invalid');
     };
+
+    const { donors } = useDonorContext();
+    const donorList = donors.map(v => (
+        <Select.Option key={v.id} value={v.id}>{v.name}</Select.Option>
+    ));
     
     return (
         <Modal
@@ -66,7 +75,9 @@ export default function EditContact(props) {
                     name='donor'
                     rules={[{ required: true }]}
                 >
-                    <Input />
+                    <Select>
+                        { donorList }
+                    </Select>
                 </Form.Item>
 
                 <Form.Item
@@ -78,8 +89,8 @@ export default function EditContact(props) {
                 </Form.Item>
 
                 <Form.Item
-                    label='Phone'
-                    name='phone'
+                    label='Telephone'
+                    name='telephone'
                     rules={[{ required: true }]}
                 >
                     <Input type='tel' maxLength={15} />

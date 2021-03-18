@@ -1,14 +1,20 @@
 import React from 'react';
-import { Form, Input, Modal, message } from 'antd';
+import { Form, Input, Modal, message, Select } from 'antd';
 import Api from 'api';
+import { useDonorContext, useDonorContactContext } from 'contexts';
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 16 } };
 
 export default function AddContact(props) {
-    const { fetchDonorContacts, visible, setVisible } = props;
+    const { visible, setVisible } = props;
 
+    const { fetchDonorContacts } = useDonorContactContext();
     const [form] = Form.useForm();
     const onCreate = values => {
+        const [fName, lName] = values.contactName.split(' ');
+        values.fName = fName;
+        values.lName = lName;
+
         Api.donorContact.post(values)
         .then(res => {
             fetchDonorContacts();
@@ -36,6 +42,11 @@ export default function AddContact(props) {
         if (regex.test(value)) return Promise.resolve();
         return Promise.reject('contact-name is invalid');
     };
+
+    const { donors } = useDonorContext();
+    const donorList = donors.map(v => (
+        <Select.Option key={v.id} value={v.id}>{v.name}</Select.Option>
+    ));
     
     return (
         <Modal
@@ -54,7 +65,9 @@ export default function AddContact(props) {
                     name='donor'
                     rules={[{ required: true }]}
                 >
-                    <Input />
+                    <Select>
+                        { donorList }
+                    </Select>
                 </Form.Item>
 
                 <Form.Item

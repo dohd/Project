@@ -11,7 +11,7 @@ import EditContact from './EditContactModal';
 export default function Donor(props) {
     const {
         state, visible, setVisible,
-        showModal, showUpdateModal, onDelete, fetchDonorContacts,
+        showModal, showUpdateModal, onDelete,
         tableView, onExport, onPageChange
     } = props;
 
@@ -110,14 +110,12 @@ export default function Donor(props) {
             }
         >
             <AddContact 
-                fetchDonorContacts={fetchDonorContacts}
                 visible={visible.create} 
                 setVisible={setVisible} 
             />
             
             <EditContact
                 record={state.record}
-                fetchDonorContacts={fetchDonorContacts}
                 visible={visible.update} 
                 setVisible={setVisible} 
             />
