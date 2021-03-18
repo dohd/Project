@@ -101,7 +101,7 @@ export default function Donor(props) {
             extra={
                 <Space>
                     <Button type='primary' onClick={showModal}>
-                        <PlusOutlined />Create
+                        <PlusOutlined />Contact
                     </Button>
                     <Button type='primary' onClick={onExport}>
                         <FilePdfOutlined />Export

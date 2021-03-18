@@ -39,7 +39,7 @@ export default function AddContact(props) {
     
     return (
         <Modal
-            title='Create Donor-contact'
+            title='Add Donor Contact'
             visible={visible}
             onOk={onOk}
             onCancel={onCancel}
