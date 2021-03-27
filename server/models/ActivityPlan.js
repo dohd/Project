@@ -1,4 +1,5 @@
 const { db, DataTypes } = require('../utils/database');
+const Participant = require('../models/Participant');
 
 const ActivityPlan = db.define('activity_plan', {
     accountId: { type: DataTypes.INTEGER, allowNull: false },
@@ -64,3 +65,8 @@ PlanEvent.hasMany(PlanRegion, {
 });
 PlanRegion.belongsTo(PlanEvent, { as: 'planEvent' });
 
+PlanRegion.hasMany(Participant, {
+    foreignKey: { name: 'planRegionId', allowNull: false },
+    as: 'participants'
+});
+Participant.belongsTo(PlanRegion, { as: 'planRegion' });
