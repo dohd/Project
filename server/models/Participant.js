@@ -1,5 +1,4 @@
 const { db, DataTypes } = require('../utils/database');
-const Gender = require('./Gender');
 
 const Participant = db.define('participant', {
     accountId: { type: DataTypes.INTEGER, allowNull: false },
@@ -24,11 +23,3 @@ const Participant = db.define('participant', {
 });
 
 module.exports = Participant;
-
-// One-to-Many Association
-Gender.hasMany(Participant, {
-    foreignKey: { name: 'genderId', allowNull: false },
-    as: 'participants',
-    onDelete: 'set null'
-});
-Participant.belongsTo(Gender, { as: 'gender' });
