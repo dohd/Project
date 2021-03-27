@@ -2,6 +2,7 @@ const { Op } = require('../utils/database');
 const Participant = require('../models/Participant');
 const { KeyProgramme } = require('../models/Essential');
 const Gender = require('../models/Gender');
+const { PlanProgramme } = require('../models/ActivityPlan');
 
 module.exports = {
     findAll: async (req, res, next) => {
@@ -20,7 +21,14 @@ module.exports = {
                         [Op.between]: [fromDate, toDate]
                     }
                 },
-                attributes: ['id','keyProgrammeId','genderId']
+                attributes: ['id','genderId'],
+                include: [
+                    {
+                        model: PlanProgramme,
+                        as: 'planProgramme',
+                        attributes: ['keyProgrammeId']
+                    }
+                ]
             });
 
             const key_programmes = await KeyProgramme.findAll({
@@ -38,7 +46,7 @@ module.exports = {
                 let transCount = 0;
 
                 for (const p of participants) {
-                    const programme_match = p.keyProgrammeId === program.id;
+                    const programme_match = p.planProgramme.keyProgrammeId === program.id;
                     for (const g of gender) {
                         const gender_match = g.id === p.genderId;
                         if (programme_match && gender_match && g.type === 'Male') maleCount++;
