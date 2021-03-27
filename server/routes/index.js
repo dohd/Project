@@ -25,6 +25,9 @@ router.use('/narrative-reports', require('./narrativeReport'));
 router.use('/case-studies', require('./caseStudy'));
 router.use('/event-photos', require('./eventPhoto'));
 
+// graphs
+router.use('/programme-graph', require('./programmeGraph'));
+
 // Untargeted endpoints
 router.use('/activity-plan-groups', require('./planGroup'));
 router.use('/activity-plan-regions', require('./planRegion'));
