@@ -26,7 +26,7 @@ router.use('/case-studies', require('./caseStudy'));
 router.use('/event-photos', require('./eventPhoto'));
 
 // graphs
-router.use('/programme-graph', require('./programmeGraph'));
+router.use('/graphs', require('./graph'));
 
 // Untargeted endpoints
 router.use('/activity-plan-groups', require('./planGroup'));
