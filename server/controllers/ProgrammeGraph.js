@@ -40,9 +40,10 @@ module.exports = {
                 for (const p of participants) {
                     const programme_match = p.keyProgrammeId === program.id;
                     for (const g of gender) {
-                        if (programme_match && g.type === 'Male') maleCount++;
-                        if ( programme_match && g.type === 'Female') femaleCount++;
-                        if (programme_match && g.type === 'Transgender') transCount++;
+                        const gender_match = g.id === p.genderId;
+                        if (programme_match && gender_match && g.type === 'Male') maleCount++;
+                        if ( programme_match && gender_match && g.type === 'Female') femaleCount++;
+                        if (programme_match && gender_match && g.type === 'Transgender') transCount++;
                     }
                 }
 
