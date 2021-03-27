@@ -70,3 +70,9 @@ PlanRegion.hasMany(Participant, {
     as: 'participants'
 });
 Participant.belongsTo(PlanRegion, { as: 'planRegion' });
+
+PlanProgramme.hasMany(Participant, {
+    foreignKey: { name: 'planProgrammeId', allowNull: true },
+    as: 'participants'
+});
+Participant.belongsTo(PlanProgramme, { as: 'planProgramme' });
