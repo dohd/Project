@@ -1,5 +1,5 @@
 const moment = require('moment');
-const { Op } = require('../utils/database');
+const { Op, db } = require('../utils/database');
 const Participant = require('../models/Participant');
 
 module.exports = {
@@ -7,8 +7,9 @@ module.exports = {
         try {
             const accountId = req.payload.aud;
 
-            const fDay = new Date(new Date().getFullYear(), 0, 1);
-            const lDay = new Date(new Date().getFullYear(), 11, 31);
+            const year = new Date().getFullYear();
+            const fDay = new Date(year, 0, 1);
+            const lDay = new Date(year, 11, 31);
             const dateRange = [fDay, lDay].map(v => moment(v).format('YYYY-MM-DD'));
 
             const participants = await Participant.findAll({
@@ -18,14 +19,11 @@ module.exports = {
                         [Op.between]: dateRange
                     }
                 },
-                attributes: ['activityId']
+                attributes: [db.fn('distinct', db.col('activityId')),'activityId']
             });
 
-            const activityIds = participants.map(v => v.activityId);
-            const activities = new Set(activityIds);
-            const activityCount = activities.size;
-
-            res.send({activityCount});
+            const count = participants.length;
+            res.send({count});
         } catch (error) {
             next(error);
         }
