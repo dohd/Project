@@ -27,6 +27,7 @@ router.use('/event-photos', require('./eventPhoto'));
 
 router.use('/activity-count', require('./activityCount'));
 router.use('/activity-schedules', require('./activitySchedule'));
+router.use('/participant-analysis', require('./participantAnalysis'));
 
 // graphs
 router.use('/graphs', require('./graph'));
