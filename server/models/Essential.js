@@ -2,7 +2,6 @@ const { db, DataTypes } = require('../utils/database');
 const {
     PlanRegion, PlanGroup, PlanProgramme  
 } = require('./ActivityPlan');
-const Participant = require('./Participant');
 
 const TargetGroup = db.define('target_group', {
     group: { type: DataTypes.STRING, allowNull: false }
@@ -32,13 +31,6 @@ TargetGroup.hasMany(PlanGroup, {
     onDelete: 'set null'
 });
 PlanGroup.belongsTo(TargetGroup, { as: 'targetGroup' });
-
-KeyProgramme.hasMany(Participant, {
-    foreignKey: { name: 'keyProgrammeId', allowNull: false },
-    as: 'participants',
-    onDelete: 'set null'
-});
-Participant.belongsTo(KeyProgramme, { as: 'keyProgramme' });
 
 KeyProgramme.hasMany(PlanProgramme, {
     foreignKey: { name: 'keyProgrammeId', allowNull: false },
