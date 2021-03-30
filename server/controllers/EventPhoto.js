@@ -69,14 +69,13 @@ module.exports = {
                 ]
             });
 
-            // remove database clutter
+            // clone to remove model clutter
             const new_reports = JSON.parse(JSON.stringify(reports));
-
-            for (const report of new_reports) {
+            new_reports.forEach(async report => {
                 const { eventPhotos } = report;
                 const metadata = eventPhotos.map(async photo => await readPhoto(photo));
                 report.eventPhotos = await Promise.all(metadata);
-            }
+            });
 
             res.send(new_reports);
         } catch (error) {
