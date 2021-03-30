@@ -47,6 +47,12 @@ ActivityPlan.hasOne(PlanMaterial, {
 PlanMaterial.belongsTo(ActivityPlan, { as: 'activityPlan' });
 
 // One-to-Many Association
+ActivityPlan.hasMany(Participant, {
+    foreignKey: { name: 'activityPlanId', allowNull: false },
+    as: 'participants'
+});
+Participant.belongsTo(ActivityPlan, { as: 'activityPlan' });
+
 ActivityPlan.hasMany(PlanGroup, {
     foreignKey: { name: 'activityPlanId', allowNull: false },
     as: 'planGroups'
