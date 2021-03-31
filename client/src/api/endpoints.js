@@ -1,7 +1,7 @@
 const endpoints = {
     eventImage: '/event-images',
     avatarImage: '/avatar-image',
-    orgProfile: '/org-profile',
+    orgProfile: '/organisation-profile',
     targetGroup: '/target-groups',
     targetRegion: '/target-regions',
     keyProgramme: '/key-programmes',
