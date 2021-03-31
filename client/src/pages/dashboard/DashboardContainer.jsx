@@ -1,28 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
+
 import Dashboard from './Dashboard';
 import RouteResolver, { RouteNameMap } from 'routes';
-import { useOrgProfileContext } from 'contexts';
+import { useTracked, fetchResources } from 'context';
 
 export default function DashboardContainer({ location }) {
-    const { orgProfile, fetchOrgProfile } = useOrgProfileContext();
-    useEffect(fetchOrgProfile, []);
+    const [store, dispatch] = useTracked();
+    useEffect(() => fetchResources(dispatch), [dispatch]);
 
     const [name, setName] = useState('');
     useEffect(() => {
-        if (Object.keys(orgProfile).length) {
-            setName(orgProfile.detail.name)
+        const profile = store.orgProfile;
+        if (profile.hasOwnProperty('orgDetail')) {
+            setName(profile.orgDetail.name);
         }
-    }, [orgProfile]);
-
-    const [auth, setAuth] = useState(false);
-    useEffect(() => {
-        const payload = jwt_decode(sessionStorage.getItem('token'));
-        const isAuth = payload.roleId === 1;
-        setAuth(isAuth);
-    }, []);
+    }, [store.orgProfile]);
         
     const [routePaths, setRoutePaths] = useState([]);
     useEffect(() => {
@@ -46,7 +40,6 @@ export default function DashboardContainer({ location }) {
         <Dashboard
             profileName={name}
             breadcrumbItems={breadcrumbItems}
-            auth={auth}
         />
     );
 }
