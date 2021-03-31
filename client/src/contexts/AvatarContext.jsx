@@ -8,7 +8,7 @@ export default function AvatarProvider({ children }) {
 
     const fetchAvatar = () => {
         if (!sessionStorage.getItem('token')) return; 
-        Api.profilePhoto.get()
+        Api.avatarImage.get()
         .then(res => setImageUrl(res))
         .catch(err => console.log(err));
     };

@@ -84,7 +84,7 @@ export default function EventPhoto({ history, location }) {
             const index = fileList.indexOf(file);
             fileList.splice(index, 1);
             setState(prev => ({...prev, fileList}));
-            Api.eventPhoto.delete(file.uid)
+            Api.eventImage.delete(file.uid)
             .then(res => {
                 fetchEventPhotos();
                 message.success('Photo successfully deleted!');

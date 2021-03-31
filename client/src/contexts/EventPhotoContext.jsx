@@ -7,7 +7,7 @@ export default function EventPhotoProvider({ children }) {
     const [eventPhotos, setEventPhotos] = useState([]);
         
     const fetchEventPhotos = () => {
-        Api.eventPhoto.get()
+        Api.eventImage.get()
         .then(res => setEventPhotos(res))
         .catch(err => console.log(err));
     };
