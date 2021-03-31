@@ -2,7 +2,7 @@ import jwt_decode from 'jwt-decode';
 
 export const setToken = token => sessionStorage.setItem('token', token);
 export const fetchToken = () => sessionStorage.getItem('token');
-export const removeToken = () => sessionStorage.clear();
+export const eraseToken = () => sessionStorage.clear();
 
 export const isAuth = fetchToken() ? true : false;
 
