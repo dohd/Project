@@ -7,7 +7,7 @@ router.use('/donors', require('./donor'));
 router.use('/donor-contacts', require('./donorContact'));
 router.use('/narrative-quiz', require('./narrativeQuiz'));
 
-router.use('/profile-photo', require('./profilePhoto'));
+router.use('/avatar-image', require('./profilePhoto'));
 router.use('/org-profile', require('./orgProfile'));
 router.use('/target-regions', require('./region'));
 router.use('/target-groups', require('./targetGroup'));
@@ -23,7 +23,7 @@ router.use('/agenda', require('./agenda'));
 
 router.use('/narrative-reports', require('./narrativeReport'));
 router.use('/case-studies', require('./caseStudy'));
-router.use('/event-photos', require('./eventPhoto'));
+router.use('/event-images', require('./eventPhoto'));
 
 router.use('/activity-count', require('./activityCount'));
 router.use('/activity-schedules', require('./activitySchedule'));
