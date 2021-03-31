@@ -1,13 +1,14 @@
 import axios from 'axios';
 import errorHandler from './errorHandler';
+import { fetchToken } from './tokenHandler';
 
 const instance = axios.create();
+const token = fetchToken();
 
 // Request interceptor
 instance.interceptors.request.use(config => {
     // access token from the session storage
-    const accessToken = sessionStorage.getItem('token');
-    config.headers.Authorization = `Bearer ${accessToken}`;
+    config.headers.Authorization = `Bearer ${token}`;
     return config;
 }, err => {
     return Promise.reject(err);
