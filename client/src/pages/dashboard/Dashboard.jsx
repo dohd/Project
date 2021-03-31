@@ -12,12 +12,13 @@ import MainSection  from './MainSection';
 import { AvatarProfile, Logout } from 'components';
 import { Path } from 'routes';
 import './dashboard.css';
+import { isAdmin } from 'api';
 
 const { Header, Sider, Content, Footer } = Layout;
 const { SubMenu } = Menu;
 
 export default function Dashboard(props) {
-    const { breadcrumbItems, profileName, auth } = props;
+    const { breadcrumbItems, profileName } = props;
     return (
         <div>
             <Layout>
@@ -144,7 +145,7 @@ export default function Dashboard(props) {
                             icon={<ProfileOutlined />}
                         >
                             {
-                                auth &&
+                                isAdmin &&
                                 <Menu.Item key='users'>
                                     <Link to={Path.users()}>
                                     <TeamOutlined /> Users
