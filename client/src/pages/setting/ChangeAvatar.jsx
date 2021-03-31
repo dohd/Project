@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Upload, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { useAvatarContext } from 'contexts';
-import { endpoints } from 'api';
+
+import Api, { endpoints, fetchToken } from 'api';
+import { useTracked } from 'context';
 import './changeAvatar.css';
 
-export default function ChangeAvatar(params) {
-    const actionUrl = endpoints.profilePhoto;
-    const uploadName = 'profile';
+const fetchAvatarImage = dispatch => {
+    Api.avatarImage.get()
+    .then(res => dispatch({
+        type: 'addAvatarImage', 
+        payload: res
+    }));
+};
 
-    const [state, setState] = useState({ imageUrl: null, token: ''});
-    const { imageUrl, fetchAvatar } = useAvatarContext();
-    useEffect(() => setState(prev => ({...prev, imageUrl})), [imageUrl]);
-    useEffect(() => {
-        const token =  sessionStorage.getItem('token');
-        setState(prev => ({...prev, token}));
-    }, []);
+export default function ChangeAvatar(params) {
+    const [store, dispatch] = useTracked();
 
     const handleChange = e => {
         const { status, response } = e.file;
-        if (status === 'done') fetchAvatar();
+        if (status === 'done') fetchAvatarImage(dispatch);
         if (status === 'error' && response.error) {
             console.log(response.error);
             if (response.error.message) {
@@ -28,22 +28,26 @@ export default function ChangeAvatar(params) {
         }
     };
 
+    const token = fetchToken();
+    const actionUrl = endpoints.avatarImage;
+    const uploadName = 'profile';
+
     return (
         <div className='settings-avatar-container'>
             <div style={{ width: '9em' }}>
                 <Upload
                     name={uploadName}
                     action={actionUrl}
-                    headers={{ authorization: 'Bearer ' + state.token }}
+                    headers={{ authorization: `Bearer ${token}` }}
                     accept='image/jpg, image/png, image/jpeg'
                     showUploadList={false}
                     listType= 'picture-card'
                     onChange={handleChange}
                 >
                     { 
-                        state.imageUrl ? 
+                        store.avatarImage ? 
                         <img 
-                            src={state.imageUrl} 
+                            src={store.avatarImage} 
                             alt='avatar' 
                             style={{ width: '100%' }} 
                         /> : 
