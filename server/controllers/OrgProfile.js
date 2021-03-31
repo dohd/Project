@@ -7,17 +7,17 @@ module.exports = {
         try {
             const accountId = req.payload.aud;
 
-            const detail = await Detail.findOne({ 
+            const orgDetail = await Detail.findOne({ 
                 where: { accountId },
-                attributes: { exclude: ['accountId','createdAt','updatedAt'] },
+                attributes: ['name','telephone','email'] 
             });
 
-            const person = await ContactPerson.findOne({ 
+            const contactPerson = await ContactPerson.findOne({ 
                 where: { accountId },
-                attributes: { exclude: ['accountId','createdAt','updatedAt'] },
+                attributes: ['fName','lName','telephone', 'email'] 
             });
 
-            res.send({ person, detail});
+            res.send({ contactPerson, orgDetail });
         } catch (error) {
             next(error);
         }
@@ -36,8 +36,8 @@ module.exports = {
             const person = {
                 telephone: data.cpTelephone,
                 email: data.cpEmail,
-                firstName: data.firstName,
-                lastName: data.lastName,
+                fName: data.fName,
+                lName: data.lName,
             };
 
             await db.transaction(async t => {
