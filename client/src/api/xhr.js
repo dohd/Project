@@ -1,4 +1,5 @@
 import axios from 'axios';
+import errorHandler from './errorHandler';
 
 const instance = axios.create();
 
@@ -21,7 +22,7 @@ instance.interceptors.response.use(response => {
     return response.data;
 }, err => {
     if (err.response && err.response.data) {
-        return Promise.reject(err.response.data);
+        return errorHandler(err.response.data);
     }
     return Promise.reject(err);
 });
