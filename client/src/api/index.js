@@ -1,3 +1,3 @@
 export { default } from './config';
 export { default as endpoints } from './endpoints';
-export { isAuth, fetchToken, setToken, removeToken  } from './tokenHandler';
+export { isAuth, isAdmin, fetchToken, setToken, removeToken  } from './tokenHandler';
