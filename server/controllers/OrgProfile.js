@@ -7,7 +7,7 @@ module.exports = {
         try {
             const accountId = req.payload.aud;
 
-            const orgDetail = await Detail.findOne({ 
+            const detail = await Detail.findOne({ 
                 where: { accountId },
                 attributes: ['name','telephone','email'] 
             });
@@ -17,7 +17,7 @@ module.exports = {
                 attributes: ['fName','lName','telephone', 'email'] 
             });
 
-            res.send({ contactPerson, orgDetail });
+            res.send({ contactPerson, detail });
         } catch (error) {
             next(error);
         }

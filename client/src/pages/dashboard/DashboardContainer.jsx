@@ -13,8 +13,8 @@ export default function DashboardContainer({ location }) {
     const [name, setName] = useState('');
     useEffect(() => {
         const profile = store.orgProfile;
-        if (profile.hasOwnProperty('orgDetail')) {
-            setName(profile.orgDetail.name);
+        if (profile.hasOwnProperty('detail')) {
+            setName(profile.detail.name);
         }
     }, [store.orgProfile]);
         
