@@ -2,14 +2,13 @@ const { Op } = require('../utils/database');
 const createError = require('http-errors');
 const Participant = require('../models/Participant');
 const Gender = require('../models/Gender');
-const { KeyProgramme } = require('../models/Essential');
 
 module.exports = {
     create: async (req, res, next) => {
         try {
             const accountId = req.payload.aud;
             const data = req.body;
-            const { activityId, genderId, keyProgrammeId, activityDate } = data;
+            const { activityId, genderId, activityPlanId, activityDate } = data;
 
             const isMatch = await Participant.findOne({ 
                 where: { accountId, activityId, activityDate, email: data.email }, 
@@ -21,7 +20,7 @@ module.exports = {
                 accountId, 
                 activityId, 
                 genderId,
-                keyProgrammeId,
+                activityPlanId,
                 fName: data.fName,
                 lName: data.lName,
                 disability: data.disability,
@@ -48,11 +47,6 @@ module.exports = {
                 where: { accountId },
                 attributes: { exclude: ['accountId','genderId','createdAt','updatedAt'] },
                 include: [
-                    { 
-                        model: KeyProgramme,
-                        as: 'keyProgramme',  
-                        attributes: ['id','programme']
-                    },
                     { 
                         model: Gender, 
                         as: 'gender', 
