@@ -3,7 +3,7 @@ import { createContainer } from 'react-tracked';
 import { reducer } from './reducer';
 
 const initial_state = {
-    avatar: '',
+    avatarImage: '',
     eventImages: [],
     orgProfile: {},
     targetGroups: [],

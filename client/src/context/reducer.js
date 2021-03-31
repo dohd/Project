@@ -1,7 +1,7 @@
 export const reducer = (state, action) => {
     switch (action.type) {
         case 'addAvatarImage':
-            return {...state, avatar: action.payload};
+            return {...state, avatarImage: action.payload};
 
         case 'addEventImages':
             return {...state, eventImages: action.payload};
