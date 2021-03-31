@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import { Login, Register, Dashboard, PassRecover } from 'pages';
 import { PrivateRoute } from 'utils';
-import { AvatarProvider, OrgProfileProvider } from 'contexts';
+import { OrgProfileProvider } from 'contexts';
 import { Path } from 'routes';
 
 export default function App() {
@@ -16,13 +16,11 @@ export default function App() {
         <Route path={Path.register()} component={Register} />
       </Switch>
       
-      <AvatarProvider>
         <OrgProfileProvider>
           <Switch>
             <PrivateRoute path={Path.home()} component={Dashboard} />
           </Switch>
         </OrgProfileProvider>
-      </AvatarProvider>
     </BrowserRouter>
   );
 }

@@ -1,7 +1,6 @@
 export { default as UserProvider, useUserContext } from './UserContext';
 export { default as EventPhotoProvider, useEventPhotoContext } from './EventPhotoContext';
 export { default as OrgProfileProvider, useOrgProfileContext } from './OrgProfileContext';
-export { default as AvatarProvider, useAvatarContext } from './AvatarContext';
 export { default as RoleProvider, useRoleContext } from './RoleContext';
 export { default as AgendaProvider, useAgendaContext } from './AgendaContext';
 export { default as ActivityPlanProvider, useActivityPlanContext } from './ActivityPlanContext';
