@@ -4,11 +4,11 @@ import { reducer } from './reducer';
 
 const initial_state = {
     avatar: '',
-    eventPhoto: [],
+    eventImages: [],
     orgProfile: {},
     targetGroups: [],
-    regions: [],
-    programmes: [],
+    targetRegions: [],
+    keyProgrammes: [],
     donors: [],
     donorContacts: [],
     participants: [],
