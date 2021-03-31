@@ -8,7 +8,7 @@ router.use('/donor-contacts', require('./donorContact'));
 router.use('/narrative-quiz', require('./narrativeQuiz'));
 
 router.use('/avatar-image', require('./profilePhoto'));
-router.use('/org-profile', require('./orgProfile'));
+router.use('/organisation-profile', require('./orgProfile'));
 router.use('/target-regions', require('./region'));
 router.use('/target-groups', require('./targetGroup'));
 router.use('/key-programmes', require('./keyProgramme'));
