@@ -1,30 +1,30 @@
 export const reducer = (state, action) => {
     switch (action.type) {
-        case 'addAvatar':
+        case 'addAvatarImage':
             return {...state, avatar: action.payload};
 
-        case 'addEventPhoto':
-            return {...state, eventPhoto: action.payload};
+        case 'addEventImages':
+            return {...state, eventImages: action.payload};
 
         case 'addOrgProfile':
             return {...state, orgProfile: action.payload};
 
-        case 'addTargetGroup':
+        case 'addTargetGroups':
             return {...state, targetGroups: action.payload};
 
-        case 'addTargetRegion':
-            return {...state, regions: action.payload};
+        case 'addTargetRegions':
+            return {...state, targetRegions: action.payload};
 
-        case 'addKeyProgramme':
-            return {...state, programmes: action.payload};
+        case 'addKeyProgrammes':
+            return {...state, keyProgrammes: action.payload};
 
-        case 'addDonor':
+        case 'addDonors':
             return {...state, donors: action.payload};
 
-        case 'addDonorContact':
+        case 'addDonorContacts':
             return {...state, donorContacts: action.payload};
 
-        case 'addParticipant':
+        case 'addParticipants':
             return {...state, participants: action.payload};
 
         case 'addProposals':
@@ -33,25 +33,25 @@ export const reducer = (state, action) => {
         case 'addAgenda':
             return {...state, agenda: action.payload};
 
-        case 'addActivityPlan':
+        case 'addActivityPlans':
             return {...state, activityPlans: action.payload}
 
         case 'addQuiz': 
             return {...state, quiz: action.payload};
 
-        case 'addNarrative':
+        case 'addNarratives':
             return {...state, narratives: action.payload};
 
-        case 'addCaseStudy':
+        case 'addCaseStudies':
             return {...state, caseStudies: action.payload};
 
-        case 'addUser':
+        case 'addUsers':
             return {...state, users: action.payload};
 
-        case 'addRole':
+        case 'addRoles':
             return {...state, roles: action.payload}
 
         default:
-            throw new Error("Invalid action type");
+            throw new Error("Invalid action type: " + action.type);
     }
 };
