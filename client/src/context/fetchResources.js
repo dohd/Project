@@ -24,6 +24,10 @@ const actionTypeMap = {
 export const fetchResources = dispatch => {
     const actionTypeKeys = Object.keys(actionTypeMap);
     actionTypeKeys.forEach(key => {
-        Api[key].get().then(res => dispatch({ type: actionTypeMap[key], payload: res}));
+        Api[key].get()
+        .then(res => dispatch({ 
+            type: actionTypeMap[key], 
+            payload: res
+        }));
     });
 };
