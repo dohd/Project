@@ -1,29 +1,24 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useCaseStudyContext } from 'contexts';
+
 import CaseStudy from './CaseStudy';
+import { useTracked } from 'context';
+
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function CaseStudyContainer() {
-    const { caseStudies } = useCaseStudyContext();
-    const [state, setState] = useState({
-        caseStudies: [], pageSize: 5,
-        page: 1, pageCount: 1
-    });
+    const store = useTracked()[0];
+    const [caseStudies, setCaseStudies] = useState([]);
+
     useEffect(() => {
-        const list = caseStudies.map(val => ({
+        const list = store.caseStudies.map(val => ({
             key: val.id, 
             caseStudy: val.case,
             activity: val.narrativeReport.activity.action
         }));
-        setState(prev => {
-            const pageCount = Math.ceil(list.length/prev.pageSize);
-            return {...prev, caseStudies: list, pageCount};
-        });
-    }, [caseStudies]);
-
-    const onPageChange = page => setState(prev => ({...prev, page}));
+        setCaseStudies(list);
+    }, [store.caseStudies]);
 
     const tableView = useRef();
     const onExport = () => {
@@ -53,7 +48,7 @@ export default function CaseStudyContainer() {
         const dd = {
             header: { text: 'Narrative Report Activity Case Study', alignment: 'center' },
             footer: (currentPage, pageCount) => ({ 
-                text: `Page ${state.page} of ${state.pageCount}`,
+                // text: `Page ${state.page} of ${state.pageCount}`,
                 alignment: 'center' 
             }), 
             pageOrientation: 'landscape',
@@ -79,7 +74,6 @@ export default function CaseStudyContainer() {
         pdfMake.createPdf(dd).open();
     };
 
-    const props = { state, tableView, onExport, onPageChange };
-
+    const props = { caseStudies, onExport };
     return <CaseStudy {...props} />
 }

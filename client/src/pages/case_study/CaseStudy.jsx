@@ -4,7 +4,7 @@ import { SearchOutlined, FilePdfOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 
 export default function CaseStudy(props) {
-    const { state, onPageChange, tableView, onExport } = props;
+    const { caseStudies, onExport } = props;
 
     // custom search filter 
     const [search, setSearch] = useState({ text: '', column: ''});
@@ -94,30 +94,23 @@ export default function CaseStudy(props) {
                     <FilePdfOutlined />Export
                 </Button>
             }
-        >   
-            <div ref={tableView}>
-                <Table 
-                    dataSource={state.caseStudies}
-                    pagination={{
-                        pageSize: state.pageSize,
-                        total: state.caseStudies.length,
-                        onChange: onPageChange
-                    }}
-                    columns={[
-                        {
-                            title: 'Activity',
-                            dataIndex: 'activity',
-                            key: 'activity',
-                            ...getColumnSearchProps('activity')
-                        },
-                        {
-                            title: 'Case Study',
-                            dataIndex: 'caseStudy',
-                            key: 'caseStudy'
-                        }
-                    ]}
-                />
-            </div>
+        >
+            <Table 
+                dataSource={caseStudies}
+                columns={[
+                    {
+                        title: 'Activity',
+                        dataIndex: 'activity',
+                        key: 'activity',
+                        ...getColumnSearchProps('activity')
+                    },
+                    {
+                        title: 'Case Study',
+                        dataIndex: 'caseStudy',
+                        key: 'caseStudy'
+                    }
+                ]}
+            />
         </Card>
     );
 }
