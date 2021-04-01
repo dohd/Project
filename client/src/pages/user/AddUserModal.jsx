@@ -1,15 +1,16 @@
 import React from 'react';
 import { Form, Input, Modal, Radio, message } from 'antd';
-import { useRoleContext } from 'contexts';
 import Api from 'api';
 
 const layout = {labelCol: { span: 5 }, wrapperCol: { span: 16 }};
 
 export default function CreateUser(props) {
-    const { fetchUsers, visible, setVisible } = props;
-    const { roles } = useRoleContext();
+    const { 
+        fetchUsers, visible, setVisible, 
+        userRoles 
+    } = props;
 
-    const rolesList = roles.map(({id, value}) => (
+    const rolesList = userRoles.map(({id, value}) => (
         <Radio key={id} value={id}>{ value }</Radio>
     ));
 

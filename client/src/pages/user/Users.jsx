@@ -26,6 +26,7 @@ export default function Users(props) {
                 visible={visible.create} 
                 setVisible={setVisible} 
                 fetchUsers={fetchUsers}
+                userRoles={state.roles}
             />
 
             <UpdateUser 
@@ -33,6 +34,7 @@ export default function Users(props) {
                 setVisible={setVisible} 
                 record={state.record}
                 fetchUsers={fetchUsers}
+                userRoles={state.roles}
             />
 
             <Table

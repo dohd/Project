@@ -16,13 +16,13 @@ export default function UsersContainer() {
     const [store, dispatch] = useTracked();
 
     const [state, setState] = useState({
-        users: [], record: {}
+        users: [], record: {}, roles: []
     });
 
     useEffect(() => {
         const usersList = store.users.map(val => ({...val, key: val.id}));
-        setState(prev => ({...prev, users: usersList}));
-    }, [store.users]);
+        setState(prev => ({...prev, users: usersList, roles: store.roles}));
+    }, [store.users, store.roles]);
 
     const onDelete = key => {
         Api.user.delete(key)
