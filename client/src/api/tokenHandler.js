@@ -4,7 +4,7 @@ export const setToken = token => sessionStorage.setItem('token', token);
 export const fetchToken = () => sessionStorage.getItem('token');
 export const eraseToken = () => sessionStorage.clear();
 
-export const isAuth = fetchToken() ? true : false;
+export const isAuth = () => fetchToken() && true;
 
 export const isAdmin = () => {
     const token = fetchToken();
