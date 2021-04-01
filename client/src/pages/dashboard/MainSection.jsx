@@ -5,7 +5,7 @@ import {
     AgendaProvider, ProposalProvider, ParticipantProvider, 
     DonorProvider, GroupProvider, ProgrammeProvider, RegionProvider,
     ActivityPlanProvider, QuizProvider,
-    NarrativeProvider, CaseStudyProvider, EventPhotoProvider,
+    NarrativeProvider, EventPhotoProvider,
     DonorContactProvider
 } from 'contexts';
 
@@ -52,6 +52,9 @@ export default function MainSection({ location, history }) {
                 <Route exact path={Path.reportView()} component={ReportTable} />
                 <Route exact path={Path.home()} component={Home} />
 
+                <Route exact path={Path.caseStudies()} component={CaseStudy} />
+                <Route exact path={Path.users()} component={Users} />
+
                 {/* { !isMatch() && history.push(Path.home()) } */}
             </Switch>
 
@@ -64,16 +67,6 @@ export default function MainSection({ location, history }) {
                 </Switch>
             </EventPhotoProvider>
 
-
-            <CaseStudyProvider>
-                <Switch>
-                    <Route exact path={Path.caseStudies()} component={CaseStudy} />
-                </Switch>
-            </CaseStudyProvider>
-
-            <Switch>
-                <Route exact path={Path.users()} component={Users} />
-            </Switch>
                     
             <ProposalProvider>
                 <Switch>
