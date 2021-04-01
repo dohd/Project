@@ -9,6 +9,7 @@ const addDay = (date, days) => {
     d.setDate(d.getDate() + days);
     return new Date(d);
 };
+
 // Extract unique plans
 const unique_plan = arr => {
     const plan_obj = arr.reduce((r, c) => {
@@ -26,9 +27,11 @@ const unique_plan = arr => {
     }, {});
     return Object.values(plan_obj);
 };
+
 // inject Daysleft property
 const daysLeft = arr => arr.map(v => {
     const dates = v.planEvents.map(e => e.date);
+    // Extract minimum date out of dates
     const minDate = dates.reduce((r, c) => r < c ? r : c);
 
     const d1 = new Date();
@@ -47,7 +50,7 @@ module.exports = {
 
             const now = new Date();
             // next 30days(1month)
-            const later = addDay(now, 90);
+            const later = addDay(now, 30);
             const dateRange = [now, later].map(v => {
                 return moment(v).format('YYYY-MM-DD');
             });
