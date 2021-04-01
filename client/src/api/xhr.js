@@ -3,11 +3,10 @@ import errorHandler from './errorHandler';
 import { fetchToken } from './tokenHandler';
 
 const instance = axios.create();
-const token = fetchToken();
 
 // Request interceptor
 instance.interceptors.request.use(config => {
-    // access token from the session storage
+    const token = fetchToken();
     config.headers.Authorization = `Bearer ${token}`;
     return config;
 }, err => {
@@ -16,10 +15,6 @@ instance.interceptors.request.use(config => {
 
 // Response interceptor
 instance.interceptors.response.use(response => {
-    // if (response.data && response.data.accessToken) {
-        // const { accessToken } = response.data;
-        // instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-    // }
     return response.data;
 }, err => {
     if (err.response && err.response.data) {
