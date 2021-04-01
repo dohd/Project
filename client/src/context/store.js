@@ -22,6 +22,13 @@ const initial_state = {
     roles: [],
 };
 
+export const isValidType = payload => {
+    const isObject = typeof payload === 'object';
+    const string = typeof payload === 'string';
+    const isArray = Array.isArray(payload);
+    return isObject || isArray || string;
+};
+
 export const { Provider, useTracked } = createContainer(
     () => useReducer(reducer, initial_state)
 );
