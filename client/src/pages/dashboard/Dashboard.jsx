@@ -145,7 +145,7 @@ export default function Dashboard(props) {
                             icon={<ProfileOutlined />}
                         >
                             {
-                                isAdmin &&
+                                isAdmin() &&
                                 <Menu.Item key='users'>
                                     <Link to={Path.users()}>
                                     <TeamOutlined /> Users
