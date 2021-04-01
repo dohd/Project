@@ -4,7 +4,7 @@ import { Path } from 'routes';
 import { 
     AgendaProvider, ProposalProvider, ParticipantProvider, 
     DonorProvider, GroupProvider, ProgrammeProvider, RegionProvider,
-    UserProvider, RoleProvider, ActivityPlanProvider, QuizProvider,
+    ActivityPlanProvider, QuizProvider,
     NarrativeProvider, CaseStudyProvider, EventPhotoProvider,
     DonorContactProvider
 } from 'contexts';
@@ -71,14 +71,10 @@ export default function MainSection({ location, history }) {
                 </Switch>
             </CaseStudyProvider>
 
-            <RoleProvider>
-                <UserProvider>
-                    <Switch>
-                        <Route exact path={Path.users()} component={Users} />
-                    </Switch>
-                </UserProvider>
-            </RoleProvider>
-                        
+            <Switch>
+                <Route exact path={Path.users()} component={Users} />
+            </Switch>
+                    
             <ProposalProvider>
                 <Switch>
                     <Route exact path={Path.objectives()} component={Objectives} />

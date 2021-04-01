@@ -1,6 +1,4 @@
-export { default as UserProvider, useUserContext } from './UserContext';
 export { default as EventPhotoProvider, useEventPhotoContext } from './EventPhotoContext';
-export { default as RoleProvider, useRoleContext } from './RoleContext';
 export { default as AgendaProvider, useAgendaContext } from './AgendaContext';
 export { default as ActivityPlanProvider, useActivityPlanContext } from './ActivityPlanContext';
 export { default as ProposalProvider, useProposalContext } from './ProposalContext';
