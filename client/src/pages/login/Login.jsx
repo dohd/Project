@@ -2,30 +2,27 @@ import React, { useState } from 'react';
 import { Card, Form, Button, Input, message, Space } from 'antd';
 import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import Api from 'api';
-import { Path } from 'routes';
+
 import './login.css';
+import Api, { setToken, isAuth } from 'api';
+import { Path } from 'routes';
 
 const layout = { labelCol: { span: 8 }, wrapperCol: { span: 24 } };
 const tailLayout = { wrapperCol: { span: 24 } };
 
 export default function Login({ history }) {
-    const [state, setState] = useState({ load: false });
+    const [isLoading, setLoading] = useState(false);
+
+    const loginAuth = async data => {
+        const res = await Api.login.post(data);
+        if (!res) return setLoading(false);
+        setToken(res.accessToken);
+        return isAuth() && history.push(Path.home());
+    };
 
     const onFinish = values => {
-        setState({ load: true });
-        Api.login.post(values)
-        .then(res => {
-            sessionStorage.token = res.accessToken;
-            history.push(Path.home());
-        })
-        .catch(err => {
-            console.log(err);
-            setState({ load: false });
-            if (err.error && err.error.message) {
-                message.error(err.error.message);
-            }
-        });
+        setLoading(true);
+        loginAuth(values);
     };
     const onFinishFailed = err => console.log('Error:', err);
 
@@ -66,7 +63,7 @@ export default function Login({ history }) {
                             <Button 
                                 type='primary' 
                                 htmlType='submit' 
-                                loading={state.load} 
+                                loading={isLoading} 
                                 block
                             >
                                 Login
