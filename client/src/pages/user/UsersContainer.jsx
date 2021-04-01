@@ -14,7 +14,6 @@ const fetchUsers = dispatch => {
 
 export default function UsersContainer() {
     const [store, dispatch] = useTracked();
-
     const [state, setState] = useState({
         users: [], record: {}, roles: []
     });
@@ -36,11 +35,11 @@ export default function UsersContainer() {
         setState(prev => ({...prev, record}));
         setVisible(prev => ({...prev, update: true}));
     };
-
+    console.log('render')
     const props = {
         state, visible, setVisible, showModal, 
         showUpdateModal, onDelete, 
-        fetchUsers: fetchUsers(dispatch)
+        fetchUsers: () => fetchUsers(dispatch)
     };
     return <Users {...props} />;
 }

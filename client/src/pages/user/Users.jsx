@@ -77,7 +77,7 @@ export default function Users(props) {
                                     
                                     <Popconfirm
                                         title='Are you sure to delete this user?'
-                                        onConfirm={onDelete}
+                                        onConfirm={() => onDelete(record.key)}
                                         okText='Yes'
                                         cancelText='No'
                                     >

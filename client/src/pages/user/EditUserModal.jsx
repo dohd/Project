@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { Form, Input, Modal, Radio, message } from 'antd';
-import Api from 'api';
+import { Form } from 'antd';
 
-const layout = {labelCol: { span: 5 }, wrapperCol: { span: 16 }};
+import EditUserView from './EditUserView';
+import Api from 'api';
 
 export default function UserModal(props) {
     const { 
@@ -10,24 +10,13 @@ export default function UserModal(props) {
         setVisible, userRoles
     } = props;
 
-    const rolesList = userRoles.map(({id, value}) => (
-        <Radio key={id} value={id}>{ value }</Radio>
-    ));
-
+    const [form] = Form.useForm();
     const onCreate = values => {
         setVisible(prev => ({...prev, update: false}));
         Api.user.patch(record.key, values)
-        .then(res => fetchUsers())
-        .catch(err => {
-            console.log(err);
-            if (err.error && err.error.status === 401) {
-                return message.error(err.error.message);
-            }
-            message.error('Unknown error!');
-        });
+        .then(res => fetchUsers());
     };
 
-    const [form] = Form.useForm();
     const onOk = () => {
         form.validateFields()
         .then(values => onCreate(values))
@@ -50,7 +39,7 @@ export default function UserModal(props) {
     };
 
     useEffect(() => {
-        if (Object.keys(record).length) {
+        if (record.hasOwnProperty('username')) {
             form.setFieldsValue({
                 username: record.username,
                 initial: record.initial,
@@ -60,57 +49,9 @@ export default function UserModal(props) {
         }
     }, [record, form]);
 
-    return (
-        <Modal
-            title='Update User'
-            visible={visible}
-            onOk={onOk}
-            onCancel={onCancel}
-        >
-            <Form
-                {...layout}
-                form={form}
-                initialValues={{ remember: true }}
-            >
-                <Form.Item
-                    label='Username'
-                    name='username'
-                    rules={[{ 
-                        required: true,
-                        validator: checkName
-                    }]}
-                >
-                   <Input placeholder='e.g John Doe' />
-                </Form.Item>
-
-                <Form.Item
-                    label='Initial'
-                    name='initial'
-                    rules={[{ 
-                        required: true,
-                        validator: checkInitial
-                    }]}
-                >
-                    <Input placeholder='e.g J.Doe' />
-                </Form.Item>
-
-                <Form.Item
-                    label='Email'
-                    name='email'
-                    rules={[{ required: true }]}
-                >
-                    <Input type='email' />
-                </Form.Item>
-
-                <Form.Item
-                    label='Role'
-                    name='roleId'
-                >
-                    <Radio.Group>
-                        { rolesList }
-                    </Radio.Group>
-                </Form.Item>
-            </Form>
-        </Modal>
-    );
+    const params = {
+        userRoles, visible, onCancel, onOk,
+        form, checkName, checkInitial
+    };
+    return <EditUserView {...params} />
 }
