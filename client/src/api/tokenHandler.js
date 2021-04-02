@@ -6,8 +6,18 @@ export const eraseToken = () => sessionStorage.clear();
 
 export const isAuth = () => fetchToken() && true;
 
-export const isAdmin = () => {
+const loadPayload = () => {
     const token = fetchToken();
-    const payload = token ? jwt_decode(token) : null;
+    return token ? jwt_decode(token) : null;
+};
+
+export const isAdmin = () => {
+    const payload = loadPayload();
     return payload ? payload.roleId === 1 : false;
-}
+};
+
+// fetch audience logged in
+export const fetchAud = () => {
+    const payload = loadPayload();
+    return payload && payload.aud;
+};
