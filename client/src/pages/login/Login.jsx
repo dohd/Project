@@ -1,31 +1,17 @@
-import React, { useState } from 'react';
-import { Card, Form, Button, Input, message, Space } from 'antd';
+import React from 'react';
+import { Card, Form, Button, Input, Space } from 'antd';
 import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-
 import './login.css';
-import Api, { setToken, isAuth } from 'api';
+
 import { Path } from 'routes';
 
 const layout = { labelCol: { span: 8 }, wrapperCol: { span: 24 } };
 const tailLayout = { wrapperCol: { span: 24 } };
 
-export default function Login({ history }) {
-    const [isLoading, setLoading] = useState(false);
-
-    const loginAuth = async data => {
-        const res = await Api.login.post(data);
-        if (!res) return setLoading(false);
-        setToken(res.accessToken);
-        return isAuth() && history.push(Path.home());
-    };
-
-    const onFinish = values => {
-        setLoading(true);
-        loginAuth(values);
-    };
-    const onFinishFailed = err => console.log('Error:', err);
-
+export default function Login(props) {
+    const { onFinish, onFinishFailed, isLoading } = props;
+    
     return (
         <div className='landing-container'>
             <div className='login'>
