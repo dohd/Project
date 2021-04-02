@@ -8,7 +8,7 @@ router.post('/login', Auth.login);
 
 router.post('/reset-password', Auth.resetPassword);
 
-router.delete('/logout', Auth.logout);
+router.delete('/logout/:id', Auth.logout);
 
 router.get('/refresh-token', Auth.refreshToken);
 
