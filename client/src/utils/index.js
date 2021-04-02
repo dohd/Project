@@ -1,1 +1,2 @@
-export { default as PrivateRoute } from '../utils/PrivateRoute';
+export { default as PrivateRoute } from './PrivateRoute';
+export { default as parseUrl } from './parseUrl';
