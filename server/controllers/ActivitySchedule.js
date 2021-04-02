@@ -69,9 +69,16 @@ module.exports = {
                         as: 'planEvents',
                         attributes: ['date'],
                         where: {
-                            date: {
-                                [Op.between]: dateRange
-                            }
+                            [Op.and]: [
+                                {
+                                    date: { [Op.gt]: dateRange[0] }
+
+                                },
+                                {
+                                    date: { [Op.lte]: dateRange[1] }
+
+                                },
+                            ]
                         }
                     }
                 ]
