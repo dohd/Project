@@ -141,7 +141,7 @@ module.exports = {
                     console.log(err.message);
                     throw new createError.InternalServerError();
                 }
-                // console.log(value);
+                console.log(value);
                 res.sendStatus(204);
             });
         } catch (error) {
