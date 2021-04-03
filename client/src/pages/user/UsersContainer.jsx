@@ -35,7 +35,7 @@ export default function UsersContainer() {
         setState(prev => ({...prev, record}));
         setVisible(prev => ({...prev, update: true}));
     };
-    console.log('render')
+    
     const props = {
         state, visible, setVisible, showModal, 
         showUpdateModal, onDelete, 
