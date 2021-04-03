@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Form, Input, Modal, message } from 'antd';
+import { Form, Input, Modal } from 'antd';
 
 import Api from 'api';
 
