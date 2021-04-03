@@ -1,19 +1,23 @@
 import React, { useState, useRef } from 'react';
-import { 
-    Card, Table, Button, Space,  Input,
-} from 'antd';
+import { useHistory, useParams, Link } from 'react-router-dom';
+import { Card, Table, Button, Space,  Input } from 'antd';
 import { 
     ArrowLeftOutlined, PlusOutlined, SearchOutlined,
     FilePdfOutlined
 } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+
 import AddActivity from './AddActivityModal';
+import { parseUrl } from 'utils';
+import { Path } from 'routes';
 
 export default function PlanActivities(props) {
     const {
-        state, fetchProposals, visible, setVisible, history, showModal,
-        objectiveId, tableView, onExport, onPageChange, plansPage
+        activities, visible, setVisible, 
+        showModal, onExport, fetchProposals
     } = props;
+    const history = useHistory();
+    const params = useParams();
 
     // custom search filter 
     const [search, setSearch] = useState({ text: '', column: ''});
@@ -118,42 +122,32 @@ export default function PlanActivities(props) {
             }
         >
             <AddActivity 
-                objectiveId={objectiveId}
                 visible={visible}
                 setVisible={setVisible}
                 fetchProposals={fetchProposals}
             />
 
-            <div ref={tableView}>
-                <Table 
-                    dataSource={state.activities} 
-                    pagination={{
-                        pageSize: state.pageSize,
-                        total: state.activities.length,
-                        onChange: onPageChange
-                    }}
-                    columns={[
-                        {
-                            title: 'Activity',
-                            dataIndex: 'activity',
-                            key: 'activity',
-                            ...getColumnSearchProps('activity')
-                        },
-                        {
-                            title: 'Action',
-                            dataIndex: 'action',
-                            key: 'action',
-                            render: (text, {key}) => {
-                                return (
-                                    <Button type='link' onClick={() => plansPage(key)}>
-                                        Plans
-                                    </Button>
-                                );
-                            }
+            <Table 
+                dataSource={activities} 
+                columns={[
+                    {
+                        title: 'Activity',
+                        dataIndex: 'activity',
+                        key: 'activity',
+                        ...getColumnSearchProps('activity')
+                    },
+                    {
+                        title: 'Action',
+                        dataIndex: 'action',
+                        key: 'action',
+                        render: (text, {key}) => {
+                            const obj = {activityId: key, ...params};
+                            const path = parseUrl(Path.activityPlans(), obj);
+                            return <Link to={path}>Plans</Link>;
                         }
-                    ]} 
-                />
-            </div>
+                    }
+                ]} 
+            />
         </Card>
     );    
 }

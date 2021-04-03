@@ -1,33 +1,28 @@
 import React from 'react';
-import { Modal, Form, Input, message } from 'antd';
+import { useParams } from 'react-router-dom';
+import { Modal, Form, Input } from 'antd';
+
 import Api from 'api';
 
 export default function AddActivity(props) {
-    const {objectiveId, visible, setVisible, fetchProposals} = props;
+    const {visible, setVisible, fetchProposals} = props;
+    const { objectiveId } = useParams();
 
     const [form] = Form.useForm();
     const onCreate = values => {
+        setVisible(false);
         values.objectiveId = objectiveId;
         values.action = values.activity;
-        delete values.activity;
-
         Api.activity.post(values)
         .then(res => {
-            fetchProposals();
             form.resetFields();
-        })
-        .catch(err => { 
-            console.log(err);
-            message.error('Unknown error!');
+            fetchProposals();
         });
     };
             
     const onOk = () => {
         form.validateFields()
-        .then(values => {
-            setVisible(false);
-            onCreate(values);
-        })
+        .then(values => onCreate(values))
         .catch(err => console.log('validation Failed:', err))
     };
     const onCancel = () => setVisible(false);
@@ -38,6 +33,7 @@ export default function AddActivity(props) {
             visible={visible}
             onOk={onOk}           
             onCancel={onCancel}
+            okText='Save'
         >
             <Form
                 form={form}
@@ -54,6 +50,5 @@ export default function AddActivity(props) {
                 </Form.Item>
             </Form>
         </Modal>
-
     );
 }

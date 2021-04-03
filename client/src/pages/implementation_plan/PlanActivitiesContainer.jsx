@@ -1,126 +1,52 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { message } from 'antd';
-import UrlPattern from 'url-pattern';
-import { 
-    useProposalContext, useAgendaContext, useActivityPlanContext,
-    useParticipantContext, useNarrativeContext
-} from 'contexts';
+import { useParams } from 'react-router-dom';
+
 import PlanActivities from './PlanActivities';
-import { Path } from 'routes';
 import pdfExport from './activityPdfExport';
+import { useTracked } from 'context';
+import Api from 'api';
+
+const fetchProposals = dispatch => {
+    Api.proposal.get()
+    .then(res => dispatch({
+        type: 'addProposals',
+        payload: res
+    }));
+}
 
 export default function PlanActivitiesContainer({ match, history }) {
-    const [state, setState] = useState({ 
-        activities: [], pageSize: 5,
-        page: 1, pageCount: 1
-    });
-    const { objectiveId } = match.params;
-    const { proposals, fetchProposals } = useProposalContext();
-    const { participants } = useParticipantContext()
-    const { narratives } = useNarrativeContext();
+    const [store, dispatch] = useTracked();
+    const [activities, setActivities] = useState([]);
+
+    const { objectiveId } = useParams();
     useEffect(() => {
         let activities = [];
         proposal_loop: 
-        for(const proposal of proposals) {
+        for(const proposal of store.proposals) {
             for (const obj of proposal.objectives) {
                 if (obj.id === Number(objectiveId)) {
-                    activities = obj.activities.map(val => {
-                        let counter = 0; 
-                        for (const n of narratives) {
-                            if (n.activity.id === val.id) {
-                                counter++;
-                            }
-                        }
-
-                        val.key = val.id; 
-                        val.activity = val.action;
-                        val.reports = counter; 
-                        for (const p of participants) {
-                            if (p.activityId === val.id) {
-                                val.participantStatus = 'Exist';
-                                break;
-                            }
-                        }
-                        return val;
-                    });
+                    activities = obj.activities.map(v => ({
+                        key: v.id, 
+                        activity: v.action
+                    }));
                     break proposal_loop;
                 }
             }
         }
-        setState(prev => {
-            const pageCount = Math.ceil(activities.length/prev.pageSize);
-            return {...prev, activities, pageCount};
-        });
-    }, [objectiveId, proposals, participants, narratives]);
-
-    const createPlan = key => {
-        const params = new UrlPattern(Path.activities()).match(match.url);
-        const pattern = new UrlPattern(Path.createPlan());
-        const path = pattern.stringify({ activityId: key, ...params });
-        history.push(path);
-    };
-
-    const agendaList = key => {
-        const params = new UrlPattern(Path.activities()).match(match.url);
-        const pattern = new UrlPattern(Path.agenda());
-        const path = pattern.stringify({ activityId: key, ...params });
-        history.push(path);
-    };
-
-    const plansPage = key => {
-        const params = new UrlPattern(Path.activities()).match(match.url);
-        const pattern = new UrlPattern(Path.activityPlans());
-        const path = pattern.stringify({ activityId: key, ...params });
-        history.push(path);
-    }
-
-    const { activityPlans } = useActivityPlanContext();
-    const participantList = key => {
-        let exists;
-        for (const plan of activityPlans) {
-            if (plan.activity.id === key) {
-                exists = true;
-                break;
-            }
-        }
-        if (!exists) return message.error('Add plan!');
-        const params = new UrlPattern(Path.activities()).match(match.url);
-        const pattern = new UrlPattern(Path.participants());
-        const path = pattern.stringify({ activityId: key, ...params });
-        history.push(path);
-    };
-
-    const { agenda } = useAgendaContext();
-    const createReport = key => {
-        let exists;
-        for (const obj of agenda) {
-            if (obj.activityId === key) {
-                exists = true;
-                break;
-            }
-        }
-        if (!exists) return message.error('Add agenda!');
-        const params = new UrlPattern(Path.activities()).match(match.url);
-        const pattern = new UrlPattern(Path.narrativeReport());
-        const path = pattern.stringify({ activityId: key, ...params });
-        history.push(path);
-    };
+        setActivities(activities);
+    }, [store.proposals, objectiveId]);
 
     // Modal logic
     const [visible, setVisible] = useState(false);
     const showModal = () => setVisible(true); 
-
-    const onPageChange = page => setState(prev => ({...prev, page}));
     
     const tableView = useRef();
-    const onExport = () => pdfExport(tableView, state);
+    const onExport = () => pdfExport(tableView, activities);
     
     const props = {
-        state, fetchProposals, visible, setVisible, history, 
-        showModal, participantList, createReport, createPlan,
-        agendaList, objectiveId, tableView, onExport, onPageChange,
-        plansPage
+        activities, visible, setVisible, 
+        showModal, onExport, 
+        fetchProposals: () => fetchProposals(dispatch)
     };
-
     return <PlanActivities {...props} />
 }
