@@ -1,53 +1,40 @@
-import React, { useState, useEffect,  useRef } from "react";
-import { message } from "antd";
-import { useProgrammeContext } from 'contexts';
-import Api from 'api';
+import React, { useState, useEffect } from "react";
+
 import KeyProgrammes from './KeyProgrammes';
+import Api from 'api';
+import { useTracked } from "context";
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
+const fetchKeyProgrammes = dispatch => {
+    Api.keyProgramme.get()
+    .then(res => dispatch({
+        type: 'addKeyProgrammes',
+        payload: res
+    }));
+};
+
 export default function KeyProgrammesContainer() {
-    const { programmes, fetchProgrammes } = useProgrammeContext();
+    const [store, dispatch] = useTracked();
     const [state, setState] = useState({
-        programmes: [], record: {}, pageSize: 15,
-        page: 1, pageCount: 1
+        programmes: [], record: {}
     });
 
     useEffect(() => {
-        const list = programmes.map(val => ({
-            key: val.id, programme: val.programme
+        const list = store.keyProgrammes.map(v => ({
+            key: v.id, programme: v.programme
         }));
-        setState(prev => {
-            const pageCount = Math.ceil(list.length/prev.pageSize);
-            return {...prev, programmes: list, pageCount};
-        });
-    }, [programmes]);
+        setState(prev => ({...prev, programmes: list}));
+    }, [store.keyProgrammes]);
 
     const onDelete = key => {
-        const res = window.confirm('Sure to delete programme ?');
-        if (res) {
-            Api.keyProgramme.delete(key)
-            .then(res => fetchProgrammes())
-            .catch(err => {
-                console.log(err);
-                if (err.error) message.error(err.error.message);
-            });
-        }
+        Api.keyProgramme.delete(key)
+        .then(res => fetchKeyProgrammes(dispatch));
     };
 
-    // Modal logic
-    const [visible, setVisible] = useState({ create: false, update: false });
-    const showModal = () => setVisible(prev => ({...prev, create: true}));
-    const showUpdateModal = record => {
-        setState(prev => ({...prev, record}));
-        setVisible(prev => ({...prev, update: true}));
-    };
-
-    const onPageChange = page => setState(prev => ({...prev, page}));
-
-    const tableView = useRef();
+    const tableView = {}
     const onExport = () => {
         const tableDom = tableView.current;
         const tableHeader = tableDom.getElementsByTagName('th');
@@ -107,10 +94,18 @@ export default function KeyProgrammesContainer() {
         pdfMake.createPdf(dd).open();
     };
 
+    // Modal logic
+    const [visible, setVisible] = useState({ create: false, update: false });
+    const showModal = () => setVisible(prev => ({...prev, create: true}));
+    const showUpdateModal = record => {
+        setState(prev => ({...prev, record}));
+        setVisible(prev => ({...prev, update: true}));
+    };
+
     const props = {
-        state, fetchProgrammes, visible, setVisible,
+        state, visible, setVisible, onExport, 
         showModal, showUpdateModal, onDelete,
-        tableView, onExport, onPageChange
+        fetchKeyProgrammes: () => fetchKeyProgrammes(dispatch)
     };
 
     return <KeyProgrammes {...props} />;

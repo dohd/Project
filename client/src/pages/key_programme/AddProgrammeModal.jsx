@@ -1,21 +1,17 @@
 import React from 'react';
-import { Form, Input, Modal, message } from 'antd';
+import { Form, Input, Modal } from 'antd';
 import Api from 'api';
 
 export default function AddProgramme(props) {
-    const { fetchProgrammes, visible, setVisible } = props;
+    const { fetchKeyProgrammes, visible, setVisible } = props;
 
     const [form] = Form.useForm();
     const onCreate = values => {
         setVisible(prev => ({...prev, create: false}));
         Api.keyProgramme.post(values)
         .then(res => {
-            fetchProgrammes();
             form.resetFields();
-        })
-        .catch(err => {
-            console.log(err);
-            if (err.error) message.error(err.error.message);
+            fetchKeyProgrammes();
         });
     };
 
@@ -32,6 +28,7 @@ export default function AddProgramme(props) {
             visible={visible}
             onOk={onOk}
             onCancel={onCancel}
+            okText='Save'
         >
             <Form
                 form={form}

@@ -1,17 +1,13 @@
 import React, { useEffect } from 'react';
-import { Form, Input, Modal, message } from 'antd';
+import { Form, Input, Modal } from 'antd';
 import Api from 'api';
 
 export default function EditProgramme(props) {
-    const { fetchProgrammes, record, visible, setVisible } = props;
+    const { fetchKeyProgrammes, record, visible, setVisible } = props;
     const onCreate = values => {
         setVisible(prev => ({...prev, update: false}));
         Api.keyProgramme.patch(record.key, values)
-        .then(res => fetchProgrammes())
-        .catch(err => {
-            console.log(err);
-            if (err.error) message.error(err.error.message);
-        });
+        .then(res => fetchKeyProgrammes())
     };
 
     const [form] = Form.useForm();
@@ -24,7 +20,7 @@ export default function EditProgramme(props) {
 
     // Initial form values
     useEffect(() => {
-        if (Object.keys(record).length) {
+        if (record.hasOwnProperty('programme')) {
             const { programme } = record;
             form.setFieldsValue({ programme });
         }
@@ -36,6 +32,7 @@ export default function EditProgramme(props) {
             visible={visible}
             onOk={onOk}
             onCancel={onCancel}
+            okText='Save'
         >
             <Form
                 form={form}

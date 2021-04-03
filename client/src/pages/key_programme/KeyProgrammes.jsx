@@ -1,18 +1,19 @@
 import React, { useState, useRef } from 'react';
-import { Card, Table, Button, Space, Input } from 'antd';
+import { Card, Table, Button, Space, Input, Popconfirm } from 'antd';
 import { 
     PlusOutlined, EditTwoTone, DeleteOutlined,
     SearchOutlined, FilePdfOutlined
 } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+
 import AddProgramme from './AddProgrammeModal';
 import EditProgramme from './EditProgrammeModal';
 
 export default function KeyProgrammes(props) {
     const {
-        state, fetchProgrammes, visible, setVisible,
+        state, visible, setVisible, onExport, 
         showModal, showUpdateModal, onDelete,
-        tableView, onExport, onPageChange
+        fetchKeyProgrammes
     } = props;
 
     // custom search filter 
@@ -112,57 +113,58 @@ export default function KeyProgrammes(props) {
             <AddProgramme
                 visible={visible.create}
                 setVisible={setVisible}
-                fetchProgrammes={fetchProgrammes}
+                fetchKeyProgrammes={fetchKeyProgrammes}
             />
             <EditProgramme
                 record={state.record} 
                 visible={visible.update}
                 setVisible={setVisible}
-                fetchProgrammes={fetchProgrammes}
-            />            
-            <div ref={tableView}>
-                <Table 
-                    dataSource={state.programmes}
-                    pagination={{
-                        pageSize: state.pageSize,
-                        total: state.programmes.length,
-                        onChange: onPageChange
-                    }}
-                    columns={[
-                        {
-                            title: 'Programme',
-                            dataIndex: 'programme',
-                            key: 'programme',
-                            ...getColumnSearchProps('programme')
-                        },
-                        {
-                            title: 'Action',
-                            key: 'action',
-                            render: (text, record) => {
-                                return (
-                                    <div>
-                                        <Button 
-                                            type='link' 
-                                            onClick={() => showUpdateModal(record)}
-                                        >
-                                            <EditTwoTone style={{ fontSize: '20px' }} />
-                                        </Button>
-                                        <Button 
-                                            type='link' 
-                                            onClick={() => onDelete(record.key)}
-                                        >
-                                            <DeleteOutlined 
-                                                style={{ color: 'red', fontSize: '18px' }} 
-                                            />
-                                        </Button>
-                                    </div>
-                                );
-                            }
-                        }
+                fetchKeyProgrammes={fetchKeyProgrammes}
+            />   
 
-                    ]}
-                />
-            </div>
+            <Table 
+                dataSource={state.programmes}
+                columns={[
+                    {
+                        title: 'Programme',
+                        dataIndex: 'programme',
+                        key: 'programme',
+                        ...getColumnSearchProps('programme')
+                    },
+                    {
+                        title: 'Action',
+                        key: 'action',
+                        render: (text, record) => {
+                            return (
+                                <div>
+                                    <Button 
+                                        type='link' 
+                                        onClick={() => showUpdateModal(record)}
+                                    >
+                                        <EditTwoTone style={{ fontSize: '20px' }} />
+                                    </Button>
+                                    <Popconfirm
+                                        title='Are you sure to delete this programme?'
+                                        onConfirm={() => onDelete(record.key)}
+                                        okText='Yes'
+                                        cancelText='No'
+                                    >
+                                        <Button
+                                            type='link'
+                                            icon={
+                                                <DeleteOutlined 
+                                                    style={{ color: 'red', fontSize: '18px'}} 
+                                                />
+                                            }
+                                        />
+                                    </Popconfirm>
+                                </div>
+                            );
+                        }
+                    }
+
+                ]}
+            />
         </Card>
     );
 }
