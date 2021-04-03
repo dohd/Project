@@ -1,22 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { Form, message } from 'antd';
-import { useProposalContext, useDonorContext } from 'contexts';
-import Api from 'api';
+
 import AddProposal, { dateFormat } from './AddProposal';
+import Api from 'api';
+import { useTracked } from 'context';
+
+const fetchProposals = dispatch => {
+    Api.proposal.get()
+    .then(res => dispatch({
+        type: 'addProposal',
+        payload: res
+    }));
+};
 
 export default function AddProposalContainer({ history }) {
-    const { fetchProposals } = useProposalContext();
-    const { donors } = useDonorContext();
+    const [store, dispatch] = useTracked();
     const [state, setState] = useState({
         objectives: [ [],[] ], donors: []
     });
 
     useEffect(() => {
-        const list = donors.map(val => ({ 
-            id: val.id, name: val.name
+        const list = store.donors.map(v => ({ 
+            id: v.id, name: v.name
         }));
         setState(prev => ({...prev, donors: list}));
-    }, [donors]);
+    }, [store.donors]);
 
     const [form] = Form.useForm();
     const onFinish = values => {
@@ -33,21 +41,16 @@ export default function AddProposalContainer({ history }) {
 
         Api.proposal.post(values)
         .then(res => {
-            fetchProposals();
-            message.success('Form submitted successfully');
             form.resetFields();
-        })
-        .catch(err => {
-            console.log(err);
-            message.error('Unknown error!')
+            message.success('Form submitted successfully');
+            fetchProposals(dispatch);
         });
     };
     const onFinishFailed = err => console.log('Error:',err);
 
     const props = {
         state, setState, form, 
-        onFinish, onFinishFailed, history
+        onFinish, onFinishFailed
     };
-    
     return <AddProposal {...props} />;
 }

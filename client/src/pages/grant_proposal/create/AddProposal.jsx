@@ -1,18 +1,21 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { 
     Card, Form, Input, Button, Row, Col, DatePicker, 
     Select, InputNumber, Space 
 } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+
 import ObjectiveModal from './ObjectiveModal';
 
 export const dateFormat = 'YYYY-MM-DD';
 
 export default function AddProposal(props) {
     const { 
-        state, setState, history, form,
-        onFinish, onFinishFailed, 
+        state, setState, form, 
+        onFinish, onFinishFailed
     } = props;
+    const history = useHistory();
 
     const objectiveList = state.objectives[0].map((val, i) => (
         <Select.Option key={i} value={val}>{ val }</Select.Option>
