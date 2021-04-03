@@ -1,8 +1,17 @@
 import React, { useState,useEffect } from 'react';
 import { Card, Upload, Modal, Space, message } from 'antd';
 import { PlusOutlined, ArrowLeftOutlined, LoadingOutlined } from '@ant-design/icons';
-import { useEventPhotoContext } from 'contexts';
-import Api, { endpoints } from 'api';
+
+import Api, { endpoints, fetchToken } from 'api';
+import { useTracked } from 'context';
+
+const fetchEventPhotos = dispatch => {
+    Api.eventImage.get()
+    .then(res => dispatch({
+        type: 'addEventImages',
+        payload: res
+    }))
+};
 
 function getBase64(file) {
     return new Promise((resolve, reject) => {
@@ -24,13 +33,13 @@ export default function EventPhoto({ history, location }) {
         previewTitle: '',
         fileList: [],
         isLoading: true,
-        token: '',
+        token: fetchToken(),
     });
     
-    const { eventPhotos, fetchEventPhotos } = useEventPhotoContext();
+    const [store, dispatch] = useTracked();
     useEffect(() => {
         let fileList = [];
-        for (const report of eventPhotos) {
+        for (const report of store.eventImages) {
             if (report.id === Number(reportId)) {
                 const { eventPhotos } = report;
                 fileList = eventPhotos.map(photo => ({
@@ -42,12 +51,7 @@ export default function EventPhoto({ history, location }) {
             }
         }
         setState(prev => ({...prev, isLoading: false, fileList}));
-    }, [eventPhotos, reportId]);
-
-    useEffect(() => {
-        const token =  sessionStorage.getItem('token');
-        setState(prev => ({...prev, token}));
-    }, []);
+    }, [store.eventImages, reportId]);
 
     const handleCancel = () => setState(prev => ({
         ...prev, previewVisible: false
@@ -68,7 +72,7 @@ export default function EventPhoto({ history, location }) {
     const handleChange = e => {
         const { status, response } = e.file;
         setState(prev => ({...prev, fileList: e.fileList }));
-        if (status === 'done') fetchEventPhotos();
+        if (status === 'done') fetchEventPhotos(dispatch);
         if (status === 'error' && response.error) {
             console.log(response.error);
             if (response.error.message) {
@@ -86,12 +90,8 @@ export default function EventPhoto({ history, location }) {
             setState(prev => ({...prev, fileList}));
             Api.eventImage.delete(file.uid)
             .then(res => {
-                fetchEventPhotos();
+                fetchEventPhotos(dispatch);
                 message.success('Photo successfully deleted!');
-            })
-            .catch(err => {
-                console.log(err);
-                message.error('Unknown error!');
             });
         }
     };

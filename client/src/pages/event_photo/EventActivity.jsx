@@ -2,27 +2,28 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Card, Table, Button, Input, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
-import UrlPattern from 'url-pattern';
-import { useEventPhotoContext } from 'contexts';
-import { Path } from 'routes';
+// import UrlPattern from 'url-pattern';
+
+// import { Path } from 'routes';
+import { useTracked } from 'context';
 
 export default function EventActivity({ match, history }) {
-    const { eventPhotos } = useEventPhotoContext();
-    const [state, setState] = useState({activities: [], pageSize: 5});
+    const store = useTracked()[0];
+    const [activities, setActivities] = useState([]);
     useEffect(() => {
-        const activities = eventPhotos.map(({id, activity}) => ({
+        const list = store.eventImages.map(({id, activity}) => ({
             key: activity.id, 
             action: activity.action,
             reportId: id
         }));
-        setState(prev => ({...prev, activities}));
-    }, [eventPhotos]);
+        setActivities(list);
+    }, [store.eventImages]);
 
-    const accessPhoto = (key, reportId) => {
-        const pattern = new UrlPattern(Path.activityPhoto());
-        const path = pattern.stringify({ activityId: key });
-        history.push({ pathname: path, state: { reportId } });
-    };
+    // const accessPhoto = (key, reportId) => {
+    //     const pattern = new UrlPattern(Path.activityPhoto());
+    //     const path = pattern.stringify({ activityId: key });
+    //     history.push({ pathname: path, state: { reportId } });
+    // };
 
     // custom search filter 
     const [search, setSearch] = useState({ text: '', column: ''});
@@ -109,11 +110,7 @@ export default function EventActivity({ match, history }) {
             bordered={false}
         >
             <Table 
-                dataSource={state.activities}
-                pagination={{
-                    pageSize: state.pageSize,
-                    total: state.activities.length
-                }}
+                dataSource={activities}
                 columns={[
                     {
                         title: 'Activity',
@@ -127,7 +124,7 @@ export default function EventActivity({ match, history }) {
                             const {key, reportId} = record;
                             return (
                                 <Button
-                                    onClick={() => accessPhoto(key, reportId)}
+                                    // onClick={() => accessPhoto(key, reportId)}
                                     type='link'
                                 >
                                     Event photos
