@@ -45,7 +45,7 @@ export default function EditActivity(props) {
                     wrapperCol={{ span: 16 }}
                     label='Activity'
                     name='activity'
-                    required={true}
+                    rules={[{ required: true }]}
                 >
                     <Input />
                 </Form.Item>
