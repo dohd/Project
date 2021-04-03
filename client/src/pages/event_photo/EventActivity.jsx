@@ -121,7 +121,7 @@ export default function EventActivity({ match, history }) {
                     {
                         title: 'Action',
                         render: (text, record) => {
-                            const {key, reportId} = record;
+                            // const {key, reportId} = record;
                             return (
                                 <Button
                                     // onClick={() => accessPhoto(key, reportId)}

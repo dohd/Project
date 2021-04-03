@@ -66,7 +66,7 @@ export default function EventPlanModal(props) {
                         {
                             title: 'Action',
                             render: (text, record) => {
-                                const {key, activityId} = record;
+                                // const {key, activityId} = record;
                                 return (
                                     <Dropdown
                                         overlay={
