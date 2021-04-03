@@ -1,41 +1,49 @@
 import React, { useState, useEffect,  useRef } from 'react';
-import { useProposalContext } from 'contexts';
-import Api from 'api';
+
 import PendingActivities from './PendingActivities';
 import pdfExport from './pdfExport';
+import Api from 'api';
+import { useParams } from 'react-router-dom';
+import { useTracked } from 'context';
+
+const fetchProposals = dispatch => {
+    Api.proposal.get()
+    .then(res => dispatch({
+        type: 'addProposals',
+        payload: res
+    }));
+};
 
 export default function PendingActivitesContainer({ match, history }) {
-    const { objectiveId } = match.params;
-    const { proposals, fetchProposals } = useProposalContext();
+    const [store, dispatch] = useTracked();
     const [state, setState] = useState({ 
-        activities: [], record: {}, pageSize: 5,
-        page: 1, pageCount: 1
+        activities: [], record: {}
     });
 
+    const { objectiveId } = useParams();
     useEffect(() => {
         let activities = [];
         proposal_loop: 
-        for(const proposal of proposals) {
+        for(const proposal of store.proposals) {
             for (const obj of proposal.objectives) {
-                if (obj.id === Number(objectiveId)) {
-                    activities = obj.activities.map(val => ({
-                        key: val.id, action: val.action 
+                if (obj.id === parseInt(objectiveId)) {
+                    activities = obj.activities.map(v => ({
+                        key: v.id, activity: v.action 
                     }));
                     break proposal_loop;
                 }
             }
         }
         setState(prev => ({...prev, activities}));
-    }, [proposals, objectiveId]);
+    }, [store.proposals, objectiveId]);
 
     const onDelete = key => {
-        const res = window.confirm('Sure delete this activity ?');
-        if (res) {
-            Api.activity.delete(key)
-            .then(res => fetchProposals())
-            .catch(err => console.log(err));
-        }              
+        Api.activity.delete(key)
+        .then(res => fetchProposals(dispatch));             
     };
+
+    const tableView = useRef();
+    const onExport = () => pdfExport(tableView, state);
 
     // Modal logic
     const [visible, setVisible] = useState({ add: false, edit: false});
@@ -44,17 +52,11 @@ export default function PendingActivitesContainer({ match, history }) {
         setVisible(prev => ({...prev, edit: true}));
     };
     const showAddModal = () => setVisible(prev => ({...prev, add: true}))
-
-    const onPageChange = page => setState(prev => ({...prev, page}));
     
-    const tableView = useRef();
-    const onExport = () => pdfExport(tableView, state);
-
     const props = { 
-        history, onExport, visible, setVisible, fetchProposals,
-        state, tableView, onPageChange, showAddModal, onDelete,
-        showEditModal, objectiveId
+        state, onExport, visible, setVisible, 
+        showAddModal, onDelete, showEditModal,
+        fetchProposals: () => fetchProposals(dispatch)
     };
-
     return <PendingActivities {...props} />;
 }

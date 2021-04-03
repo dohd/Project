@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Modal, Form, Input, message } from 'antd';
+import { Modal, Form, Input } from 'antd';
+
 import Api from 'api';
 
 export default function EditActivity(props) {
@@ -7,12 +8,9 @@ export default function EditActivity(props) {
 
     const onCreate = values => {
         setVisible(prev => ({...prev, edit: false}));
+        values.action = values.activity;
         Api.activity.patch(record.key, values)
         .then(res => fetchProposals())
-        .catch(err => { 
-            console.log(err);
-            if (err.error) message.error(err.error.message);
-        });
     };
     
     const onOk = () => {
@@ -24,9 +22,9 @@ export default function EditActivity(props) {
 
     const [form] = Form.useForm();
     useEffect(() => {
-        if (Object.keys(record).length) {
-            const { action } = record;
-            form.setFieldsValue({ action });
+        if (record.hasOwnProperty('activity')) {
+            const { activity } = record;
+            form.setFieldsValue({ activity });
         }
     }, [record, form]);
 
@@ -36,6 +34,7 @@ export default function EditActivity(props) {
             visible={visible}
             onOk={onOk}           
             onCancel={onCancel}
+            okText='Save'
         >
             <Form
                 form={form}
@@ -45,11 +44,8 @@ export default function EditActivity(props) {
                     labelCol={{ span: 4 }}
                     wrapperCol={{ span: 16 }}
                     label='Activity'
-                    name='action'
-                    rules={[{ 
-                        required: true, 
-                        message: 'activity is required' 
-                    }]}
+                    name='activity'
+                    required={true}
                 >
                     <Input />
                 </Form.Item>

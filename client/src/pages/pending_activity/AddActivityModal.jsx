@@ -1,19 +1,19 @@
 import React from 'react';
-import { Modal, Form, Input, message } from 'antd';
+import { useParams } from 'react-router-dom';
+import { Modal, Form, Input } from 'antd';
+
 import Api from 'api';
 
 export default function AddActivity(props) {
-    const {visible, setVisible, fetchProposals, objectiveId} = props;
+    const {visible, setVisible, fetchProposals} = props;
+    const { objectiveId } = useParams();
 
     const onCreate = values => {
         setVisible(prev => ({...prev, add: false}));
+        values.action = values.activity;
         values.objectiveId = objectiveId;
         Api.activity.post(values)
-        .then(res => fetchProposals())
-        .catch(err => { 
-            console.log(err);
-            if (err.error) message.error(err.error.message);
-        });
+        .then(res => fetchProposals());
     };
 
     const [form] = Form.useForm();
@@ -30,6 +30,7 @@ export default function AddActivity(props) {
             visible={visible}
             onOk={onOk}           
             onCancel={onCancel}
+            okText='Save'
         >
             <Form
                 form={form}
@@ -39,11 +40,8 @@ export default function AddActivity(props) {
                     labelCol={{ span: 4 }}
                     wrapperCol={{ span: 16 }}
                     label='Activity'
-                    name='action'
-                    rules={[{ 
-                        required: true, 
-                        message: 'activity is required' 
-                    }]}
+                    name='activity'
+                    required={true}
                 >
                     <Input />
                 </Form.Item>
