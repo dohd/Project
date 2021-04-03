@@ -59,7 +59,7 @@ export default function Users(props) {
                         title: 'Role',
                         dataIndex: 'role',
                         key: 'role',
-                        render: text => text.value
+                        render: ({value}) => value
                     },
                     {
                         title: 'Action',
@@ -81,8 +81,9 @@ export default function Users(props) {
                                         okText='Yes'
                                         cancelText='No'
                                     >
-                                        <DeleteOutlined 
-                                            style={{ color: 'red', fontSize: '18px' }} 
+                                        <Button 
+                                            type='link'
+                                            icon={<DeleteOutlined style={{ color: 'red'}} />}
                                         />
                                     </Popconfirm>
                                 </div>
