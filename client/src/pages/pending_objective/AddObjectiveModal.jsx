@@ -1,19 +1,18 @@
 import React from 'react';
-import { Modal, Form, Input, message } from 'antd';
+import { useParams } from 'react-router-dom';
+import { Modal, Form, Input } from 'antd';
+
 import Api from 'api';
 
 export default function AddObjective(props) {
-    const {visible, setVisible, fetchProposals, proposalId} = props;
+    const {visible, setVisible, fetchProposals} = props;
+    const { proposalId } = useParams();
 
     const onCreate = values => { 
         setVisible(prev => ({...prev, add: false}));
         values.proposalId = proposalId;
         Api.objective.post(values)
         .then(res => fetchProposals())
-        .catch(err => {
-            console.log(err);
-            if (err.error) message.error(err.error.message);
-        });
     };
     
     const [form] = Form.useForm();
@@ -30,6 +29,7 @@ export default function AddObjective(props) {
             visible={visible}
             onOk={onOk}           
             onCancel={onCancel}
+            okText='Save'
         >
             <Form
                 form={form}

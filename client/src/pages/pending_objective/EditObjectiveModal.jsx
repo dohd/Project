@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Modal, Form, Input, message } from 'antd';
+import { Modal, Form, Input } from 'antd';
+
 import Api from 'api';
 
 export default function EditObjective(props) {
@@ -8,11 +9,7 @@ export default function EditObjective(props) {
     const onCreate = values => { 
         setVisible(prev => ({...prev, edit: false}));
         Api.objective.patch(record.key, values)
-        .then(res => fetchProposals())
-        .catch(err => {
-            console.log(err);
-            if (err.error) message.error(err.error.message);
-        });
+        .then(res => fetchProposals());
     };
     
     const onOk = () => {
@@ -24,7 +21,7 @@ export default function EditObjective(props) {
 
     const [form] = Form.useForm();
     useEffect(() => {
-        if (Object.keys(record).length) {
+        if (record.hasOwnProperty('objective')) {
             const { objective } = record;
             form.setFieldsValue({ objective });
         }
@@ -36,6 +33,7 @@ export default function EditObjective(props) {
             visible={visible}
             onOk={onOk}           
             onCancel={onCancel}
+            okText='Save'
         >
             <Form
                 form={form}

@@ -1,20 +1,25 @@
 import React from 'react';
+import { useHistory, Link } from 'react-router-dom';
 import { 
-    Card, Table, Button, Space, Menu, Dropdown 
+    Card, Table, Button, Space, Menu, 
+    Dropdown, Popconfirm
 } from 'antd';
 import { 
-    ArrowLeftOutlined, FilePdfOutlined, PlusOutlined,
-    DownOutlined
+    ArrowLeftOutlined, FilePdfOutlined, 
+    PlusOutlined, DownOutlined, DeleteOutlined
 } from '@ant-design/icons';
+
 import EditObjective from './EditObjectiveModal';
 import AddObjective from './AddObjectiveModal';
 
 export default function PendingObjectives(props) {
     const { 
-        history, onExport, visible, setVisible, fetchProposals,
-        state, tableView, onPageChange, showAddModal, onDelete,
-        pendingAct, showEditModal, proposalId
+        onExport, visible, setVisible, 
+        state, showAddModal, onDelete,
+        pendingAct, showEditModal,
+        fetchProposals,
     } = props;
+    const history = useHistory();
 
     return (
         <Card 
@@ -50,41 +55,34 @@ export default function PendingObjectives(props) {
                 visible={visible.add}
                 setVisible={setVisible}
                 fetchProposals={fetchProposals}
-                proposalId={proposalId}
             />
 
-            <div ref={tableView}>
-                <Table 
-                    dataSource={state.objectives}
-                    pagination={{
-                        pageSize: state.pageSize,
-                        total: state.objectives.length,
-                        onChange: onPageChange
-                    }}
-                    columns={[
-                        {
-                            title: 'Objective',
-                            dataIndex: 'objective',
-                            key: 'objective',
-                        },
-                        {
-                            title: 'Action',
-                            dataIndex: 'action',
-                            key: 'action',
-                            render: (text, record) => {
-                                const { key } = record;
-                                return (
+            <Table 
+                dataSource={state.objectives}
+                columns={[
+                    {
+                        title: 'Objective',
+                        dataIndex: 'objective',
+                        key: 'objective',
+                    },
+                    {
+                        title: 'Action',
+                        dataIndex: 'action',
+                        key: 'action',
+                        render: (text, record) => {
+                            const { key } = record;
+                            return (
+                                <div>
                                     <Dropdown
                                         overlay={
                                             <Menu>
                                                 <Menu.Item onClick={() => showEditModal(record)}>
                                                     Update
                                                 </Menu.Item>
-                                                <Menu.Item danger onClick={() => onDelete(key)}>
-                                                    Delete
-                                                </Menu.Item>
-                                                <Menu.Item onClick={() => pendingAct(key)}>
-                                                    Activities
+                                                <Menu.Item>
+                                                    <Link to={pendingAct(key)}>
+                                                        Activities
+                                                    </Link>
                                                 </Menu.Item>
                                             </Menu>
                                         }
@@ -93,12 +91,27 @@ export default function PendingObjectives(props) {
                                             actions <DownOutlined />
                                         </Button>
                                     </Dropdown>
-                                );
-                            }
-                        }                    
-                    ]} 
-                />
-            </div>
+                                    <Popconfirm
+                                        title='Are you sure to delete this objective?'
+                                        onConfirm={() => onDelete(key)}
+                                        okText='Yes'
+                                        cancelText='No'
+                                    >
+                                        <Button
+                                            type='link'
+                                            icon={
+                                                <DeleteOutlined 
+                                                    style={{ color: 'red'}} 
+                                                />
+                                            }
+                                        />
+                                    </Popconfirm>
+                                </div>
+                            );
+                        }
+                    }                    
+                ]} 
+            />
         </Card>
     );
 }
