@@ -9,14 +9,14 @@ export const months = [
 
 export const days = ['sun','mon','tue','wed','thur','fri','sat'];
 
-export default function showCalendar (month, year) {
-    const title = { month: months[month], year };
-    const singleMonth = [];
+export default function setCalendar (month, year) {
+    const monthTitle = { month: months[month], year };
 
     const startDay = new Date(year, month).getDay();
     const daysInMonth = 32 - new Date(year, month, 32).getDate();
     const dates = Array(daysInMonth).fill(1).map((val, i) => val + i);
 
+    const monthData = [];
     let dateIndx = 0;
     // looping through weeks
     for (let i = 0; i < 5; i++) {
@@ -37,10 +37,9 @@ export default function showCalendar (month, year) {
                 if (dateIndx === daysInMonth) break; 
             }
         }
-        singleMonth.push(singleWeek);
+        monthData.push(singleWeek);
     }
-    
-    return { title, singleMonth };
+    return { monthTitle, monthData };
 }
 
 export const years = (
