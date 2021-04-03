@@ -1,18 +1,19 @@
 import React, { useState, useRef } from 'react';
-import { Card, Table, Button, Input, Space } from 'antd';
+import { Card, Table, Button, Input, Space, Popconfirm } from 'antd';
 import {
     PlusOutlined, EditTwoTone, DeleteOutlined,
     SearchOutlined, FilePdfOutlined
 } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+
 import CreateRegion from './AddRegionModal';
 import UpdateRegion from './EditRegionModal';
 
 export default function Regions(props) {
     const { 
-        state, visible, setVisible, showModal, 
-        showUpdateModal, onDelete, fetchRegions,
-        tableView, onExport, onPageChange
+        visible, setVisible, showModal, 
+        showUpdateModal, onDelete, onExport, state,
+        fetchTargetRegions
     } = props;
 
     // custom search filter 
@@ -112,58 +113,59 @@ export default function Regions(props) {
             <CreateRegion
                 visible={visible.create}
                 setVisible={setVisible}
-                fetchRegions={fetchRegions}
+                fetchTargetRegions={fetchTargetRegions}
             />
             <UpdateRegion
                 record={state.record} 
                 visible={visible.update}
                 setVisible={setVisible}
-                fetchRegions={fetchRegions}
+                fetchTargetRegions={fetchTargetRegions}
             />
-            <div ref={tableView}>
-                <Table 
-                    dataSource={state.regions}
-                    pagination={{
-                        pageSize: state.pageSize,
-                        total: state.regions.length,
-                        onChange: onPageChange
-                    }}
-                    columns={[
-                        {
-                            title: 'Region',
-                            dataIndex: 'region',
-                            key: 'region',
-                            ...getColumnSearchProps('region')
-                        },
-                        {
-                            title: 'Action',
-                            dataIndex: 'action',
-                            key: 'action',
-                            render: (text, record) => {
-                                return (
-                                    <div>
-                                        <Button 
-                                            type='link' 
-                                            onClick={() => showUpdateModal(record)}
-                                        >
-                                            <EditTwoTone style={{ fontSize: '20px' }} />
-                                        </Button>
-                                        <Button 
-                                            type='link' 
-                                            onClick={() => onDelete(record.key)}
-                                        >
-                                            <DeleteOutlined 
-                                                style={{color: 'red', fontSize: '18px'}} 
-                                            />
-                                        </Button>
-                                    </div>
-                                );
-                            }
+            <Table 
+                dataSource={state.regions}
+                columns={[
+                    {
+                        title: 'Region',
+                        dataIndex: 'region',
+                        key: 'region',
+                        ...getColumnSearchProps('region')
+                    },
+                    {
+                        title: 'Action',
+                        dataIndex: 'action',
+                        key: 'action',
+                        render: (text, record) => {
+                            return (
+                                <div>
+                                    <Button 
+                                        type='link' 
+                                        onClick={() => showUpdateModal(record)}
+                                    >
+                                        <EditTwoTone style={{ fontSize: '20px' }} />
+                                    </Button>
+                                
+                                    <Popconfirm
+                                        title='Are you sure to delete this region?'
+                                        onConfirm={() => onDelete(record.key)}
+                                        okText='Yes'
+                                        cancelText='No'
+                                    >
+                                        <Button
+                                            type='link'
+                                            icon={
+                                                <DeleteOutlined 
+                                                    style={{color: 'red', fontSize: '18px'}} 
+                                                />
+                                            }
+                                        />
+                                    </Popconfirm>
+                                </div>
+                            );
                         }
+                    }
 
-                    ]}
-                />
-            </div>
+                ]}
+            />
         </Card>
     );
 }

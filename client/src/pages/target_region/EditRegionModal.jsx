@@ -1,25 +1,16 @@
 import React, { useEffect } from 'react';
-import { Form, Input, Modal, message } from 'antd';
+import { Form, Input, Modal } from 'antd';
+
 import Api from 'api';
 
 export default function UpdateRegion(props) {
-    const { fetchRegions, record, visible, setVisible } = props;
+    const { fetchTargetRegions, record, visible, setVisible } = props;
 
     const onCreate = values => {
         setVisible(prev => ({...prev, update: false}));
-
         values.area = values.region;
-        delete values.region;
-
         Api.targetRegion.patch(record.key, values)
-        .then(res => fetchRegions())
-        .catch(err => {
-            console.log(err);
-            if (err.error && err.error.status === 401) {
-                return message.error(err.error.message);
-            }
-            message.error('Unknown error!');
-        });
+        .then(res => fetchTargetRegions());
     };
 
     const [form] = Form.useForm();
@@ -32,7 +23,7 @@ export default function UpdateRegion(props) {
 
     // Initial form values
     useEffect(() => {
-        if (Object.keys(record).length) {
+        if (record.hasOwnProperty('region')) {
             const { region } = record;
             form.setFieldsValue({ region });
         }

@@ -1,53 +1,40 @@
-import React, { useState, useEffect, useRef } from "react";
-import { message } from "antd";
-import { useRegionContext } from 'contexts';
-import Api from 'api';
+import React, { useState, useEffect } from "react";
+
 import Regions from "./Regions";
+import Api from 'api';
+import { useTracked } from "context";
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
+const fetchTargetRegions = dispatch => {
+    Api.targetRegion.get()
+    .then(res => dispatch({
+        type: 'addTargetRegions',
+        payload: res
+    }));
+};
+
 export default function RegionsContainer() {
-    const { regions, fetchRegions } = useRegionContext();
+    const [store, dispatch] = useTracked();
     const [state, setState] = useState({
-        regions: [], record: {}, pageSize: 5, 
-        page: 1, pageCount: 1
+        regions: [], record: {}
     });
 
     useEffect(() => {
-        const list = regions.map(val => ({
-            key: val.id, region: val.area
+        const list = store.targetRegions.map(v => ({
+            key: v.id, region: v.area
         }));
-        setState(prev => {
-            const pageCount = Math.ceil(list.length/prev.pageSize);
-            return {...prev, regions: list, pageCount};
-        });
-    }, [regions]);
+        setState(prev => ({...prev, regions: list})); 
+    }, [store.targetRegions]);
 
     const onDelete = key => {
-        const res = window.confirm('Sure to delete region ?');
-        if (res) {
-            Api.targetRegion.delete(key)
-            .then(res => fetchRegions())
-            .catch(err => {
-                console.log(err);
-                if (err.error) message.error(err.error.message);
-            });
-        }
+        Api.targetRegion.delete(key)
+        .then(res => fetchTargetRegions(dispatch));
     };
 
-    // Modal logic
-    const [visible, setVisible] = useState({ create: false, update: false });
-    const showModal = () => setVisible(prev => ({...prev, create: true}));
-    const showUpdateModal = record => {
-        setState(prev => ({...prev, record}));
-        setVisible(prev => ({...prev, update: true}));
-    };
-
-    const onPageChange = page => setState(prev => ({...prev, page}));
-
-    const tableView = useRef();
+    const tableView = {};
     const onExport = () => {
         const tableDom = tableView.current;
         const tableHeader = tableDom.getElementsByTagName('th');
@@ -106,11 +93,18 @@ export default function RegionsContainer() {
         pdfMake.createPdf(dd).open();
     };
 
-    const props = { 
-        visible, setVisible, showModal, showUpdateModal,
-        onDelete, fetchRegions, state, tableView, onExport,
-        onPageChange
+    // Modal logic
+    const [visible, setVisible] = useState({ create: false, update: false });
+    const showModal = () => setVisible(prev => ({...prev, create: true}));
+    const showUpdateModal = record => {
+        setState(prev => ({...prev, record}));
+        setVisible(prev => ({...prev, update: true}));
     };
 
+    const props = { 
+        visible, setVisible, showModal, 
+        showUpdateModal, onDelete, onExport, state,
+        fetchTargetRegions: () => fetchTargetRegions(dispatch)
+    };
     return <Regions {...props} />;
 }

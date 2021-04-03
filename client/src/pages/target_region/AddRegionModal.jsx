@@ -1,28 +1,19 @@
 import React from 'react';
-import { Form, Input, Modal, message } from 'antd';
+import { Form, Input, Modal } from 'antd';
+
 import Api from 'api';
 
 export default function CreateRegion(props) {
-    const { fetchRegions, visible, setVisible } = props;
+    const { fetchTargetRegions, visible, setVisible } = props;
 
     const [form] = Form.useForm();
     const onCreate = values => {
         setVisible(prev => ({...prev, create: false}));
-
         values.area = values.region;
-        delete values.region;
-
         Api.targetRegion.post(values)
         .then(res => {
-            fetchRegions()
             form.resetFields();
-        })
-        .catch(err => {
-            console.log(err);
-            if (err.error && err.error.status === 401) {
-                return message.error(err.error.message);
-            }
-            message.error('Unknown error!');
+            fetchTargetRegions()
         });
     };
 
@@ -39,6 +30,7 @@ export default function CreateRegion(props) {
             visible={visible}
             onOk={onOk}
             onCancel={onCancel}
+            okText='Save'
         >
             <Form
                 form={form}
