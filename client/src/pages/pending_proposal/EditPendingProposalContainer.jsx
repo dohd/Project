@@ -1,50 +1,52 @@
 import React, { useEffect,  useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Form, message } from 'antd';
 import moment from 'moment';
-import { useProposalContext, useDonorContext } from 'contexts';
-import Api from 'api';
+
 import EditPendingProposal, { dateFormat } from './EditPendingProposal';
-import { useParams } from 'react-router-dom';
+import Api from 'api';
+import { useTracked } from 'context';
 
-export default function EditPendingProposalContainer({ history, match}) {
+const fetchProposals = dispatch => {
+    Api.proposal.get()
+    .then(res => dispatch({
+        type: 'addProposals',
+        payload: res
+    }));
+};
+
+export default function EditPendingProposalContainer({history}) {
+    const [store, dispatch] = useTracked();
+    const [donors, setDonors] = useState([]);
+
+    useEffect(() => {
+        const list = store.donors.map(v => ({
+            id: v.id, name: v.name
+        }));
+        setDonors(list);
+    }, [store.donors]);
+
     const { proposalId } = useParams();
-    const { proposals, fetchProposals } = useProposalContext();
-
     const onFinish = values => {
         const { dateSubmitted } = values;
         values.dateSubmitted = dateSubmitted.format(dateFormat);
-
         const periods = values.period.map(date => date.format(dateFormat));
         values.startDate = periods[0];
         values.endDate = periods[1];
         
         Api.proposal.patch(proposalId, values)
         .then(res => { 
-            fetchProposals();
             message.success('Proposal updated successfully');
+            fetchProposals(dispatch);
             history.goBack();
-        })
-        .catch(err => {
-            console.log(err);
-            message.error('Unknown error!')
         });
     };
     const onFinishFailed = err => console.log('Error:', err);
 
-    const { donors }  = useDonorContext();
-
-    const [state, setState] = useState({ donors: [] });
-    useEffect(() => {
-        const list = donors.map(val => ({
-            id: val.id, name: val.name
-        }));
-        setState({ donors: list });
-    }, [donors]);
-
     // Initial form values
     const [form] = Form.useForm();
     useEffect(() => {
-        for (const proposal of proposals) {
+        for (const proposal of store.proposals) {
             if (proposal.id === parseInt(proposalId)) {
                 const { startPeriod, endPeriod } = proposal;
                 const periods = [startPeriod, endPeriod];
@@ -59,12 +61,8 @@ export default function EditPendingProposalContainer({ history, match}) {
                 break;
             }
         }
-    }, [proposals, form, proposalId]);
+    }, [store.proposals, form, proposalId]);
 
-    const props = { 
-        form, onFinish, onFinishFailed, history,
-        donors: state.donors
-    };
-
+    const props = { form, onFinish, onFinishFailed, donors };
     return <EditPendingProposal {...props} />;
 }

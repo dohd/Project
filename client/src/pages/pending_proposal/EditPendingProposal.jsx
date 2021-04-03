@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { 
     Card, Form, Input, Button, Row, Col, DatePicker, 
     Select, InputNumber, Space, Radio
@@ -8,15 +9,12 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 export const dateFormat = 'YYYY-MM-DD';
 
 export default function EditPendingProposal(props) {
-    const { 
-        donors, form, onFinish, onFinishFailed, 
-        history
-    } = props;
+    const { form, onFinish, onFinishFailed, donors } = props;
+    const history = useHistory();
 
     const donorList = donors.map(({id, name}, i) => (
         <Select.Option key={i} value={id}>{ name }</Select.Option>
     ));
-    
     return (
         <Card       
             title={
