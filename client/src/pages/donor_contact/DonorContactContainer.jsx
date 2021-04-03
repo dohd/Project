@@ -1,31 +1,41 @@
-import React, { useState, useEffect,  useRef } from 'react';
-import { message } from 'antd';
+import React, { useState, useEffect } from 'react';
 
 import DonorContact from './DonorContact';
-import Api from 'api';
 import pdfExport from './pdfExport';
-import { useDonorContactContext } from 'contexts';
+import Api from 'api';
+import { useTracked } from 'context';
+
+const fetchDonorContacts = dispatch => {
+    Api.donorContact.get()
+    .then(res => dispatch({
+        type: 'addDonorContacts',
+        payload: res
+    }));
+};
 
 export default function DonorContactContainer(params) {
+    const [store, dispatch] = useTracked();
     const [state, setState] = useState({ 
-        contacts: [], record: {}, pageSize: 5,
-        page: 1, pageCount: 1
+        contacts: [], record: {},
     });
     
-    const { donorContacts, fetchDonorContacts } = useDonorContactContext();
     useEffect(() => {
-        const contacts = donorContacts.map(val => ({
+        const contacts = store.donorContacts.map(val => ({
             ...val, 
             key: val.id, 
             donor: val.donor.name,
             contactName: `${val.fName} ${val.lName}`,
         }));
+        setState(prev => ({...prev, contacts}));
+    }, [store.donorContacts]);
 
-        setState(prev => {
-            const pageCount = Math.ceil(contacts.length/prev.pageSize);
-            return {...prev, contacts: contacts, pageCount};
-        });
-    }, [donorContacts]);
+    const onDelete = key => {
+        Api.donor.delete(key)
+        .then(res => fetchDonorContacts(dispatch));
+    };
+
+    const tableView = ''
+    const onExport = () => pdfExport(tableView, state);
 
     // modal logic
     const [visible, setVisible] = useState({ create: false, update: false });
@@ -35,28 +45,11 @@ export default function DonorContactContainer(params) {
         setVisible(prev => ({...prev, update: true}));
     };
 
-    const onDelete = key => {
-        const res = window.confirm('Sure to delete donor ?');
-        if (res) {
-            Api.donor.delete(key)
-            .then(res => fetchDonorContacts())
-            .catch(err => {
-                console.log(err);
-                if (err.error) message.error(err.error.message);
-            });
-        }
-    };
-
-    const onPageChange = page => setState(prev => ({...prev, page}));
-
-    const tableView = useRef();
-    const onExport = () => pdfExport(tableView, state);
-
     const props = {
-        fetchDonorContacts, visible, setVisible,
-        showModal, showUpdateModal, onDelete,
-        onExport, tableView, state, onPageChange
+        visible, setVisible,showModal, 
+        showUpdateModal, onDelete,
+        onExport, state, 
+        fetchDonorContacts: () => fetchDonorContacts(dispatch)
     };
-
     return <DonorContact {...props} />;
 }

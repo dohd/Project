@@ -1,18 +1,19 @@
 import React, { useState, useRef } from 'react';
-import { Card, Table, Button, Space, Input } from 'antd';
+import { Card, Table, Button, Space, Input, Popconfirm } from 'antd';
 import { 
     PlusOutlined, SearchOutlined,EditTwoTone, DeleteOutlined,
     FilePdfOutlined
 } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+
 import AddContact from './AddContactModal';
 import EditContact from './EditContactModal';
 
 export default function Donor(props) {
     const {
-        state, visible, setVisible,
-        showModal, showUpdateModal, onDelete,
-        tableView, onExport, onPageChange
+        visible, setVisible,showModal, 
+        showUpdateModal, onDelete,
+        onExport, state, fetchDonorContacts
     } = props;
 
     // custom search filter 
@@ -112,70 +113,76 @@ export default function Donor(props) {
             <AddContact 
                 visible={visible.create} 
                 setVisible={setVisible} 
+                fetchDonorContacts={fetchDonorContacts}
             />
             
             <EditContact
                 record={state.record}
                 visible={visible.update} 
                 setVisible={setVisible} 
+                fetchDonorContacts={fetchDonorContacts}
             />
-            <div ref={tableView}>
-                <Table
-                    dataSource={state.contacts} 
-                    pagination={{
-                        pageSize: state.pageSize,
-                        total: state.contacts.length,
-                        onChange: onPageChange
-                    }}
-                    columns={[
-                        {
-                            title: 'Donor',
-                            dataIndex: 'donor',
-                            key: 'donor'
-                        },
-                        {
-                            title: 'Contact Name',
-                            dataIndex: 'contactName',
-                            key: 'contactName',
-                            ...getColumnSearchProps('contactName')
-                        },
-                        {
-                            title: 'Telephone',
-                            dataIndex: 'telephone',
-                            key: 'telephone'
-                        },
-                        {
-                            title: 'Email',
-                            dataIndex: 'email',
-                            key: 'email'
-                        },
-                        {
-                            title: 'Action',
-                            dataIndex: 'action',
-                            key: 'action',
-                            render: (text, record) => {
-                                return (
-                                    <div>
-                                        <Button 
-                                            type='link' 
-                                            onClick={() => showUpdateModal(record)}
-                                        >
-                                            <EditTwoTone style={{ fontSize: '20px' }} />
-                                        </Button>
-                                        <Button 
-                                            type='link' 
-                                            onClick={() => onDelete(record.key)}
-                                        >
-                                            <DeleteOutlined style={{ color: 'red', fontSize: '18px' }} />
-                                        </Button>
-                                    </div>
-                                );
-                            }
-                        }
 
-                    ]}
-                />
-            </div>
+            <Table
+                dataSource={state.contacts} 
+                columns={[
+                    {
+                        title: 'Donor',
+                        dataIndex: 'donor',
+                        key: 'donor'
+                    },
+                    {
+                        title: 'Contact Name',
+                        dataIndex: 'contactName',
+                        key: 'contactName',
+                        ...getColumnSearchProps('contactName')
+                    },
+                    {
+                        title: 'Telephone',
+                        dataIndex: 'telephone',
+                        key: 'telephone'
+                    },
+                    {
+                        title: 'Email',
+                        dataIndex: 'email',
+                        key: 'email'
+                    },
+                    {
+                        title: 'Action',
+                        dataIndex: 'action',
+                        key: 'action',
+                        render: (text, record) => {
+                            return (
+                                <Space>
+                                    <Button 
+                                        type='link' 
+                                        onClick={() => showUpdateModal(record)}
+                                        icon={
+                                            <EditTwoTone style={{ fontSize: '20px' }} />
+                                        }
+                                    />
+
+                                    <Popconfirm
+                                        title='Are you sure to delete this contact?'
+                                        onConfirm={() => onDelete(record.key)}
+                                        okText='Yes'
+                                        cancelText='No'
+                                    >
+                                        <Button
+                                            type='link'
+                                            icon={
+                                                <DeleteOutlined 
+                                                    style={{ color: 'red', fontSize: '18px' }} 
+                                                />
+                                            }
+                                        />
+                                    </Popconfirm>
+                                </Space>
+                            );
+                        }
+                    }
+                ]}
+            />
         </Card>
     );
 }

@@ -1,42 +1,35 @@
 import React, { useEffect } from 'react';
-import { Form, Input, Modal, message, Select } from 'antd';
+import { Form, Input, Modal, Select } from 'antd';
 
 import Api from 'api';
-import { useDonorContactContext, useDonorContext } from 'contexts';
+import { useTracked } from 'context';
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 16 } };
 
 export default function EditContact(props) {
-    const { record, visible, setVisible } = props;
-
-    const { fetchDonorContacts } = useDonorContactContext();
+    const { record, visible, setVisible, fetchDonorContacts } = props;
+    const store = useTracked()[0];
     
     const [form] = Form.useForm();
     const onCreate = values => {
+        setVisible(prev => ({...prev, update: false}));
         Api.donor.patch(record.key, values)
         .then(res => {
-            fetchDonorContacts();
             form.resetFields();
-        })
-        .catch(err => {
-            console.log(err);
-            if (err.error) message.error(err.error.message);
+            fetchDonorContacts();
         });
     };
 
     const onOk = () => {
         form.validateFields()
-        .then(values => {
-            setVisible(prev => ({...prev, update: false}));
-            onCreate(values);
-        })
+        .then(values => onCreate(values))
         .catch(err => console.log('Validate Failed:', err));
     };
     const onCancel = () => setVisible(prev => ({...prev, update: false}));
 
     // Initial form values
     useEffect(() => {
-        if (Object.keys(record).length) {
+        if (record.hasOwnProperty('record')) {
             form.setFieldsValue({
                 donor: record.donor,
                 contactName: record.contactName,
@@ -53,8 +46,7 @@ export default function EditContact(props) {
         return Promise.reject('contact-name is invalid');
     };
 
-    const { donors } = useDonorContext();
-    const donorList = donors.map(v => (
+    const donorList = store.donors.map(v => (
         <Select.Option key={v.id} value={v.id}>{v.name}</Select.Option>
     ));
     
@@ -64,6 +56,7 @@ export default function EditContact(props) {
             visible={visible}
             onOk={onOk}
             onCancel={onCancel}
+            okText='Save'
         >
             <Form
                 {...layout}

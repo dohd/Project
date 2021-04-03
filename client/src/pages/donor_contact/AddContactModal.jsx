@@ -1,37 +1,31 @@
 import React from 'react';
-import { Form, Input, Modal, message, Select } from 'antd';
+import { Form, Input, Modal, Select } from 'antd';
+
 import Api from 'api';
-import { useDonorContext, useDonorContactContext } from 'contexts';
+import { useTracked } from 'context';
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 16 } };
 
 export default function AddContact(props) {
-    const { visible, setVisible } = props;
+    const { visible, setVisible, fetchDonorContacts } = props;
+    const store = useTracked()[0];
 
-    const { fetchDonorContacts } = useDonorContactContext();
     const [form] = Form.useForm();
     const onCreate = values => {
+        setVisible(prev => ({...prev, create: false}));
         const [fName, lName] = values.contactName.split(' ');
         values.fName = fName;
         values.lName = lName;
-
         Api.donorContact.post(values)
         .then(res => {
-            fetchDonorContacts();
             form.resetFields();
-        })
-        .catch(err => {
-            console.log(err);
-            if (err.error) message.error(err.error.message);
+            fetchDonorContacts();
         });
     };
 
     const onOk = () => {
         form.validateFields()
-        .then(values => {
-            setVisible(prev => ({...prev, create: false}));
-            onCreate(values);
-        })
+        .then(values => onCreate(values))
         .catch(err => console.log('Validate Failed:', err));
     };
     const onCancel = () => setVisible(prev => ({...prev, create: false}));
@@ -43,8 +37,7 @@ export default function AddContact(props) {
         return Promise.reject('contact-name is invalid');
     };
 
-    const { donors } = useDonorContext();
-    const donorList = donors.map(v => (
+    const donorList = store.donors.map(v => (
         <Select.Option key={v.id} value={v.id}>{v.name}</Select.Option>
     ));
     
@@ -54,6 +47,7 @@ export default function AddContact(props) {
             visible={visible}
             onOk={onOk}
             onCancel={onCancel}
+            okText='Save'
         >
             <Form
                 {...layout}
