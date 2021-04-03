@@ -1,15 +1,17 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { Card, Table, Select, Space } from 'antd';
 import { LeftOutlined, RightOutlined, ArrowLeftOutlined } from '@ant-design/icons';
-import './calendar.css';
-import { months, years, days } from './showCalendar';
+import { useHistory } from 'react-router-dom';
 
-export default function EventCalendar(props) {
-    const { 
-        state, handleNext, handleBack, isPlan,
-        onChangeMonth, onChangeYear, showModal,
-        history
+import './calendar.css';
+import { months, years, days } from 'utils/setCalendar';
+
+export default function Calendar(props) {
+    const {
+        state, tableView, handleBack, handleNext,
+        onChangeMonth, onChangeYear
     } = props;
+    const history = useHistory();
 
     const monthList = months.map((val, i) => {
         const shortName = val.slice(0, 3);
@@ -25,33 +27,6 @@ export default function EventCalendar(props) {
             { val }
         </Select.Option>
     ));
-
-    const tableView = useRef();
-    const load = state.load;
-    useEffect(() => {
-        const table = tableView.current
-        const tableRows = table.getElementsByTagName('tr');
-        [...tableRows].forEach(row => {
-            const rowCells = row.cells;
-            [...rowCells].forEach(cell => {
-                const value = Number(cell.innerText);
-                if (isPlan(value)) {
-                    cell.classList.add('plan-cell');
-                    const ant_class = [...row.classList];
-                    cell.onclick = function () { showModal(value) };
-                    row.onmouseover = function () {
-                        row.classList.remove(...ant_class);
-                    }
-                    row.onmouseout = function () {
-                        row.classList.add(...ant_class);
-                    }
-                } else {
-                    cell.classList.remove('plan-cell');
-                }
-            });
-        });
-    }, [tableView, load, isPlan, showModal]);
-
     return (
         <Card
             title={
@@ -70,7 +45,7 @@ export default function EventCalendar(props) {
                     className='outline-icon' 
                     onClick={handleBack}
                 />
-                <h3>{ `${state.title.month}, ${state.title.year}` }</h3>
+                <h3>{ `${state.monthTitle.month}, ${state.monthTitle.year}` }</h3>
                 <RightOutlined
                     className='outline-icon' 
                     onClick={handleNext}
@@ -99,7 +74,7 @@ export default function EventCalendar(props) {
                 <Table
                     bordered
                     className='calendar-table'
-                    dataSource={state.singleMonth}
+                    dataSource={state.monthData}
                     pagination={{ hideOnSinglePage: true }}
                     columns={
                         days.map(name => {
