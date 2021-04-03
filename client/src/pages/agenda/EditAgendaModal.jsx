@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Form, Modal, Input, TimePicker } from 'antd';
 import moment from 'moment';
+
 import Api from 'api';
 
 const timeFormat = 'h:mm a';
@@ -8,19 +9,18 @@ const layout = { labelCol: { span: 5 }, wrapperCol: { span: 16 } };
 
 export default function UpdateAgenda(props) {
     const { visible, setVisible, fetchAgenda, record } = props;
+
     const [form] = Form.useForm();
-    // Form onSubmit
     const onCreate = values => {
         setVisible(prev => ({ ...prev, update: false }));
         const time = values.time.map(val => val.format(timeFormat));
         values.startTime = time[0];
         values.endTime = time[1];
-
         Api.agenda.patch(record.key, values)
-        .then(res => fetchAgenda())
-        .catch(err => console.log(err));
-
-        form.resetFields();
+        .then(res => {
+            form.resetFields();
+            fetchAgenda();
+        });
     };
 
     const onOk = () => {
@@ -31,7 +31,7 @@ export default function UpdateAgenda(props) {
     const onCancel = () => setVisible(prev => ({...prev, update: false}));
     
     useEffect(() => {
-        if (!!Object.keys(record).length) {
+        if (record.hasOwnProperty('task')) {
             form.setFieldsValue({
                 task: record.task,
                 assignee: record.assignee,
@@ -46,8 +46,8 @@ export default function UpdateAgenda(props) {
             title='Update Agenda'
             visible={visible}
             onOk={onOk}
-            okText='Save'           
             onCancel={onCancel}
+            okText='Save'           
         >
             <Form
                 {...layout}

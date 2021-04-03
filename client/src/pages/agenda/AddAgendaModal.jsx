@@ -1,26 +1,25 @@
 import React from 'react';
 import { Form, Modal, Input, TimePicker } from 'antd';
+
 import Api from 'api';
 
 const timeFormat = 'h:mm a';
-
 const layout = { labelCol: { span: 5 }, wrapperCol: { span: 16 } };
 
 export default function CreateAgenda(props) {
     const { visible, setVisible, fetchAgenda } = props;
-    const [form] = Form.useForm();
 
+    const [form] = Form.useForm();
     const onCreate = values => {
         setVisible(prev => ({...prev, create: false}));
         const time = values.time.map(val => val.format(timeFormat));
         values.startTime = time[0];
         values.endTime = time[1];
-
         Api.agenda.post(values)
-        .then(res => fetchAgenda())
-        .catch(err => console.log(err));
-
-        form.resetFields();
+        .then(res => {
+            form.resetFields();
+            fetchAgenda();
+        });
     };
 
     const onOk = () => {
@@ -35,8 +34,8 @@ export default function CreateAgenda(props) {
             title='Create Agenda'
             visible={visible}
             onOk={onOk}
-            okText='Save'           
             onCancel={onCancel}
+            okText='Save'           
         >
             <Form
                 {...layout}

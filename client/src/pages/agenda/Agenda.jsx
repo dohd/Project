@@ -1,21 +1,21 @@
 import React, { useState, useRef } from 'react';
-import { 
-    Card, Button, Space, Table, Input
-} from 'antd';
+import { useHistory } from 'react-router-dom';
+import { Card, Button, Space, Table, Input, Popconfirm } from 'antd';
 import { 
     PlusOutlined, ArrowLeftOutlined, EditTwoTone, 
     DeleteOutlined, SearchOutlined
 } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+
 import CreateAgenda from './AddAgendaModal';
 import UpdateAgenda from './EditAgendaModal';
 
 export default function Agenda(props) {
     const {
         state, visible, setVisible, showCreateModal, 
-        showUpdateModal, history, fetchAgenda, onDelete,
-        tableView, reportPage, onPageChange
+        showUpdateModal, onDelete, fetchAgenda
     } = props;
+    const history = useHistory();
 
     // custom search filter 
     const [search, setSearch] = useState({ text: '', column: ''});
@@ -113,9 +113,6 @@ export default function Agenda(props) {
                     <Button type='primary' onClick={showCreateModal}>
                         <PlusOutlined /> Agenda
                     </Button>
-                    <Button type='primary' onClick={reportPage}>
-                        <PlusOutlined /> NarrativeReport
-                    </Button>
                 </Space>
             } 
         >   
@@ -131,61 +128,66 @@ export default function Agenda(props) {
                 fetchAgenda={fetchAgenda}
             />
 
-            <div ref={tableView}>
-                <Table 
-                    dataSource={state.agenda}
-                    pagination={{
-                        pageSize: state.pageSize,
-                        total: state.agenda.length,
-                        onChange: onPageChange
-                    }}
-                    columns={[
-                        {
-                            title: 'Time',
-                            dataIndex: 'time',
-                            key: 'time',
-                        },
-                        {
-                            title: 'Task',
-                            dataIndex: 'task',
-                            key: 'task',
-                            ...getColumnSearchProps('task')
-                        },
-                        {
-                            title: 'Responsible Person(s)',
-                            dataIndex: 'assignee',
-                            key: 'assignee',
-                            ...getColumnSearchProps('assignee')
-                        },
-                        {
-                            title: 'Designation',
-                            dataIndex: 'designation',
-                            key: 'designation'
-                        },
-                        {
-                            title: 'Action',
-                            dataIndex: 'action',
-                            key: 'action',
-                            render: (text, record) => {
-                                return (
-                                    <div>
-                                        <Button 
-                                            type='link' 
-                                            onClick={() => showUpdateModal(record)}
-                                            icon={<EditTwoTone style={{ fontSize: '20px' }} />}
+            <Table 
+                dataSource={state.agenda}
+                columns={[
+                    {
+                        title: 'Time',
+                        dataIndex: 'time',
+                        key: 'time',
+                    },
+                    {
+                        title: 'Task',
+                        dataIndex: 'task',
+                        key: 'task',
+                        ...getColumnSearchProps('task')
+                    },
+                    {
+                        title: 'Responsible Person(s)',
+                        dataIndex: 'assignee',
+                        key: 'assignee',
+                        ...getColumnSearchProps('assignee')
+                    },
+                    {
+                        title: 'Designation',
+                        dataIndex: 'designation',
+                        key: 'designation'
+                    },
+                    {
+                        title: 'Action',
+                        dataIndex: 'action',
+                        key: 'action',
+                        render: (text, record) => {
+                            return (
+                                <div>
+                                    <Button 
+                                        type='link' 
+                                        onClick={() => showUpdateModal(record)}
+                                        icon={<EditTwoTone style={{ fontSize: '20px' }} />}
+                                    />
+                                    
+                                    <Popconfirm
+                                        title='Are you sure to delete this agenda?'
+                                        onConfirm={() => onDelete(record.key)}
+                                        okText='Yes'
+                                        cancelText='No'
+                                    >
+                                        <Button
+                                            type='link'
+                                            icon={
+                                                <DeleteOutlined 
+                                                    style={{color: 'red', fontSize: '18px'}} 
+                                                />
+                                            }
                                         />
-                                        <Button 
-                                            type='link' 
-                                            onClick={() => onDelete(record.key)}
-                                            icon={<DeleteOutlined style={{color: 'red', fontSize: '18px'}} />}
-                                        />
-                                    </div>
-                                );
-                            }
+                                    </Popconfirm>
+                                </div>
+                            );
                         }
-                    ]}
-                />
-            </div>
+                    }
+                ]}
+            />
+            
         </Card>
     );
 }
