@@ -9,7 +9,7 @@ import {
     DonorContactProvider
 } from 'contexts';
 
-import { CreateProposal, Proposals, PendingProposal } from '../proposal';
+import { CreateProposal, Proposals, EditPendingProposal } from '../grant_proposal';
 import { 
     CreateParticipant, Participants, UpdateParticipant, 
 } from "../participant";
@@ -77,7 +77,7 @@ export default function MainSection({ location, history }) {
                     <Switch>
                         <Route exact path={Path.proposals()} component={Proposals} />
                         <Route exact path={Path.createProposal()} component={CreateProposal} />
-                        <Route exact path={Path.updateProposal()} component={PendingProposal} />
+                        <Route exact path={Path.updateProposal()} component={EditPendingProposal} />
                         <Route exact path={Path.donors()} component={Donors} />
                     </Switch>
                     <DonorContactProvider>
