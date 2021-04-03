@@ -1,27 +1,36 @@
 import React, { useState, useEffect,  useRef } from 'react';
+
 import Donor from './Donor';
-import { useDonorContext } from 'contexts';
 import Api from 'api';
+import { useTracked } from 'context';
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-import { message } from 'antd';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-export default function Donors(params) {
+const fetchDonors = dispatch => {
+    Api.donor.get()
+    .then(res => dispatch({
+        type: 'addDonors',
+        payload: res
+    }));
+};
+
+export default function Donors() {
+    const [store, dispatch] = useTracked();
     const [state, setState] = useState({ 
-        donors: [], record: {}, pageSize: 5,
-        page: 1, pageCount: 1
+        donors: [], record: {}
     });
     
-    const { donors, fetchDonors } = useDonorContext();
     useEffect(() => {
-        const list = donors.map(val => ({...val, key: val.id}));
-        setState(prev => {
-            const pageCount = Math.ceil(list.length/prev.pageSize);
-            return {...prev, donors: list, pageCount};
-        });
-    }, [donors]);
+        const list = store.donors.map(val => ({...val, key: val.id}));
+        setState(prev => ({...prev, donors: list}));
+    }, [store.donors]);
+
+    const onDelete = key => {
+        Api.donor.delete(key)
+        .then(res => fetchDonors(dispatch));
+    };
 
     // modal logic
     const [visible, setVisible] = useState({ create: false, update: false });
@@ -30,20 +39,6 @@ export default function Donors(params) {
         setState(prev => ({...prev, record}));
         setVisible(prev => ({...prev, update: true}));
     };
-
-    const onDelete = key => {
-        const res = window.confirm('Sure to delete donor ?');
-        if (res) {
-            Api.donor.delete(key)
-            .then(res => fetchDonors())
-            .catch(err => {
-                console.log(err);
-                if (err.error) message.error(err.error.message);
-            });
-        }
-    };
-
-    const onPageChange = page => setState(prev => ({...prev, page}));
 
     const tableView = useRef();
     const onExport = () => {
@@ -102,10 +97,10 @@ export default function Donors(params) {
     };
 
     const props = {
-        fetchDonors, visible, setVisible,
+        visible, setVisible,
         showModal, showUpdateModal, onDelete,
-        onExport, tableView, state, onPageChange
+        onExport, state,
+        fetchDonors: () => fetchDonors(dispatch)
     };
-
     return <Donor {...props} />;
 }

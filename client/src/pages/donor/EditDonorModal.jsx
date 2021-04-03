@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Form, Input, Modal, message } from 'antd';
+import { Form, Input, Modal } from 'antd';
+
 import Api from 'api';
 
 const layout = { labelCol: { span: 5 }, wrapperCol: { span: 16 } };
@@ -9,30 +10,24 @@ export default function EditDonor(props) {
 
     const [form] = Form.useForm();
     const onCreate = values => {
+        setVisible(prev => ({...prev, update: false}));
         Api.donor.patch(record.key, values)
         .then(res => {
-            fetchDonors();
             form.resetFields();
-        })
-        .catch(err => {
-            console.log(err);
-            if (err.error) message.error(err.error.message);
+            fetchDonors();
         });
     };
 
     const onOk = () => {
         form.validateFields()
-        .then(values => {
-            setVisible(prev => ({...prev, update: false}));
-            onCreate(values);
-        })
+        .then(values => onCreate(values))
         .catch(err => console.log('Validate Failed:', err));
     };
     const onCancel = () => setVisible(prev => ({...prev, update: false}));
 
     // Initial form values
     useEffect(() => {
-        if (Object.keys(record).length) {
+        if (record.hasOwnProperty('name')) {
             form.setFieldsValue({
                 name: record.name,
                 phone: record.phone,
@@ -47,6 +42,7 @@ export default function EditDonor(props) {
             visible={visible}
             onOk={onOk}
             onCancel={onCancel}
+            okText='Save'
         >
             <Form
                 {...layout}

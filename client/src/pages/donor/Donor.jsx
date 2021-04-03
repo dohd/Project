@@ -1,18 +1,19 @@
 import React, { useState, useRef } from 'react';
-import { Card, Table, Button, Space, Input } from 'antd';
+import { Card, Table, Button, Space, Input, Popconfirm } from 'antd';
 import { 
     PlusOutlined, SearchOutlined,EditTwoTone, DeleteOutlined,
     FilePdfOutlined
 } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+
 import AddDonor from './AddDonorModal';
 import EditDonor from './EditDonorModal';
 
 export default function Donor(props) {
     const {
-        state, visible, setVisible,
-        showModal, showUpdateModal, onDelete, fetchDonors,
-        tableView, onExport, onPageChange
+        state, visible, setVisible, showModal, 
+        showUpdateModal, onDelete, fetchDonors,
+        onExport,
     } = props;
 
     // custom search filter 
@@ -101,7 +102,7 @@ export default function Donor(props) {
             extra={
                 <Space>
                     <Button type='primary' onClick={showModal}>
-                        <PlusOutlined />Create
+                        <PlusOutlined />Add
                     </Button>
                     <Button type='primary' onClick={onExport}>
                         <FilePdfOutlined />Export
@@ -121,58 +122,63 @@ export default function Donor(props) {
                 visible={visible.update} 
                 setVisible={setVisible} 
             />
-            <div ref={tableView}>
-                <Table
-                    dataSource={state.donors} 
-                    pagination={{
-                        pageSize: state.pageSize,
-                        total: state.donors.length,
-                        onChange: onPageChange
-                    }}
-                    columns={[
-                        {
-                            title: 'Name',
-                            dataIndex: 'name',
-                            key: 'name',
-                            ...getColumnSearchProps('name')
-                        },
-                        {
-                            title: 'Phone',
-                            dataIndex: 'phone',
-                            key: 'phone'
-                        },
-                        {
-                            title: 'Email',
-                            dataIndex: 'email',
-                            key: 'email'
-                        },
-                        {
-                            title: 'Action',
-                            dataIndex: 'action',
-                            key: 'action',
-                            render: (text, record) => {
-                                return (
-                                    <div>
-                                        <Button 
-                                            type='link' 
-                                            onClick={() => showUpdateModal(record)}
-                                        >
-                                            <EditTwoTone style={{ fontSize: '20px' }} />
-                                        </Button>
-                                        <Button 
-                                            type='link' 
-                                            onClick={() => onDelete(record.key)}
-                                        >
-                                            <DeleteOutlined style={{ color: 'red', fontSize: '18px' }} />
-                                        </Button>
-                                    </div>
-                                );
-                            }
-                        }
 
-                    ]}
-                />
-            </div>
+            <Table
+                dataSource={state.donors} 
+                columns={[
+                    {
+                        title: 'Name',
+                        dataIndex: 'name',
+                        key: 'name',
+                        ...getColumnSearchProps('name')
+                    },
+                    {
+                        title: 'Phone',
+                        dataIndex: 'phone',
+                        key: 'phone'
+                    },
+                    {
+                        title: 'Email',
+                        dataIndex: 'email',
+                        key: 'email'
+                    },
+                    {
+                        title: 'Action',
+                        dataIndex: 'action',
+                        key: 'action',
+                        render: (text, record) => {
+                            return (
+                                <Space>
+                                    <Button 
+                                        type='link' 
+                                        onClick={() => showUpdateModal(record)}
+                                        icon={
+                                            <EditTwoTone style={{ fontSize: '20px' }} />
+                                        }
+                                    />
+                                    
+                                    <Popconfirm
+                                        title='Are you sure to delete this donor?'
+                                        onConfirm={() => onDelete(record.key)}
+                                        okText='Yes'
+                                        cancelText='No'
+                                    >
+                                        <Button
+                                            type='link'
+                                            icon={
+                                                <DeleteOutlined 
+                                                    style={{ color: 'red', fontSize: '18px' }} 
+                                                />
+                                            }
+                                        />
+                                    </Popconfirm>
+                                </Space>
+                            );
+                        }
+                    }
+
+                ]}
+            />
         </Card>
     );
 }
