@@ -30,7 +30,7 @@ export default function PendingObjectives(props) {
                         onClick={() => history.goBack()} 
                         style={{fontSize: '18px'}}
                     />
-                    Pending Proposal's Objectives
+                    Pending Proposal Objectives
                 </Space>
             }
             extra={
