@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Form, Input, Button, Select, Row, Col } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+
 import ActivityModal from './ActivityModal';
 
 export default function ObjectiveModal({ state, setState }) {
