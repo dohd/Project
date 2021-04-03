@@ -37,7 +37,6 @@ export default function Proposals({ history }) {
     }, [store.proposals]);
     
     const onDelete = key => {
-        return console.log(key);
         Api.proposal.delete(key)
         .then(res => fetchProposals(dispatch));
     };
