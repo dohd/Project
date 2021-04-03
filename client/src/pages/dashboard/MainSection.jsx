@@ -9,7 +9,8 @@ import {
     DonorContactProvider
 } from 'contexts';
 
-import { CreateProposal, Proposals, EditPendingProposal } from '../grant_proposal';
+import { CreateProposal, Proposals } from '../grant_proposal';
+import { EditPendingProposal } from '../pending_proposal';
 import { 
     CreateParticipant, Participants, UpdateParticipant, 
 } from "../participant";
