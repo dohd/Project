@@ -1,16 +1,14 @@
 import React, { useState, useRef } from 'react';
+import { useHistory, Link } from 'react-router-dom';
 import { Card, Table, Button, Space, Input } from 'antd';
 import { 
-    ArrowLeftOutlined, SearchOutlined, 
-    FilePdfOutlined 
+    ArrowLeftOutlined, SearchOutlined, FilePdfOutlined 
 } from '@ant-design/icons'
 import Highlighter from 'react-highlight-words';
 
-export default function PlanObjectives(props) {
-    const { 
-        state, tableView, onExport,
-        onPageChange, history, setApprovedAct
-    } = props;
+export default function ApprovedObjectives(props) {
+    const { objectives, onExport, approvedAct } = props;
+    const history = useHistory();
 
     // custom search filter 
     const [search, setSearch] = useState({ text: '', column: ''});
@@ -109,39 +107,29 @@ export default function PlanObjectives(props) {
                 </Button>
             }
         >
-            <div ref={tableView}>
-                <Table 
-                    dataSource={state.objectives} 
-                    pagination={{
-                        pageSize: state.pageSize,
-                        total: state.objectives.length,
-                        onChange: onPageChange
-                    }}
-                    columns={[
-                        {
-                            title: 'Objective',
-                            dataIndex: 'objective',
-                            key: 'objective',
-                            ...getColumnSearchProps('objective')
-                        },
-                        {
-                            title: 'Action',
-                            dataIndex: 'action',
-                            key: 'action',
-                            render: (text, {key}) => {
-                                return (
-                                    <Button 
-                                        onClick={() => setApprovedAct(key)}
-                                        type='link'
-                                    >
-                                        activities
-                                    </Button>
-                                );
-                            }
+            <Table 
+                dataSource={objectives} 
+                columns={[
+                    {
+                        title: 'Objective',
+                        dataIndex: 'objective',
+                        key: 'objective',
+                        ...getColumnSearchProps('objective')
+                    },
+                    {
+                        title: 'Action',
+                        dataIndex: 'action',
+                        key: 'action',
+                        render: (text, {key}) => {
+                            return (
+                                <Link to={approvedAct(key)}>
+                                    activities
+                                </Link>
+                            );
                         }
-                    ]}  
-                />
-            </div>
+                    }
+                ]}  
+            />
         </Card>
     );    
 }
