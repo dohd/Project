@@ -1,5 +1,6 @@
 import React from 'react';
-import { Form, Input, Modal, message } from 'antd';
+import { Form, Input, Modal } from 'antd';
+
 import Api from 'api';
 
 export default function CreateGroup(props) {
@@ -10,12 +11,8 @@ export default function CreateGroup(props) {
         setVisible(prev => ({...prev, create: false}));
         Api.targetGroup.post(values)
         .then(res => {
-            fetchTargetGroups();
             form.resetFields();
-        })
-        .catch(err => {
-            console.log(err);
-            if (err.error) message.error(err.error.message);
+            fetchTargetGroups();
         });
     };
 
@@ -32,6 +29,7 @@ export default function CreateGroup(props) {
             visible={visible}
             onOk={onOk}
             onCancel={onCancel}
+            okText='Save'
         >
             <Form
                 form={form}

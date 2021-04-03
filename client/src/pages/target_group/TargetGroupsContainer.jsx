@@ -1,53 +1,40 @@
-import React, { useState, useEffect,  useRef } from "react";
-import { message } from "antd";
-import { useGroupContext } from 'contexts'
-import Api from 'api';
+import React, { useState, useEffect } from "react";
+
 import TargetGroups from './TargetGroups';
+import Api from 'api';
+import { useTracked } from "context";
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
+const fetchTargetGroups = dispatch => {
+    Api.targetGroup.get()
+    .then(res => dispatch({
+        type: 'addTargetGroups',
+        payload: res
+    }));
+}
+
 export default function TargetGroupsContainer() {
-    const { targetGroups, fetchTargetGroups } = useGroupContext();
+    const [store, dispatch] = useTracked();
     const [state, setState] = useState({
-        groups: [], record: {}, pageSize: 5,
-        page: 1, pageCount: 1
+        groups: [], record: {}
     });
 
     useEffect(() => {
-        const groups = targetGroups.map(val => ({
-            key: val.id, group: val.group
+        const groups = store.targetGroups.map(v => ({
+            key: v.id, group: v.group
         }));
-        setState(prev => {
-            const pageCount = Math.ceil(groups.length/prev.pageSize);
-            return {...prev, groups, pageCount};
-        });
-    }, [targetGroups]);
+        setState(prev => ({...prev, groups }));
+    }, [store.targetGroups]);
 
     const onDelete = key => {
-        const res = window.confirm('Sure to delete group ?');
-        if (res) {
-            Api.targetGroup.delete(key)
-            .then(res => fetchTargetGroups())
-            .catch(err => {
-                console.log(err);
-                if (err.error) message.error(err.error.message);
-            });
-        }
+        Api.targetGroup.delete(key)
+        .then(res => fetchTargetGroups(dispatch));
     };
 
-    // modal logic
-    const [visible, setVisible] = useState({ create: false, update: false });
-    const showModal = () => setVisible(prev => ({...prev, create: true}));
-    const showUpdateModal = record => {
-        setState(prev => ({...prev, record}));
-        setVisible(prev => ({...prev, update: true}));
-    };
-
-    const onPageChange = page => setState(prev => ({...prev, page}));
-
-    const tableView = useRef();
+    const tableView = {};
     const onExport = () => {
         const tableDom = tableView.current;
         const tableHeader = tableDom.getElementsByTagName('th');
@@ -107,13 +94,18 @@ export default function TargetGroupsContainer() {
         pdfMake.createPdf(dd).open();
     };
 
-    const props = { 
-        visible, setVisible, showUpdateModal, state, 
-        fetchTargetGroups, onDelete, showModal, onExport, 
-        tableView, onPageChange
+    // modal logic
+    const [visible, setVisible] = useState({ create: false, update: false });
+    const showModal = () => setVisible(prev => ({...prev, create: true}));
+    const showUpdateModal = record => {
+        setState(prev => ({...prev, record}));
+        setVisible(prev => ({...prev, update: true}));
     };
 
-    return (
-        <TargetGroups  {...props} />
-    );
+    const props = { 
+        visible, setVisible, showUpdateModal, state, 
+        onDelete, showModal, onExport, 
+        fetchTargetGroups: () => fetchTargetGroups(dispatch)
+    };
+    return <TargetGroups  {...props} />;
 }

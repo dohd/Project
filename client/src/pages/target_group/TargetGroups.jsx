@@ -1,18 +1,18 @@
 import React, { useState, useRef } from 'react';
-import { Card, Table, Button, Space, Input } from 'antd';
+import { Card, Table, Button, Space, Input, Popconfirm } from 'antd';
 import { 
     PlusOutlined, EditTwoTone, DeleteOutlined, 
     SearchOutlined, FilePdfOutlined
 } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+
 import CreateGroup from './AddGroupModal';
 import UpdateGroup from './EditGroupModal';
 
 export default function TargetGroups(props) {
     const { 
         visible, setVisible, showUpdateModal, state, 
-        fetchTargetGroups, onDelete, showModal, tableView,
-        onExport, onPageChange
+        onDelete, showModal, onExport, fetchTargetGroups
     } = props;
 
     // custom search filter 
@@ -120,14 +120,8 @@ export default function TargetGroups(props) {
                 setVisible={setVisible}
                 fetchTargetGroups={fetchTargetGroups}
             />
-            <div ref={tableView}>
                 <Table 
                     dataSource={state.groups}
-                    pagination={{
-                        pageSize: state.pageSize,
-                        total: state.groups.length,
-                        onChange: onPageChange
-                    }}
                     columns={[
                         {
                             title: 'Group',
@@ -148,14 +142,22 @@ export default function TargetGroups(props) {
                                         >
                                             <EditTwoTone style={{ fontSize: '20px' }} />
                                         </Button>
-                                        <Button 
-                                            type='link' 
-                                            onClick={() => onDelete(record.key)}
+                                        
+                                        <Popconfirm
+                                            title='Are you sure to delete this group?'
+                                            onConfirm={() => onDelete(record.key)}
+                                            okText='Yes'
+                                            cancelText='No'
                                         >
-                                            <DeleteOutlined 
-                                                style={{ color: 'red', fontSize: '18px' }} 
+                                            <Button 
+                                                type='link'
+                                                icon={
+                                                    <DeleteOutlined 
+                                                        style={{ color: 'red', fontSize: '18px' }} 
+                                                    />
+                                                }
                                             />
-                                        </Button>
+                                        </Popconfirm>
                                     </div>
                                 );
                             }
@@ -163,7 +165,6 @@ export default function TargetGroups(props) {
 
                     ]}
                 />
-            </div>
         </Card>
     );
 }

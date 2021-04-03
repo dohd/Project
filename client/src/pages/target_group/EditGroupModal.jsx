@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Form, Input, Modal, message } from 'antd';
+
 import Api from 'api';
 
 export default function UpdateGroup(props) {
@@ -8,11 +9,7 @@ export default function UpdateGroup(props) {
     const onCreate = values => {
         setVisible(prev => ({...prev, update: false}));
         Api.targetGroup.patch(record.key, values)
-        .then(res => fetchTargetGroups())
-        .catch(err => {
-            console.log(err);
-            if (err.error) message.error(err.error.message);
-        });
+        .then(res => fetchTargetGroups());
     };
 
     const [form] = Form.useForm();
@@ -25,7 +22,7 @@ export default function UpdateGroup(props) {
 
     // Initial form values
     useEffect(() => {
-        if (Object.keys(record).length) {
+        if (record.hasOwnProperty('group')) {
             const { group } = record;
             form.setFieldsValue({ group });
         }
@@ -37,6 +34,7 @@ export default function UpdateGroup(props) {
             visible={visible}
             onOk={onOk}
             onCancel={onCancel}
+            okText='Save'
         >
             <Form
                 form={form}
