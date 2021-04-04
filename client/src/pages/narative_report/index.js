@@ -1,1 +1,1 @@
-export { default as Narrative } from './Narrative';
+export { default as Narrative } from './NarrativeContainer';

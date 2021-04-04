@@ -1,12 +1,12 @@
 import React from 'react';
-import { Form, Input, Select, Button, Space } from 'antd';
+import { Form } from 'antd';
 
-const layout = { labelCol: { span: 24 }, wrapperCol: { span: 18 } };
+import Tab2View from './Tab2View';
 
 export default function Tab2(props) {
     const {
-        onNext, onBack, setState, 
-        activityList, view, onSave
+        nextTab, prevTab, setState, 
+        activityList, showModal, onSave
     } = props;
 
     const [formC] = Form.useForm();
@@ -41,90 +41,10 @@ export default function Tab2(props) {
     };
     const onFinishFailedD = err => console.log('Error:',err);
 
-    return (
-        <div>
-            <Form
-                {...layout}
-                form={formC}
-                onFinish={onFinishC}
-                onFinishFailed={onFinishFailedC}
-            >
-                <Form.Item
-                    label='b) (ii) Number of attained results'
-                    labelAlign='left'
-                    labelCol={{ span: 15 }}
-                    colon={false}
-                >
-                    <Space>
-                        <Button size='small' onClick={() => view('formC')}>
-                            View
-                        </Button>
-                        <Button type='primary' size='small' htmlType='submit'>
-                            Save
-                        </Button>
-                    </Space>                    
-                </Form.Item>
-
-                <Form.Item name='agendaId'>
-                    <Select placeholder='Select an activity'>
-                        { activityList }
-                    </Select>
-                </Form.Item>
-
-                <Form.Item name='response'>  
-                    <Input.TextArea />
-                </Form.Item>
-
-            </Form>
-
-            <Form
-                {...layout}
-                form={formD}
-                onFinish={onFinishD}
-                onFinishFailed={onFinishFailedD}
-            >
-                <Form.Item
-                    label='b) (iii) How has number of attained results affected the activity ?'
-                    labelAlign='left'
-                    labelCol={{ span: 15 }}
-                    colon={false}
-                >
-                    <Space>
-                        <Button size='small' onClick={() => view('formD')}>
-                            View
-                        </Button>
-                        <Button type='primary' size='small' htmlType='submit'>
-                            Save
-                        </Button>
-                    </Space>                    
-                </Form.Item>
-
-                <Form.Item name='agendaId'>
-                    <Select placeholder='Select an activity'>
-                        { activityList }
-                    </Select>
-                </Form.Item>
-                
-                <Form.Item name='response'>  
-                    <Input.TextArea />
-                </Form.Item>
-            </Form>
-
-            <div className='wrapper'>
-                <Button
-                    className='btn-back'
-                    onClick={onBack}
-                >
-                    Back
-                </Button>
-                <Button
-                    type='primary'
-                    className='btn-next-2'
-                    onClick={onNext}
-                >
-                    Next
-                </Button>
-            </div>
-        </div>                  
-    );
+    const params = {
+        showModal, activityList, prevTab, 
+        nextTab, formC, onFinishC, onFinishFailedC,
+        formD, onFinishD, onFinishFailedD
+    }; 
+    return <Tab2View {...params} />;
 }

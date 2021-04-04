@@ -1,12 +1,12 @@
 import React from 'react';
-import { Form, Input, Select, Button, Space } from 'antd';
+import { Form } from 'antd'
 
-const layout = { labelCol: { span: 24 }, wrapperCol: { span: 18 } };
+import Tab6View from './Tab6View';
 
 export default function Tab6(props) {
     const {
-        onBack, onSubmit, setState, 
-        activityList, view, onSave
+        prevTab, onSubmit, setState, 
+        activityList, showModal, onSave
     } = props;
 
     const [formJ] = Form.useForm();
@@ -41,87 +41,10 @@ export default function Tab6(props) {
     };
     const onFinishFailedK = err => console.log('Error:',err);
 
-    return (
-        <div>
-            <Form
-                {...layout}
-                form={formJ}
-                onFinish={onFinishJ}
-                onFinishFailed={onFinishFailedJ}
-            >
-                <Form.Item
-                    label='h) Activity Lasting Impact'
-                    labelAlign='left'
-                    labelCol={{ span: 15 }}
-                    colon={false}
-                >
-                    <Space>
-                        <Button size='small' onClick={() => view('formJ')}>
-                            View
-                        </Button>
-                        <Button type='primary' size='small' htmlType='submit'>
-                            Save
-                        </Button>
-                    </Space>                    
-                </Form.Item>
-
-                <Form.Item name='agendaId'>
-                    <Select placeholder='Select an activity'>
-                        { activityList }
-                    </Select>
-                </Form.Item>
-                <Form.Item name='response'>  
-                    <Input.TextArea />
-                </Form.Item>
-            </Form>
-
-            <Form
-                {...layout}
-                form={formK}
-                onFinish={onFinishK}
-                onFinishFailed={onFinishFailedK}
-            >
-                <Form.Item
-                    label='i) Future plans to continue working on the activity'
-                    labelAlign='left'
-                    labelCol={{ span: 15 }}
-                    colon={false}
-                >
-                    <Space>
-                        <Button size='small' onClick={() => view('formK')}>
-                            View
-                        </Button>
-                        <Button type='primary' size='small' htmlType='submit'>
-                            Save
-                        </Button>
-                    </Space>                    
-                </Form.Item>
-
-                <Form.Item name='agendaId'>
-                    <Select placeholder='Select an activity'>
-                        { activityList }
-                    </Select>
-                </Form.Item>
-                <Form.Item name='response'>  
-                    <Input.TextArea />
-                </Form.Item>
-            </Form>
-            
-            <div className='wrapper'>
-                <Button
-                    className='btn-back'
-                    onClick={onBack}
-                >
-                    Back
-                </Button>
-                <Button
-                    type='primary'
-                    className='btn-next-2'
-                    onClick={onSubmit}
-                >
-                    Submit
-                </Button>
-            </div>
-        </div>                  
-    );
+    const params = {
+        showModal, activityList, prevTab,
+        onSubmit, formJ, onFinishJ, onFinishFailedJ,
+        formK, onFinishK, onFinishFailedK
+    };
+    return <Tab6View {...params} />;
 }
