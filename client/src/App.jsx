@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import 'antd/dist/antd.css';
+
 import { Login, Register, Dashboard, PassRecover } from 'pages';
 import { PrivateRoute } from 'utils';
 import { Path } from 'routes';
