@@ -4,24 +4,24 @@ import { Route, Switch } from 'react-router-dom';
 import { Path } from 'routes';
 import { CreateProposal, Proposals } from '../grant_proposal';
 import { EditPendingProposal } from '../pending_proposal';
-import { 
-    CreateParticipant, Participants, UpdateParticipant, 
-} from "../participant";
-import { ParticipantAnalysis } from '../participant_analysis';
-import { Implement, PendingReport } from '../pending_action';
+// import { 
+//     CreateParticipant, Participants, UpdateParticipant, 
+// } from "../participant";
+// import { ParticipantAnalysis } from '../participant_analysis';
+// import { Implement, PendingReport } from '../pending_action';
 import { ActivityPhoto, EventActivity } from '../event_photo';
 import { CaseStudy } from '../case_study';
 import { TargetGroups } from '../target_group';
 import { KeyProgrammes } from '../key_programme';
 import { Regions } from '../target_region';
 import { EventPlans } from '../event';
-import { ActivityPlans  } from '../plan';
+// import { ActivityPlans  } from '../plan';
 import { Narrative } from '../narative_report';
 import { Agenda } from '../agenda';
 import { Users } from '../user';
 import { Donors } from '../donor';
 import { DonorContact } from '../donor_contact';
-import { Responses } from '../response';
+// import { Responses } from '../response';
 import { Settings } from '../setting';
 import { Home } from '../home';
 import { Objectives, Activities } from './ObjActWrapper';
@@ -54,29 +54,29 @@ export default function MainSection() {
                 <Route exact path={Path.donors()} component={Donors} />
 
                 <Route exact path={Path.donorContacts()} component={DonorContact} />
-                <Route exact path={Path.participants()} component={Participants} />
+                {/* <Route exact path={Path.participants()} component={Participants} /> */}
 
-                <Route exact path={Path.createParticipant()} component={CreateParticipant} />
-                <Route exact path={Path.planParticipant()} component={CreateParticipant} />
-                <Route exact path={Path.implementParticipant()} component={CreateParticipant} />
+                {/* <Route exact path={Path.createParticipant()} component={CreateParticipant} /> */}
+                {/* <Route exact path={Path.planParticipant()} component={CreateParticipant} /> */}
+                {/* <Route exact path={Path.implementParticipant()} component={CreateParticipant} /> */}
 
-                <Route exact path={Path.updateParticipant()} component={UpdateParticipant} />
+                {/* <Route exact path={Path.updateParticipant()} component={UpdateParticipant} /> */}
 
                 <Route exact path={Path.eventPlans()} component={EventPlans} />
-                <Route exact path={Path.participantAnalysis()} component={ParticipantAnalysis} />
+                {/* <Route exact path={Path.participantAnalysis()} component={ParticipantAnalysis} /> */}
 
                 <Route exact path={Path.programmes()} component={KeyProgrammes} />
                 <Route exact path={Path.groups()} component={TargetGroups} />
 
                 <Route exact path={Path.regions()} component={Regions} />
-                <Route exact path={Path.activityPlans()} component={ActivityPlans} />
+                {/* <Route exact path={Path.activityPlans()} component={ActivityPlans} /> */}
 
-                <Route exact path={Path.responses()} component={Responses} />
+                {/* <Route exact path={Path.responses()} component={Responses} /> */}
                 <Route exact path={Path.reportActivity()} component={ReportActivity} />
 
                 <Route exact path={Path.activities()} component={Activities} />
-                <Route exact path={Path.implement()} component={Implement} />
-                <Route exact path={Path.pendingReport()} component={PendingReport} />
+                {/* <Route exact path={Path.implement()} component={Implement} /> */}
+                {/* <Route exact path={Path.pendingReport()} component={PendingReport} /> */}
 
                 <Route exact path={Path.agenda()} component={Agenda} />
                 <Route exact path={Path.updatePendingAgenda()} component={Agenda} />
