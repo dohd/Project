@@ -2,25 +2,24 @@ import React from 'react';
 import { Modal, Form, Input, Select, Row, Col } from 'antd';
 
 import DateModal from './DateModal';
-import { useGroupContext, useProgrammeContext } from 'contexts';
+import { useTracked } from 'context';
 
 export default function CreatePlan(props) {
     const { 
         visible, setVisible, state, setState, 
         form, onFinish, onFinishFailed
     } = props;
+    const store = useTracked()[0];
 
     const dateList = state.events[0].map((val, i) => (
         <Select.Option key={i} value={val}>{ val }</Select.Option>
     ));
 
-    const { targetGroups } = useGroupContext();
-    const groupList = targetGroups.map(({id, group}) => (
+    const groupList = store.targetGroups.map(({id, group}) => (
         <Select.Option key={id} value={id}>{ group }</Select.Option>
     ));
 
-    const { programmes } = useProgrammeContext();
-    const programmeList = programmes.map(({id, programme}) => (
+    const programmeList = store.keyProgrammes.map(({id, programme}) => (
         <Select.Option key={id} value={id}>{ programme }</Select.Option>
     ));
 
@@ -29,8 +28,8 @@ export default function CreatePlan(props) {
             title='Add Plan'
             visible={visible}
             onOk={() => setVisible(false)}
-            okText='Add'
             onCancel={() => setVisible(false)}
+            okText='Save'
         >
             <Form
                 form = {form}

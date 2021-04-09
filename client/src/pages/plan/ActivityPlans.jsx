@@ -1,20 +1,16 @@
 import React from 'react';
 import { Card, Space, Table, Button } from 'antd';
 import { PlusOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import { useHistory, useParams } from 'react-router';
 
-const sampleData = [
-    {
-        key: 1,
-        plan: 'Incididunt voluptate esse aliquip.'
-    },
-    {
-        key: 2,
-        plan: 'Reprehenderit veniam do occaecat'
-    }
-];
+import { parseUrl } from 'utils';
+import { Path } from 'routes';
+import { Link } from 'react-router-dom';
 
 export default function ActivityPlans(props) {
-    const { history, toggleCreatePlan, participantsPage } = props;
+    const { toggleCreatePlan, activityPlans } = props;
+    const history = useHistory();
+    const params = useParams();
     return (
         <Card
             bordered={false}
@@ -28,13 +24,16 @@ export default function ActivityPlans(props) {
                 </Space>
             }
             extra={
-                <Button type='primary' onClick={toggleCreatePlan}>
+                <Button 
+                    type='primary' 
+                    onClick={toggleCreatePlan}
+                >
                     <PlusOutlined /> Plan
                 </Button>
             }
         >
             <Table
-                dataSource={sampleData}
+                dataSource={activityPlans}
                 columns={[
                     {
                         title: 'Plan',
@@ -45,14 +44,9 @@ export default function ActivityPlans(props) {
                         title: 'Action',
                         key: 'action',
                         render: (txt, {key}) => {
-                            return (
-                                <Button 
-                                    type='link' 
-                                    onClick={() => participantsPage(key)}
-                                >
-                                    Participants
-                                </Button>
-                            );
+                            const obj = { activityPlanId: key, ...params };
+                            const path = parseUrl(Path.participants(), obj);
+                            return <Link to={path}>Participants</Link>;
                         }
                     }
                 ]}

@@ -1,28 +1,48 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, message } from 'antd';
-import UrlPattern from 'url-pattern';
+import { useParams } from 'react-router';
 
 import ActivityPlans from './ActivityPlans';
 import CreatePlanModal from './CreatePlanModal';
 import Api from 'api';
-import { useActivityPlanContext } from 'contexts';
-import { Path } from 'routes';
+import { useTracked } from 'context';
 
-export default function ActivityPlansContainer({ match, history }) {
-    const { activityId } = match.params;
+const fetchActivityPlans = dispatch => {
+    Api.activityPlan.get()
+    .then(res => dispatch({
+        type: "addActivityPlans",
+        payload: res
+    }));
+};
 
+export default function ActivityPlansContainer() {
+    const [store, dispatch] = useTracked();
+    const { activityId } = useParams();
+
+    const [activityPlans, setActivityPlans] = useState([]);
+    useEffect(() => {
+        const plans = store.activityPlans.filter(v => {
+            v.key = v.id;
+            v.plan = v.title;
+            return v.activity.id === parseInt(activityId);
+        });
+        setActivityPlans(plans);
+    }, [store.activityPlans]);
+
+    // Modal logic
     const [visible, setVisible] = useState(false);
     const toggleCreatePlan = () => setVisible(true);
 
-    const [state, setState] = useState({ events: [ [],[] ] });
-
-    const { fetchActivityPlans } = useActivityPlanContext();
+    const [state, setState] = useState({ 
+        events: [ [],[] ] 
+    });
     const [form] = Form.useForm();
+
     const onFinish = values => {
-        values.activityId = activityId;
         values.events = state.events[0].map((val, i) => ({
             date: val, regions: [...state.events[1][i]]
         }));
+        values.activityId = activityId;
         values.programmeId = values.programme;
         delete values.programme;
 
@@ -30,31 +50,20 @@ export default function ActivityPlansContainer({ match, history }) {
         .then(res => {
             form.resetFields();
             message.success('Form submitted successfully');
-            fetchActivityPlans();
-        })
-        .catch(err => {
-            console.log(err);
-            message.error('Unknown error!');
+            fetchActivityPlans(dispatch);
         });
     };
-    const onFinishFailed = err => console.log('Error:',err);
-
-    const participantsPage = key => {
-        const params = new UrlPattern(Path.activityPlans()).match(match.url);
-        const pattern = new UrlPattern(Path.participants());
-        const path = pattern.stringify({ activityPlanId: key, ...params });
-        history.push(path);
-    };
+    const onFinishFailed = err => console.log('Error:', err);
 
     const modal_props = { 
-        visible, setVisible, state, setState, onFinish,
-        onFinishFailed
+        visible, setVisible, state, setState, 
+        onFinish, onFinishFailed, form
     };
-    const props = { history, toggleCreatePlan, participantsPage };
+    const plan_props = { toggleCreatePlan, activityPlans };
     return (
-        <div>
-            <ActivityPlans {...props} />
+        <>
+            <ActivityPlans {...plan_props} />
             <CreatePlanModal {...modal_props} />
-        </div>
+        </>
     );
 }

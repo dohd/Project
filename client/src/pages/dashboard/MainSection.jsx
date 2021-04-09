@@ -15,7 +15,7 @@ import { TargetGroups } from '../target_group';
 import { KeyProgrammes } from '../key_programme';
 import { Regions } from '../target_region';
 import { EventPlans } from '../event';
-// import { ActivityPlans  } from '../plan';
+import { ActivityPlans  } from '../plan';
 import { Narrative } from '../narative_report';
 import { Agenda } from '../agenda';
 import { Users } from '../user';
@@ -69,7 +69,7 @@ export default function MainSection() {
                 <Route exact path={Path.groups()} component={TargetGroups} />
 
                 <Route exact path={Path.regions()} component={Regions} />
-                {/* <Route exact path={Path.activityPlans()} component={ActivityPlans} /> */}
+                <Route exact path={Path.activityPlans()} component={ActivityPlans} />
 
                 {/* <Route exact path={Path.responses()} component={Responses} /> */}
                 <Route exact path={Path.reportActivity()} component={ReportActivity} />
