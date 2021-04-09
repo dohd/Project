@@ -6,9 +6,6 @@ const {
     ActivityPlan, PlanRegion, PlanEvent, PlanGroup, 
     PlanProgramme, PlanMaterial
 } = require('../models/ActivityPlan');
-const { 
-    TargetGroup, KeyProgramme, Region 
-} = require('../models/Essential');
 
 module.exports = {
     create: async (req, res, next) => {
@@ -107,50 +104,9 @@ module.exports = {
                         model: Activity,
                         as: 'activity',
                         attributes: ['id', 'action']
-                    },
-                    {
-                        model: PlanMaterial,
-                        as: 'planMaterial',
-                        attributes: ['id', 'material']
-                    },
-                    {
-                        model: PlanProgramme,
-                        as: 'planProgramme',
-                        attributes: ['id'],
-                        include: [{
-                            model: KeyProgramme,
-                            as: 'keyProgramme',
-                            attributes: ['id','programme']
-                        }]
-                    },
-                    {
-                        model: PlanGroup,
-                        as: 'planGroups',
-                        attributes: ['id'],
-                        include: [{
-                            model: TargetGroup,
-                            as: 'targetGroup',
-                            attributes: ['id','group']
-                        }]
-                    },
-                    {
-                        model: PlanEvent,
-                        as: 'planEvents',
-                        attributes: ['id','date'],
-                        include: [{
-                            model: PlanRegion,
-                            as: 'planRegions',
-                            attributes: ['id'],
-                            include: [{
-                                model: Region,
-                                as: 'region',
-                                attributes: ['id','area']
-                            }]
-                        }]
                     }
                 ]
             });
-            
             res.send(activity_plans);
         } catch (error) {
             next(error);
