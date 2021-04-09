@@ -10,7 +10,7 @@ export default function DateModalView(props) {
     const { visible, setVisible, onOk, form } = props;
 
     const store = useTracked()[0];
-    const regionList = store.regions.map(({id, area}) => (
+    const regionList = store.targetRegions.map(({id, area}) => (
         <Select.Option key={id} value={id}>
             { area }
         </Select.Option>
