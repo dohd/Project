@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { Card, Button, Space, Table, Input, Popconfirm } from 'antd';
 import { 
     PlusOutlined, ArrowLeftOutlined, EditTwoTone, 
@@ -9,6 +9,8 @@ import Highlighter from 'react-highlight-words';
 
 import CreateAgenda from './AddAgendaModal';
 import UpdateAgenda from './EditAgendaModal';
+import { Path } from 'routes';
+import { parseUrl } from 'utils';
 
 export default function Agenda(props) {
     const {
@@ -95,6 +97,9 @@ export default function Agenda(props) {
             return text;
         }
     });
+
+    const params = useParams();
+    const reportPath = parseUrl(Path.narrativeReport(), params);
     
     return (
         <Card 
@@ -113,6 +118,14 @@ export default function Agenda(props) {
                     <Button type='primary' onClick={showCreateModal}>
                         <PlusOutlined /> Agenda
                     </Button>
+                    <Link to={reportPath}>
+                        <Button 
+                            type='primary'
+                            disabled={!state.agenda}
+                        >
+                            Narrative Report
+                        </Button>
+                    </Link>
                 </Space>
             } 
         >   
@@ -159,13 +172,7 @@ export default function Agenda(props) {
                         key: 'action',
                         render: (text, record) => {
                             return (
-                                <div>
-                                    <Button 
-                                        type='link' 
-                                        onClick={() => showUpdateModal(record)}
-                                        icon={<EditTwoTone style={{ fontSize: '20px' }} />}
-                                    />
-                                    
+                                <Space>                                    
                                     <Popconfirm
                                         title='Are you sure to delete this agenda?'
                                         onConfirm={() => onDelete(record.key)}
@@ -181,7 +188,12 @@ export default function Agenda(props) {
                                             }
                                         />
                                     </Popconfirm>
-                                </div>
+                                    <Button 
+                                        type='link' 
+                                        onClick={() => showUpdateModal(record)}
+                                        icon={<EditTwoTone style={{ fontSize: '20px' }} />}
+                                    />
+                                </Space>
                             );
                         }
                     }

@@ -32,11 +32,12 @@ export default function UpdateAgenda(props) {
     
     useEffect(() => {
         if (record.hasOwnProperty('task')) {
+            const {startTime, endTime} = record;
             form.setFieldsValue({
                 task: record.task,
                 assignee: record.assignee,
                 designation: record.designation,
-                time: record.time.map(val => moment(val, timeFormat))
+                time: [startTime, endTime].map(val => moment(val, timeFormat))
             });
         }
     }, [record, form]);

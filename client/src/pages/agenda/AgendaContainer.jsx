@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Agenda from './Agenda';
-import pdfExport from './pdfExport';
 import Api from 'api';
 import { useTracked } from 'context';
 
@@ -14,7 +13,7 @@ const fetchAgenda = dispatch => {
     }));
 }
 
-export default function AgendaContainer({ history }) { 
+export default function AgendaContainer() { 
     const [store, dispatch] = useTracked();
     const [state, setState] = useState({ 
         agenda: [], record: {}
@@ -23,10 +22,13 @@ export default function AgendaContainer({ history }) {
     const { activityId } = useParams();
     useEffect(() => {
         const list = store.agenda.filter(v => {
-            v.key = v.id;
-            const { startTime, endTime } = v;
-            v.time = [startTime, endTime].join(' - ');
-            return v.activityId === parseInt(activityId);
+            if (v.activityId === parseInt(activityId)) {
+                v.key = v.id;
+                const { startTime, endTime } = v;
+                v.time = [startTime, endTime].join(' - ');
+                return true;
+            }
+            return false;
         });
         setState(prev => ({...prev, agenda: list}));
     }, [store.agenda, activityId]);
@@ -35,9 +37,6 @@ export default function AgendaContainer({ history }) {
         Api.agenda.delete(key)
         .then(res => fetchAgenda(dispatch));
     };
-
-    const tableView = {};
-    const onExport = () => pdfExport(tableView, state);
 
     // modal logic
     const [visible, setVisible] = useState({ 
@@ -53,7 +52,7 @@ export default function AgendaContainer({ history }) {
 
     const props = {
         state, visible, setVisible, showCreateModal, 
-        showUpdateModal, onDelete, onExport, 
+        showUpdateModal, onDelete,
         fetchAgenda: () => fetchAgenda(dispatch)
     };
     return <Agenda {...props} />;
