@@ -46,3 +46,10 @@ Region.hasMany(Participant, {
     onDelete: 'set null'
 });
 Participant.belongsTo(Region, { as: 'region' });
+
+KeyProgramme.hasMany(Participant, {
+    foreignKey: { name: 'keyProgrammeId', allowNull: false },
+    as: 'participants',
+    onDelete: 'set null'
+});
+Participant.belongsTo(KeyProgramme, { as: 'keyProgramme' });
