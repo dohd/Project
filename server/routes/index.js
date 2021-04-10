@@ -3,6 +3,7 @@ const router = express.Router();
 
 router.use('/users', require('./user'));
 router.use('/roles', require('./role'));
+router.use('/gender', require('./gender'));
 router.use('/donors', require('./donor'));
 router.use('/donor-contacts', require('./donorContact'));
 router.use('/narrative-quiz', require('./narrativeQuiz'));
