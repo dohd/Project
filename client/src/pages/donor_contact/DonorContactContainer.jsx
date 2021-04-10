@@ -16,7 +16,7 @@ const fetchDonorContacts = dispatch => {
 export default function DonorContactContainer(params) {
     const [store, dispatch] = useTracked();
     const [state, setState] = useState({ 
-        contacts: [], record: {},
+        contacts: [], record: {}, donors: []
     });
     
     useEffect(() => {
@@ -26,8 +26,8 @@ export default function DonorContactContainer(params) {
             donor: val.donor.name,
             contactName: `${val.fName} ${val.lName}`,
         }));
-        setState(prev => ({...prev, contacts}));
-    }, [store.donorContacts]);
+        setState(prev => ({...prev, contacts, donors: store.donors}));
+    }, [store.donorContacts, store.donors]);
 
     const onDelete = key => {
         Api.donor.delete(key)

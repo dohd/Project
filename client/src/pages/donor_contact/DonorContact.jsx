@@ -114,6 +114,7 @@ export default function Donor(props) {
                 visible={visible.create} 
                 setVisible={setVisible} 
                 fetchDonorContacts={fetchDonorContacts}
+                donors={state.donors}
             />
             
             <EditContact
@@ -121,6 +122,7 @@ export default function Donor(props) {
                 visible={visible.update} 
                 setVisible={setVisible} 
                 fetchDonorContacts={fetchDonorContacts}
+                donors={state.donors}
             />
 
             <Table

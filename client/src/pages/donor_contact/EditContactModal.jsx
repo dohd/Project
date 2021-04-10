@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 import { Form, Input, Modal, Select } from 'antd';
 
 import Api from 'api';
-import { useTracked } from 'context';
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 16 } };
 
 export default function EditContact(props) {
-    const { record, visible, setVisible, fetchDonorContacts } = props;
-    const store = useTracked()[0];
+    const { 
+        record, visible, setVisible, fetchDonorContacts,
+        donors
+    } = props;
     
     const [form] = Form.useForm();
     const onCreate = values => {
@@ -46,7 +47,7 @@ export default function EditContact(props) {
         return Promise.reject('contact-name is invalid');
     };
 
-    const donorList = store.donors.map(v => (
+    const donorList = donors.map(v => (
         <Select.Option key={v.id} value={v.id}>{v.name}</Select.Option>
     ));
     
