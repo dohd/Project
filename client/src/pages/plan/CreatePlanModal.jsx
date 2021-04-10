@@ -2,25 +2,30 @@ import React from 'react';
 import { Modal, Form, Input, Select, Row, Col } from 'antd';
 
 import DateModal from './DateModal';
-import { useTracked } from 'context';
 
 export default function CreatePlan(props) {
     const { 
         visible, setVisible, state, setState, 
-        form, onFinish, onFinishFailed
+        form, onFinish, onFinishFailed,
+        keyProgrammes, targetGroups, targetRegions
     } = props;
-    const store = useTracked()[0];
 
     const dateList = state.events[0].map((val, i) => (
-        <Select.Option key={i} value={val}>{ val }</Select.Option>
+        <Select.Option key={i} value={val}>
+            { val }
+        </Select.Option>
     ));
 
-    const groupList = store.targetGroups.map(({id, group}) => (
-        <Select.Option key={id} value={id}>{ group }</Select.Option>
+    const groupList = targetGroups.map(({id, group}) => (
+        <Select.Option key={id} value={id}>
+            { group }
+        </Select.Option>
     ));
 
-    const programmeList = store.keyProgrammes.map(({id, programme}) => (
-        <Select.Option key={id} value={id}>{ programme }</Select.Option>
+    const programmeList = keyProgrammes.map(({id, programme}) => (
+        <Select.Option key={id} value={id}>
+            { programme }
+        </Select.Option>
     ));
 
     return (
@@ -58,7 +63,11 @@ export default function CreatePlan(props) {
                         </Form.Item>         
                     </Col>
                     <Col xs={24} sm={1}>
-                        <DateModal state={state} setState={setState} />
+                        <DateModal 
+                            state={state} 
+                            setState={setState} 
+                            regions={targetRegions}
+                        />
                     </Col>
                 </Row>
 

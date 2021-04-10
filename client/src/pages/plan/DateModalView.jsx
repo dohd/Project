@@ -2,15 +2,12 @@ import React from 'react';
 import { Modal, Form, Button, DatePicker, Select } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
-import { useTracked } from 'context';
-
 export const dateFormat = 'YYYY-MM-DD';
 
 export default function DateModalView(props) {
-    const { visible, setVisible, onOk, form } = props;
+    const { visible, setVisible, onOk, form, regions } = props;
 
-    const store = useTracked()[0];
-    const regionList = store.targetRegions.map(({id, area}) => (
+    const regionList = regions.map(({id, area}) => (
         <Select.Option key={id} value={id}>
             { area }
         </Select.Option>

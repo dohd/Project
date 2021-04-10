@@ -34,8 +34,6 @@ export default function ActivityPlansContainer() {
 
     // Modal logic
     const [visible, setVisible] = useState(false);
-    const toggleCreatePlan = () => setVisible(true);
-
     const [state, setState] = useState({ 
         events: [ [],[] ] 
     });
@@ -60,13 +58,16 @@ export default function ActivityPlansContainer() {
 
     const modal_props = { 
         visible, setVisible, state, setState, 
-        onFinish, onFinishFailed, form
+        onFinish, onFinishFailed, form,
+        keyProgrammes: store.keyProgrammes,
+        targetGroups: store.targetGroups,
+        targetRegions: store.targetRegions
     };
-    const plan_props = { toggleCreatePlan, activityPlans };
+    const plan_props = { setVisible, activityPlans };
     return (
         <>
-            <ActivityPlans {...plan_props} />
             <CreatePlanModal {...modal_props} />
+            <ActivityPlans {...plan_props} />
         </>
     );
 }

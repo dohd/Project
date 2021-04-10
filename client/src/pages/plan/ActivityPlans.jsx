@@ -8,7 +8,7 @@ import { Path } from 'routes';
 import { Link } from 'react-router-dom';
 
 export default function ActivityPlans(props) {
-    const { toggleCreatePlan, activityPlans } = props;
+    const { setVisible, activityPlans } = props;
     const history = useHistory();
     const params = useParams();
     return (
@@ -26,7 +26,7 @@ export default function ActivityPlans(props) {
             extra={
                 <Button 
                     type='primary' 
-                    onClick={toggleCreatePlan}
+                    onClick={() => setVisible(true)}
                 >
                     <PlusOutlined /> Plan
                 </Button>

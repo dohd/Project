@@ -3,7 +3,8 @@ import { Form } from 'antd';
 
 import DateModalView, { dateFormat } from './DateModalView';
 
-export default function DateModal({ state, setState }) {
+export default function DateModal(props) {
+    const { state, setState, regions } = props;
     const [visible, setVisible] = useState(false);
     const [form] = Form.useForm();
     
@@ -28,6 +29,6 @@ export default function DateModal({ state, setState }) {
         .catch(err => console.log('validation Failed:', err));
     };
 
-    const props = { visible, setVisible, onOk, form };
-    return <DateModalView {...props} />
+    const params = { visible, setVisible, onOk, form, regions };
+    return <DateModalView {...params} />
 }
