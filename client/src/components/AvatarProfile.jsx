@@ -2,10 +2,7 @@ import React from 'react';
 import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
-import { useTracked } from 'context'
-
-export default function AvatarProfile() {
-    const store = useTracked()[0];
+export default function AvatarProfile({profileImage}) {
     return (
         <Avatar
             size='large'
@@ -16,10 +13,10 @@ export default function AvatarProfile() {
                 marginRight: 'auto' 
             }}
             icon={
-                store.avatarImage ?
+                profileImage ?
                 <div> 
                     <img 
-                        src={store.avatarImage} 
+                        src={profileImage} 
                         alt='avatar' 
                         style={{ 
                             width: '100%', 

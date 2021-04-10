@@ -17,6 +17,11 @@ export default function DashboardContainer({ location }) {
             setName(profile.detail.name);
         }
     }, [store.orgProfile]);
+
+    const [avatarImage, setAvatarImage] = useState('');
+    useEffect(() => {
+        setAvatarImage(store.avatarImage);
+    }, [store.avatarImage]);
         
     const [routePaths, setRoutePaths] = useState([]);
     useEffect(() => {
@@ -39,6 +44,7 @@ export default function DashboardContainer({ location }) {
     return (
         <Dashboard
             profileName={name}
+            profileImage={avatarImage}
             breadcrumbItems={breadcrumbItems}
         />
     );

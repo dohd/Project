@@ -18,14 +18,14 @@ const { Header, Sider, Content, Footer } = Layout;
 const { SubMenu } = Menu;
 
 export default function Dashboard(props) {
-    const { breadcrumbItems, profileName } = props;
+    const { breadcrumbItems, profileName, profileImage } = props;
     return (
         <div>
             <Layout>
                 <Sider className='sider'>
                     <h2 className='app-name'>APP NAME</h2>
                     <div className='avatar-container'>
-                        <AvatarProfile />
+                        <AvatarProfile profileImage={profileImage} />
                         <p className='profile-name'>{ profileName }</p>
                     </div>
 
