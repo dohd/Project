@@ -1,77 +1,32 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useActivityPlanContext, useParticipantContext } from 'contexts';
+import React, { useEffect, useState } from 'react';
+
 import ParticipantAnalysis from './ParticipantAnalysis';
-import pdfExport from './analysisPdfExport';
+import { useTracked } from 'context';
 
 export default function ParticipantAnalysisContainer() {
-    const { activityPlans } = useActivityPlanContext();
-    const { participants } = useParticipantContext();
-    const [state, setState] = useState({
-        analysis: [], pageSize: 5,
-        page: 1, pageCount: 1
-    });
+    const store = useTracked()[0];
+    const [analysis, setAnalysis] = useState([]);
 
     useEffect(() => {
-        const analysis_report = [];
-        for (const plan of activityPlans) {
-            const data = { key: plan.id };
-            const dates = new Set();
-            let males = 0;
-            let females = 0;
-            let trans = 0;
-
-            for (const participant of participants) {
-                if (plan.activity.id === participant.activityId) {
-                    const { planProgramme } = plan;
-                    const { keyProgrammeId } = participant;
-
-                    if (planProgramme.keyProgramme.id === keyProgrammeId) {
-                        const { gender } = participant;
-                        if (gender.type === 'Male') males++;
-                        if (gender.type === 'Female') females++;
-                        if (gender.type === 'Other') trans++;
-
-                        const regions = new Set();
-                        plan.planEvents.forEach(({planRegions}) => {
-                            planRegions.forEach(({region}) => {
-                                regions.add(region.area);
-                            });
-                        });
-                        
-                        const groups = new Set();
-                        plan.planGroups.forEach(({targetGroup}) => {
-                            groups.add(targetGroup.group);
-                        });
-
-                        data.regions = [...regions];
-                        data.groups = [...groups];
-                        data.title = plan.activity.action;
-                        data.programme = plan.planProgramme.keyProgramme.programme;
-
-                        dates.add(participant.activityDate);
-                    }
-                }
-            }
-
-            data.activityDate = [...dates];
-            data.male = males;
-            data.female = females;
-            data.trans = trans;
-            data.total = males + females + trans;
-            analysis_report.push(data);
-        }
-        setState(prev => {
-            const pageCount = Math.ceil(analysis_report.length/prev.pageSize);
-            return {...prev, analysis: analysis_report, pageCount};
+        const analysis = store.participantAnalysis;
+        const list = [];
+        analysis.forEach(v => {
+            const obj = {};
+            obj.key = v.id;
+            obj.title = v.activity.action;
+            obj.male = v.participants.male;
+            obj.female = v.participants.female;
+            obj.transgender = v.participants.transgender;
+            obj.total = obj.male + obj.female + obj.transgender;
+            obj.date = v.planEvents.join(', ');
+            obj.groups = v.planGroups.join(', ');
+            obj.programme = v.planProgramme[0];
+            obj.regions = v.planRegions.join(', ');
+            list.push(obj);
         });
-    }, [participants, activityPlans]);
+        setAnalysis(list);
+    }, [store.participantAnalysis])
 
-    const onPageChange = page => setState(prev => ({...prev, page}));
-
-    const tableView = useRef();
-    const onExport = () => pdfExport(tableView, state);
-
-    const props = { state, onExport, tableView, onPageChange };
-
+    const props = { analysis };
     return <ParticipantAnalysis {...props} />;
 }

@@ -9,7 +9,7 @@ import {
     Participants, 
     UpdateParticipant, 
 } from '../participant';
-// import { ParticipantAnalysis } from '../participant_analysis';
+import { ParticipantAnalysis } from '../participant_analysis';
 // import { Implement, PendingReport } from '../pending_action';
 import { ActivityPhoto, EventActivity } from '../event_photo';
 import { CaseStudy } from '../case_study';
@@ -65,7 +65,7 @@ export default function MainSection() {
                 <Route exact path={Path.updateParticipant()} component={UpdateParticipant} />
 
                 <Route exact path={Path.eventPlans()} component={EventPlans} />
-                {/* <Route exact path={Path.participantAnalysis()} component={ParticipantAnalysis} /> */}
+                <Route exact path={Path.participantAnalysis()} component={ParticipantAnalysis} />
 
                 <Route exact path={Path.programmes()} component={KeyProgrammes} />
                 <Route exact path={Path.groups()} component={TargetGroups} />

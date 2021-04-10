@@ -4,7 +4,7 @@ import { SearchOutlined, FilePdfOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 
 export default function ParticipantAnalysis(props) {
-    const { state, onExport, tableView, onPageChange } = props;
+    const { analysis } = props;
 
     // custom search filter 
     const [search, setSearch] = useState({ text: '', column: ''});
@@ -90,91 +90,81 @@ export default function ParticipantAnalysis(props) {
             bordered={false}
             title='Participant Analysis'
             extra={
-                <Button type='primary' onClick={onExport}>
+                <Button type='primary'>
                     <FilePdfOutlined />
                     Export
                 </Button>
             }
         >
-            <div ref={tableView}>
-                <Table
-                    bordered 
-                    dataSource={state.analysis}
-                    pagination={{
-                        pageSize: state.pageSize,
-                        total: state.analysis.length,
-                        onChange: onPageChange
-                    }}
-                    columns={[
-                        {
-                            title: 'Activity',
-                            children: [
-                                {
-                                    title: 'Title',
-                                    dataIndex:'title',
-                                    key: 'title',
-                                    ...getColumnSearchProps('title')
-                                },
-                                {
-                                    title: 'Date',
-                                    dataIndex: 'activityDate',
-                                    key: 'activityDate',
-                                    render: dates => dates && dates.join(', ')
-                                },
-                            ],
-                            
-                        },
-                        {
-                            title: 'Plan',
-                            children: [
-                                {
-                                    title: 'Programme',
-                                    dataIndex:'programme',
-                                    key: 'programme',
-                                    ...getColumnSearchProps('programme')
-                                },
-                                {
-                                    title: 'Regions',
-                                    dataIndex:'regions',
-                                    key: 'regions',
-                                    render: regions => regions && regions.join(', ')
-                                },
-                                {
-                                    title: 'Groups',
-                                    dataIndex:'groups',
-                                    key: 'groups',
-                                    render: groups => groups && groups.join(', ')
-                                },
-                            ]
-                        },
-                        {
-                            title: 'Gender',
-                            children: [
-                                {
-                                    title: 'Male',
-                                    dataIndex:'male',
-                                    key: 'male'
-                                },
-                                {
-                                    title: 'Female',
-                                    dataIndex:'female',
-                                    key: 'female'
-                                },
-                                {
-                                    title: 'Transgender',
-                                    dataIndex:'trans',
-                                    key: 'trans'
-                                },
-                                {
-                                    title: 'Total',
-                                    dataIndex:'total',
-                                    key: 'total'
-                                }
-                            ]
-                        }
-                    ]}
-                />
-            </div>
+            <Table
+                bordered 
+                dataSource={analysis}
+                columns={[
+                    {
+                        title: 'Activity',
+                        children: [
+                            {
+                                title: 'Title',
+                                dataIndex:'title',
+                                key: 'title',
+                                ...getColumnSearchProps('title')
+                            },
+                            {
+                                title: 'Date',
+                                dataIndex: 'date',
+                                key: 'date',
+                            },
+                        ],
+                        
+                    },
+                    {
+                        title: 'Plan',
+                        children: [
+                            {
+                                title: 'Programme',
+                                dataIndex:'programme',
+                                key: 'programme',
+                                ...getColumnSearchProps('programme')
+                            },
+                            {
+                                title: 'Regions',
+                                dataIndex:'regions',
+                                key: 'regions',
+                            },
+                            {
+                                title: 'Groups',
+                                dataIndex:'groups',
+                                key: 'groups',
+                            },
+                        ]
+                    },
+                    {
+                        title: 'Gender',
+                        children: [
+                            {
+                                title: 'Male',
+                                dataIndex:'male',
+                                key: 'male'
+                            },
+                            {
+                                title: 'Female',
+                                dataIndex:'female',
+                                key: 'female'
+                            },
+                            {
+                                title: 'Transgender',
+                                dataIndex:'trans',
+                                key: 'trans'
+                            },
+                            {
+                                title: 'Total',
+                                dataIndex:'total',
+                                key: 'total'
+                            }
+                        ]
+                    }
+                ]}
+            />
         </Card>
     );
 }
