@@ -4,9 +4,11 @@ import { Route, Switch } from 'react-router-dom';
 import { Path } from 'routes';
 import { CreateProposal, Proposals } from '../grant_proposal';
 import { EditPendingProposal } from '../pending_proposal';
-// import { 
-//     CreateParticipant, Participants, UpdateParticipant, 
-// } from "../participant";
+import { 
+    CreateParticipant, 
+    Participants, 
+    UpdateParticipant, 
+} from '../participant';
 // import { ParticipantAnalysis } from '../participant_analysis';
 // import { Implement, PendingReport } from '../pending_action';
 import { ActivityPhoto, EventActivity } from '../event_photo';
@@ -54,13 +56,13 @@ export default function MainSection() {
                 <Route exact path={Path.donors()} component={Donors} />
 
                 <Route exact path={Path.donorContacts()} component={DonorContact} />
-                {/* <Route exact path={Path.participants()} component={Participants} /> */}
+                <Route exact path={Path.participants()} component={Participants} />
 
-                {/* <Route exact path={Path.createParticipant()} component={CreateParticipant} /> */}
-                {/* <Route exact path={Path.planParticipant()} component={CreateParticipant} /> */}
-                {/* <Route exact path={Path.implementParticipant()} component={CreateParticipant} /> */}
+                <Route exact path={Path.createParticipant()} component={CreateParticipant} />
+                <Route exact path={Path.planParticipant()} component={CreateParticipant} />
+                <Route exact path={Path.implementParticipant()} component={CreateParticipant} />
 
-                {/* <Route exact path={Path.updateParticipant()} component={UpdateParticipant} /> */}
+                <Route exact path={Path.updateParticipant()} component={UpdateParticipant} />
 
                 <Route exact path={Path.eventPlans()} component={EventPlans} />
                 {/* <Route exact path={Path.participantAnalysis()} component={ParticipantAnalysis} /> */}

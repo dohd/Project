@@ -1,30 +1,64 @@
 import React, { useEffect,  useState } from 'react';
 import { Form, message } from 'antd';
 import moment from 'moment';
-import { useParticipantContext, useActivityPlanContext } from 'contexts';
-import Api from 'api';
-import  EditParticipant, { dateFormat } from './EditParticipant';
+import { useHistory, useParams } from 'react-router';
 
-export default function UpdateParticipant({ match, history }) {
-    const { activityId, participantId } = match.params;
-    const { participants, fetchParticpants } = useParticipantContext();
-    
-    const { activityPlans } = useActivityPlanContext();
-    const [state, setState] = useState({ programmes: []});
+import  EditParticipant, { dateFormat } from './EditParticipant';
+import Api from 'api';
+import { useTracked } from 'context';
+
+const fetchParticipants = dispatch => {
+    Api.participant.get()
+    .then(res => dispatch({
+        type: 'addParticipants',
+        payload: res
+    }));
+};
+
+export default function UpdateParticipant() {
+    const [store, dispatch] = useTracked();
+    const { 
+        activityId, participantId, 
+        activityPlanId 
+    } = useParams();
+
+    const [state, setState] = useState({
+        keyProgramme: {}, gender: [], regions: []
+    });
 
     useEffect(() => {
-        const programmes = new Set();
-        for (const plan of activityPlans) {
-            if (plan.activity.id === Number(activityId)) {
-                const { planProgramme } = plan;
-                const { keyProgramme } = planProgramme;
-                programmes.add(keyProgramme);
+        const plans = store.activityPlans;
+        for(const p of plans) {
+            if (p.id === parseInt(activityPlanId)) {
+                const keyProgramme = p.planProgramme.keyProgramme;
+                let regions = [];
+
+                p.planEvents.forEach(event => {
+                    event.planRegions.forEach(v => {
+                        regions.push(v.region);
+                    });
+                });
+                // Unique region areas
+                const regionObj = regions.reduce((r, c) => {
+                    const key = '_' + c.area;
+                    if (!r[key]) r[key] = c;
+                    return r;
+                }, {});
+
+                regions = Object.values(regionObj);
+
+                setState({ 
+                    keyProgramme, regions,
+                    gender: store.gender
+                });
+                break;
             }
         }
-        setState({ programmes: [...programmes] });
-    }, [activityPlans, activityId]);
+    }, [store.activityPlans, store.gender, activityPlanId]);
 
+    const history = useHistory();
     const [form] = Form.useForm();
+
     const onFinish = values => {
         const { activityDate, name } = values;
         values.activityDate = activityDate.format(dateFormat);
@@ -33,45 +67,44 @@ export default function UpdateParticipant({ match, history }) {
         const names = name.split(' ');
         values.fName = names[0];
         values.lName = names[1];
-        delete values.name;
 
         Api.participant.patch(participantId, values)
         .then(res => {
-            fetchParticpants();
             message.success('Participant updated successfully')
+            fetchParticipants(dispatch);
             history.goBack();
         })
-        .catch(err => {
-            console.log(err);
-            message.error('Unknown error!')
-        });
     };
     const onFinishFailed = err => console.log('Error:',err);
 
     // Initial form values
     useEffect(() => {
-        for (const obj of participants) {
-            if (obj.id === Number(participantId)) {
+        for (const p of store.participants) {
+            if (p.id === parseInt(participantId)) {
                 form.setFieldsValue({
-                    name: `${obj.fName} ${obj.lName}`,
-                    activityDate: moment(obj.activityDate, dateFormat),
-                    genderId: obj.gender.id,
-                    disability: obj.disability,
-                    phone: obj.phone,
-                    email: obj.email,
-                    designation: obj.designation,
-                    locality: obj.locality,
-                    programmeId: obj.keyProgramme.id
+                    name: `${p.fName} ${p.lName}`,
+                    activityDate: moment(p.activityDate, dateFormat),
+                    genderId: p.gender.id,
+                    disability: p.disability,
+                    phone: p.phone,
+                    email: p.email,
+                    designation: p.designation,
+                    regionId: p.regionId,
                 });
                 break;
             }
         }
-    }, [participants, form, participantId]);
+    }, [store.participants, form, participantId]);
 
-    const props = {
-        form, onFinish, onFinishFailed, history, 
-        programmes: state.programmes
-    };
+    useEffect(() => {
+        const { keyProgramme } = state;
+        if (keyProgramme.hasOwnProperty('id')) {
+            form.setFieldsValue({
+                keyProgramme: keyProgramme.programme
+            });
+        } 
+    }, [state, form]);
 
+    const props = { form, onFinish, onFinishFailed, state };
     return <EditParticipant {...props} />;
 }

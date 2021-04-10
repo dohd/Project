@@ -1,17 +1,18 @@
 import React, { useRef, useState } from 'react';
-import { Card, Table, Button, Space, Input } from 'antd';
+import { Card, Table, Button, Space, Input, Popconfirm } from 'antd';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { 
     PlusOutlined, EditTwoTone, DeleteOutlined, 
     ArrowLeftOutlined, SearchOutlined
 } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 
+import { parseUrl } from 'utils';
+import { Path } from 'routes';
+
 export default function Participants(props) {
-    const { 
-        state, onDelete, history,
-        agendaPage, tableView, onPageChange,
-        createParticipant, updateParticipant
-    } = props;
+    const { participants, onDelete } = props;
+    const history = useHistory();
 
     // custom search filter 
     const [search, setSearch] = useState({ text: '', column: ''});
@@ -92,6 +93,10 @@ export default function Participants(props) {
         }
     });
 
+    const params = useParams();
+    const agendaPath = parseUrl(Path.agenda(), params);
+    const addParticipantPath = parseUrl(Path.createParticipant(), params);
+        
     return (
         <Card
             bordered={false}
@@ -105,101 +110,126 @@ export default function Participants(props) {
             }
             extra={
                 <Space>
-                    <Button type='primary' onClick={createParticipant}>
-                        <PlusOutlined />Create
-                    </Button>
-                    <Button type='primary' onClick={agendaPage}>
-                        Agenda
-                    </Button>
+                    <Link to={addParticipantPath}>
+                        <Button type='primary'>
+                            <PlusOutlined />Participant
+                        </Button>
+                    </Link>
+                    <Link to={agendaPath}>
+                        <Button 
+                            type='primary'
+                            disabled={!participants.length}
+                        >
+                            Agenda
+                        </Button>
+                    </Link>
                 </Space>
             }
         >
-            <div ref={tableView}>
-                <Table 
-                    className='part-table'
-                    dataSource={state.participants}
-                    pagination={{
-                        pageSize: state.pageSize,
-                        total: state.participants.length,
-                        onChange: onPageChange
-                    }}
-                    scroll={{ x: 1500 }}
-                    columns={[
-                        {
-                            title: 'Activity Date',
-                            dataIndex: 'activityDate',
-                            key: 'activityDate',
-                            ...getColumnSearchProps('activityDate')
-                        },
-                        {
-                            title: 'Programme',
-                            dataIndex: 'programme',
-                            key: 'programme',
-                            ...getColumnSearchProps('programme')
-                        },
-                        {
-                            title: 'Name',
-                            dataIndex: 'name',
-                            key: 'name',
-                        },
-                        {
-                            title: 'Gender',
-                            dataIndex: 'gender',
-                            key: 'gender',
-                            filters: [
-                                { text: 'Male', value: 'Male' },
-                                { text: 'Female', value: 'Female' },
-                                { text: 'Transgender', value: 'Transgender' }
-                            ],
-                            onFilter: (value, {gender}) => (gender.indexOf(value) === 0),
-                        },
-                        {
-                            title: 'Disability',
-                            dataIndex: 'disability',
-                            key: 'disability'
-                        },
-                        {
-                            title: 'Designation',
-                            dataIndex: 'designation',
-                            key: 'designation'
-                        },
-                        {
-                            title: 'Phone',
-                            dataIndex: 'phone',
-                            key: 'phone'
-                        },
-                        {
-                            title: 'Email',
-                            dataIndex: 'email',
-                            key: 'email'
-                        },
-                        {
-                            title: 'Region',
-                            dataIndex: 'region',
-                            key: 'region',
-                            ...getColumnSearchProps('region')
-                        },
-                        {
-                            title: 'Action',
-                            dataIndex: 'action',
-                            key: 'action',
-                            fixed: 'right',
-                            render: (text, {key}) => {
-                                return (
-                                    <div>
-                                        <Button type='link' onClick={() => updateParticipant(key)}>
-                                           <EditTwoTone style={{ fontSize: '20px' }} />
-                                        </Button>
-                                        <Button type='link' onClick={() => onDelete(key)}>
-                                            <DeleteOutlined style={{ color: 'red', fontSize: '18px' }} />
-                                        </Button>
-                                    </div>
-                                );
-                            }
+            <Table 
+                className='part-table'
+                dataSource={participants}
+                scroll={{ x: 1500 }}
+                columns={[
+                    {
+                        title: 'Activity Date',
+                        dataIndex: 'activityDate',
+                        key: 'activityDate',
+                        ...getColumnSearchProps('activityDate')
+                    },
+                    {
+                        title: 'Name',
+                        dataIndex: 'name',
+                        key: 'name',
+                    },
+                    {
+                        title: 'Gender',
+                        dataIndex: 'genderType',
+                        key: 'genderType',
+                        filters: [
+                            { text: 'Male', value: 'Male' },
+                            { text: 'Female', value: 'Female' },
+                            { text: 'Transgender', value: 'Transgender' }
+                        ],
+                        onFilter: (value, {genderType}) => {
+                            return (genderType.indexOf(value) === 0);
                         }
-                    ]}
-                />
-            </div>
+                    },
+                    {
+                        title: 'Disability',
+                        dataIndex: 'disability',
+                        key: 'disability'
+                    },
+                    {
+                        title: 'Designation',
+                        dataIndex: 'designation',
+                        key: 'designation'
+                    },
+                    {
+                        title: 'Phone',
+                        dataIndex: 'phone',
+                        key: 'phone'
+                    },
+                    {
+                        title: 'Email',
+                        dataIndex: 'email',
+                        key: 'email'
+                    },
+                    {
+                        title: 'Programme',
+                        dataIndex: 'programme',
+                        key: 'programme',
+                        ...getColumnSearchProps('programme')
+                    },
+                    {
+                        title: 'Region',
+                        dataIndex: 'region',
+                        key: 'region',
+                        ...getColumnSearchProps('region')
+                    },
+                    {
+                        title: 'Action',
+                        dataIndex: 'action',
+                        key: 'action',
+                        fixed: 'right',
+                        render: (text, {key}) => {
+                            const obj = { participantId: key, ...params };
+                            const editPath = parseUrl(Path.updateParticipant(), obj);
+                            return (
+                                <div>
+                                    <Popconfirm
+                                        title='Are you sure to delete this participant?'
+                                        onConfirm={() => onDelete(key)}
+                                        okText='Yes'
+                                        cancelText='No'
+                                    >
+                                        <Button type='link'
+                                            icon={
+                                                <DeleteOutlined 
+                                                    style={{ 
+                                                        color: 'red', 
+                                                        fontSize: '18px' 
+                                                    }} 
+                                                />
+                                            }
+                                        />
+                                    </Popconfirm>
+                                    <Link to={editPath}>
+                                        <Button
+                                            type='link'
+                                            icon={
+                                                <EditTwoTone 
+                                                    style={{ fontSize: '20px' }} 
+                                                />
+                                            }
+                                        />
+                                    </Link>
+                                </div>
+                            );
+                        }
+                    }
+                ]}
+            />
         </Card>
     );
 }

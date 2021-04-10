@@ -4,14 +4,13 @@ import {
     Button, Col, Row, Select 
 } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import { useHistory } from 'react-router';
 
 export const dateFormat = 'YYYY-MM-DD';
 
 export default function EditParticipant(props) {
-    const {
-        form, onFinish, onFinishFailed, 
-        history, programmes 
-    } = props;
+    const { form, onFinish, onFinishFailed, state } = props;
+    const history = useHistory();
 
     const checkName = (rule, value) => {
         const names = value.split(' ').filter(val => val);
@@ -19,9 +18,15 @@ export default function EditParticipant(props) {
         return Promise.reject('first & last name is required');
     };
 
-    const programmeList = programmes.map(val => (
-        <Select.Option key={val.id} value={val.id}>
-            {val.programme}
+    const genderList = state.gender.map(v => (
+        <Select.Option key={v.id} value={v.id}>
+            { v.type }
+        </Select.Option>
+    ));
+
+    const regionList = state.regions.map(v => (
+        <Select.Option key={v.id} value={v.id}>
+            { v.area }
         </Select.Option>
     ));
 
@@ -69,8 +74,7 @@ export default function EditParticipant(props) {
                             }]}
                         >
                             <Select placeholder='Select gender'>
-                                <Select.Option value={1}>Male</Select.Option>
-                                <Select.Option value={2}>Female</Select.Option>
+                                { genderList }
                             </Select>
                         </Form.Item>
                     </Col>
@@ -88,16 +92,10 @@ export default function EditParticipant(props) {
                 <Form.Item
                     labelCol={{ span: 3 }}
                     wrapperCol={{ span: 12 }}
-                    label='Programme'
-                    name='programmeId'
-                    rules={[{ 
-                        required: true,
-                        message: 'Programme is required'
-                    }]}
+                    label='Key Programme'
+                    name='keyProgramme'
                 >
-                    <Select placeholder='Choose and select a programme'>
-                        { programmeList }
-                    </Select>
+                    <Input readOnly />
                 </Form.Item>
 
                 <Row>
@@ -139,11 +137,16 @@ export default function EditParticipant(props) {
                         <Form.Item
                             labelCol={{ span: 5 }}
                             wrapperCol={{ span: 14 }}
-                            label='Locality'
-                            name='locality'
-                            rules={[{ required: true }]}
+                            label='Region'
+                            name='regionId'
+                            rules={[{ 
+                                required: true,
+                                message: 'region is required'
+                            }]}
                         >
-                            <Input />
+                            <Select placeholder='Select region'>
+                                { regionList }
+                            </Select>
                         </Form.Item>
                     </Col>
                 </Row>

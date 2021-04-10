@@ -1,32 +1,63 @@
 import React, { useState, useEffect } from 'react';
-import { useParticipantContext, useActivityPlanContext } from 'contexts';
 import { Form, message } from 'antd';
-import Api from 'api';
+import { useParams } from 'react-router';
+
 import AddParticipant, { dateFormat } from './AddParticipant';
+import Api from 'api';
+import { useTracked } from 'context';
 
-export default function CreateParticipant({ match, history, location }) {
-    const activityId = match.params.activityId || location.state.activityId;
-    const { fetchParticipants } = useParticipantContext();
+const fetchParticipants = dispatch => {
+    Api.participant.get()
+    .then(res => dispatch({
+        type: 'addParticipants',
+        payload: res
+    }));
+};
 
-    const [state, setState] = useState({ programmes: []});
-    const { activityPlans } = useActivityPlanContext();
+export default function CreateParticipant() {
+    const [store, dispatch] = useTracked();
+    const { activityPlanId, activityId } = useParams();
+
+    const [state, setState] = useState({
+        keyProgramme: {}, gender: [], regions: []
+    });
+
     useEffect(() => {
-        const programmes = new Set();
-        for (const plan of activityPlans) {
-            if (plan.activity.id === Number(activityId)) {
-                const { planProgramme } = plan;
-                const { keyProgramme } = planProgramme;
-                programmes.add(keyProgramme);
+        const plans = store.activityPlans;
+        for(const p of plans) {
+            if (p.id === parseInt(activityPlanId)) {
+                const keyProgramme = p.planProgramme.keyProgramme;
+                let regions = [];
+
+                p.planEvents.forEach(event => {
+                    event.planRegions.forEach(v => {
+                        regions.push(v.region);
+                    });
+                });
+                // Unique region areas
+                const regionObj = regions.reduce((r, c) => {
+                    const key = '_' + c.area;
+                    if (!r[key]) r[key] = c;
+                    return r;
+                }, {});
+
+                regions = Object.values(regionObj);
+
+                setState({ 
+                    keyProgramme, regions,
+                    gender: store.gender
+                });
+                break;
             }
         }
-        setState({ programmes: [...programmes] });
-    }, [activityPlans, activityId]);
+    }, [store.activityPlans, store.gender, activityPlanId]);
 
     const [form] = Form.useForm();
     const onFinish = values => {
         const { activityDate, name } = values;
         values.activityDate = activityDate.format(dateFormat);
         values.activityId = activityId;
+        values.keyProgrammeId = state.keyProgramme.id;
 
         const [fName, lName] = name.split(' ');
         values.fName = fName;
@@ -34,21 +65,22 @@ export default function CreateParticipant({ match, history, location }) {
         
         Api.participant.post(values)
         .then(res => {
-            fetchParticipants();
-            message.success('Form submitted successfully');
             form.resetFields();
-        })
-        .catch(err => {
-            console.log(err);
-            message.error('Unknown error!')
+            message.success('Form submitted successfully');
+            fetchParticipants(dispatch);
         });
     };
     const onFinishFailed = err => console.log('Error:', err);
 
-    const props = {
-        form, onFinish, onFinishFailed, history, 
-        programmes: state.programmes
-    };
+    useEffect(() => {
+        const data = state.keyProgramme;
+        if (data.hasOwnProperty('programme')) {
+            form.setFieldsValue({ 
+                keyProgramme: data.programme 
+            });
+        }
+    }, [state.keyProgramme, form]);
 
+    const props = { form, onFinish, onFinishFailed, state };
     return <AddParticipant {...props} />;
 }
