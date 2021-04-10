@@ -17,7 +17,6 @@ const Participant = db.define('participant', {
         allowNull: false,
         validate: { isEmail: true }
     },
-    region: { type: DataTypes.STRING, allowNull: false },
     designation: { type: DataTypes.STRING, allowNull: false },
     activityDate: { type: DataTypes.STRING, allowNull: false }
 });
