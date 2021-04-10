@@ -20,16 +20,18 @@ export default function ParticipantsContainer({ match, history }) {
     const [participants, setParticipants] = useState([]);
 
     useEffect(() => {
-        const list = store.participants.filter(v => {
+        const list = []
+        store.participants.forEach(v => {
             if (v.activityPlanId === parseInt(activityPlanId)) {
-                v.key = v.id;
-                v.name =  `${v.fName} ${v.lName}`;
-                v.genderType = v.gender.type;
-                v.region = v.region.area;
-                v.programme = v.keyProgramme.programme;
-                return true;
+                const obj = {...v};
+                obj.key = v.id;
+                obj.name =  `${v.fName} ${v.lName}`;
+                obj.gender = v.gender.type;
+                obj.region = v.region.area;
+                obj.programme = v.keyProgramme.programme;
+                list.push(obj);
             }
-            return false;
+            return v;
         });
         setParticipants(list);
     }, [store.participants, activityPlanId]);
