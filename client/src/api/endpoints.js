@@ -1,4 +1,5 @@
 const endpoints = {
+    gender: '/gender',
     eventImage: '/event-images',
     avatarImage: '/avatar-image',
     orgProfile: '/organisation-profile',

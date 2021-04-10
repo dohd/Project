@@ -2,7 +2,11 @@ import { isValidType } from './store';
 
 export const reducer = (state, action) => {
     if (!isValidType(action.payload)) return state;
+
     switch (action.type) {
+        case 'addGender':
+            return {...state, gender: action.payload}
+
         case 'addAvatarImage':
             return {...state, avatarImage: action.payload};
 
