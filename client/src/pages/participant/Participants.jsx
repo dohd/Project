@@ -144,15 +144,15 @@ export default function Participants(props) {
                     },
                     {
                         title: 'Gender',
-                        dataIndex: 'genderType',
-                        key: 'genderType',
+                        dataIndex: 'gender',
+                        key: 'gender',
                         filters: [
                             { text: 'Male', value: 'Male' },
                             { text: 'Female', value: 'Female' },
                             { text: 'Transgender', value: 'Transgender' }
                         ],
-                        onFilter: (value, {genderType}) => {
-                            return (genderType.indexOf(value) === 0);
+                        onFilter: (value, {gender}) => {
+                            return (gender.indexOf(value) === 0);
                         }
                     },
                     {
