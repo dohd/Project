@@ -2,6 +2,7 @@ const { Op } = require('../utils/database');
 const createError = require('http-errors');
 const Participant = require('../models/Participant');
 const Gender = require('../models/Gender');
+const { KeyProgramme, Region } = require('../models/Essential');
 
 module.exports = {
     create: async (req, res, next) => {
@@ -52,6 +53,16 @@ module.exports = {
                         as: 'gender', 
                         attributes: ['id','type'] 
                     },
+                    {
+                        model: Region,
+                        as: 'region',
+                        attributes: ['id','area']
+                    },
+                    {
+                        model: KeyProgramme,
+                        as: 'keyProgramme',
+                        attributes: ['id', 'programme']
+                    }
                 ]
             });
             res.send(participants);
