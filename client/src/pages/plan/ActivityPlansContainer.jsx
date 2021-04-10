@@ -22,12 +22,15 @@ export default function ActivityPlansContainer() {
     const [activityPlans, setActivityPlans] = useState([]);
     useEffect(() => {
         const plans = store.activityPlans.filter(v => {
-            v.key = v.id;
-            v.plan = v.title;
-            return v.activity.id === parseInt(activityId);
+            if (v.activity.id === parseInt(activityId)) {
+                v.key = v.id;
+                v.plan = v.title;
+                return true;
+            }
+            return false;
         });
         setActivityPlans(plans);
-    }, [store.activityPlans]);
+    }, [store.activityPlans, activityId]);
 
     // Modal logic
     const [visible, setVisible] = useState(false);
