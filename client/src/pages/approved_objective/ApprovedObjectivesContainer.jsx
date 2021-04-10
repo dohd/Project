@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import ApprovedObjectives from './ApprovedObjectives';
-import pdfExport from './objectivePdfExport';
 import { Path } from 'routes';
 import { useTracked } from 'context';
 import { useParams } from 'react-router-dom';
 import { parseUrl } from 'utils';
 
-export default function ApprovedObjectivesContainer({ match, history }) {
+export default function ApprovedObjectivesContainer() {
     const store = useTracked()[0];
     const [objectives, setObjectives] = useState([]);
 
@@ -31,9 +30,6 @@ export default function ApprovedObjectivesContainer({ match, history }) {
         return parseUrl(Path.activities(), params);
     };
 
-    const tableView = useRef();
-    const onExport = () => pdfExport(tableView, objectives);
-
-    const props = { objectives, onExport, approvedAct };
+    const props = { objectives, approvedAct };
     return <ApprovedObjectives {...props} />;
 }
