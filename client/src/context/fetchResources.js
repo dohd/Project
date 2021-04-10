@@ -2,6 +2,7 @@ import Api from 'api';
 
 // Api endpoint name mapping to action type
 const actionTypeMap = {
+    participantAnalysis: 'addParticipantAnalysis',
     gender: 'addGender',
     avatarImage: 'addAvatarImage',
     eventImage: 'addEventImages',

@@ -1,4 +1,5 @@
 const endpoints = {
+    participantAnalysis: '/participant-analysis',
     gender: '/gender',
     eventImage: '/event-images',
     avatarImage: '/avatar-image',

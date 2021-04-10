@@ -3,6 +3,7 @@ import { createContainer } from 'react-tracked';
 import { reducer } from './reducer';
 
 const initial_state = {
+    participantAnalysis: [],
     gender: [],
     avatarImage: '',
     eventImages: [],
