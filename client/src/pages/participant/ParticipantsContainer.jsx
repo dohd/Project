@@ -25,6 +25,8 @@ export default function ParticipantsContainer({ match, history }) {
                 v.key = v.id;
                 v.name =  `${v.fName} ${v.lName}`;
                 v.genderType = v.gender.type;
+                v.region = v.region.area;
+                v.programme = v.keyProgramme.programme;
                 return true;
             }
             return false;
