@@ -10,7 +10,7 @@ import './home.css';
 import { Path } from 'routes';
 
 export default function Home(props) {
-    const { donors, proposals, activity } = props;
+    const { donors, proposals, activity, schedule } = props;
     return (
         <Card
             bordered={false}
@@ -69,26 +69,7 @@ export default function Home(props) {
                 }
             >
                 <Table 
-                    dataSource={[
-                        {
-                            key: 1,
-                            activity: 'Counseling and legal support',
-                            days: 26,
-                            date: '2021-03-10'
-                        },
-                        {
-                            key: 2,
-                            activity: 'Self-help groups establishment',
-                            days: 9,
-                            date: '2021-03-5'
-                        },
-                        {
-                            key: 3,
-                            activity: 'Baseline survey and focus group discussions',
-                            days: 28,
-                            date: '2021-03-12'
-                        }
-                    ]}
+                    dataSource={schedule}
                     columns={[
                         {
                             title: 'Activity',
@@ -108,7 +89,6 @@ export default function Home(props) {
                         }
                     ]}
                 />
-
             </Card>
         </Card>
     );

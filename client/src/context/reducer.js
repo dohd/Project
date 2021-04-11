@@ -4,6 +4,9 @@ export const reducer = (state, action) => {
     if (!isValidType(action.payload)) return state;
 
     switch (action.type) {
+        case 'addActivitySchedule':
+            return {...state, activitySchedule: action.payload}
+
         case 'addActivityCount':
             return {...state, activityCount: action.payload}
 

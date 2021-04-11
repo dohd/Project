@@ -2,6 +2,7 @@ import Api from 'api';
 
 // Api endpoint name mapping to action type
 const actionTypeMap = {
+    activitySchedule: 'addActivitySchedule',
     activityCount: 'addActivityCount',
     regionGraph: 'addRegionGraph',
     programmeGraph: 'addProgrammeGraph',

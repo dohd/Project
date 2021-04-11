@@ -1,4 +1,5 @@
 const endpoints = {
+    activitySchedule: '/activity-schedule',
     activityCount: '/activity-count',
     regionGraph: '/graphs/participants-per-region',
     programmeGraph: '/graphs/participants-per-programme',
