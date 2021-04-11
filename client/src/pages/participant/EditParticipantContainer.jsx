@@ -1,7 +1,7 @@
 import React, { useEffect,  useState } from 'react';
 import { Form, message } from 'antd';
 import moment from 'moment';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 
 import  EditParticipant, { dateFormat } from './EditParticipant';
 import Api from 'api';
@@ -56,7 +56,6 @@ export default function UpdateParticipant() {
         }
     }, [store.activityPlans, store.gender, activityPlanId]);
 
-    const history = useHistory();
     const [form] = Form.useForm();
 
     const onFinish = values => {
@@ -72,8 +71,7 @@ export default function UpdateParticipant() {
         .then(res => {
             message.success('Participant updated successfully')
             fetchParticipants(dispatch);
-            history.goBack();
-        })
+        });
     };
     const onFinishFailed = err => console.log('Error:',err);
 
