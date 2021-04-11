@@ -3,10 +3,9 @@ import { Form, DatePicker, Button } from 'antd';
 import { FilterFilled } from '@ant-design/icons';
 
 export default function GraphFilterView(props) {
-    const { form, onFinish, onFinishFailed } = props;
+    const { onFinish, onFinishFailed } = props;
     return (
         <Form
-            form={form}
             layout='inline'
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
