@@ -4,6 +4,9 @@ export const reducer = (state, action) => {
     if (!isValidType(action.payload)) return state;
 
     switch (action.type) {
+        case 'addActivityCount':
+            return {...state, activityCount: action.payload}
+
         case 'addRegionGraph':
             return {...state, regionGraph: action.payload}
 
