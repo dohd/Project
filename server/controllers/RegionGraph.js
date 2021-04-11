@@ -1,18 +1,23 @@
 const { Op } = require('../utils/database');
+const moment = require('moment');
 const Participant = require('../models/Participant');
 const { Region } = require('../models/Essential');
 const Gender = require('../models/Gender');
-const { PlanRegion } = require('../models/ActivityPlan');
 
 module.exports = {
     findAll: async (req, res, next) => {
         try {
-            const empty_params = !req.query.from && !req.query.to;
-            if (empty_params) return res.send({});
-
             const accountId = req.payload.aud;
-            const fromDate = req.query.from;
-            const toDate = req.query.to;
+
+            const yr = new Date().getFullYear();
+            const jan = new Date(yr, 0, 1);
+            const dec = new Date(yr, 11, 31);
+            const yr_range = [jan, dec].map(v => {
+                return  moment(v).format('YYYY-MM-DD');
+            });
+
+            const fromDate = req.query.from || yr_range[0];
+            const toDate = req.query.to || yr_range[1];
 
             const participants = await Participant.findAll({
                 where: { 
@@ -21,14 +26,7 @@ module.exports = {
                         [Op.between]: [fromDate, toDate]
                     }
                 },
-                attributes: ['id','genderId'],
-                include: [
-                    {
-                        model: PlanRegion,
-                        as: 'planRegion',
-                        attributes: ['regionId']
-                    }
-                ]
+                attributes: ['id','genderId','regionId']
             });
 
             const regions = await Region.findAll({
@@ -38,7 +36,9 @@ module.exports = {
 
             const gender = await Gender.findAll();
 
-            const dataset = { male: [], female: [], transgender: [] };
+            const dataset = { 
+                male: [], female: [], transgender: [] 
+            };
 
             for (const region of regions) {
                 let maleCount = 0;
@@ -46,15 +46,16 @@ module.exports = {
                 let transCount = 0;
 
                 for (const p of participants) {
-                    const region_match = p.planRegion.regionId === region.id;
+                    const region_match = p.regionId === region.id;
                     for (const g of gender) {
                         const gender_match = g.id === p.genderId;
-                        if (region_match && gender_match && g.type === 'Male') maleCount++;
-                        if ( region_match && gender_match && g.type === 'Female') femaleCount++;
-                        if (region_match && gender_match && g.type === 'Transgender') transCount++;
+                        if (region_match && gender_match) {
+                            if (g.type === 'Male') maleCount++;
+                            if (g.type === 'Female') femaleCount++;
+                            if (g.type === 'Transgender') transCount++;
+                        }
                     }
                 }
-
                 dataset.male.push(maleCount);
                 dataset.female.push(femaleCount);
                 dataset.transgender.push(transCount);
