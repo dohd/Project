@@ -1,4 +1,5 @@
 const endpoints = {
+    programmeGraph: '/graphs/participants-per-programme',
     participantAnalysis: '/participant-analysis',
     gender: '/gender',
     eventImage: '/event-images',

@@ -4,6 +4,9 @@ export const reducer = (state, action) => {
     if (!isValidType(action.payload)) return state;
 
     switch (action.type) {
+        case 'addProgrammeGraph':
+            return {...state, programmeGraph: action.payload}
+
         case 'addParticipantAnalysis':
             return {...state, participantAnalysis: action.payload}
             
