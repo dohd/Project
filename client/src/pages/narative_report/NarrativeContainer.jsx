@@ -38,7 +38,7 @@ export default function NarrativeContainer() {
     const [state, setState] = useState(initialState);
     const { activityId } = useParams();
 
-    const onSubmit = () => {
+    const onSubmit = values => {
         const responses = [];
         for (const key in state) {
             let form = state[key];
@@ -55,6 +55,7 @@ export default function NarrativeContainer() {
 
         const report  = { 
             activityId, responses,
+            title: values.title,
             caseStudy: state.formI.study,
         };
         
