@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form } from 'antd'
 
 import Tab6View from './Tab6View';
+import TitleModal from '../TitleModal';
 
 export default function Tab6(props) {
     const {
-        prevTab, onSubmit, setState, 
-        activityList, showModal, onSave
+        prevTab, setState, activityList, 
+        showModal, onSave, onSubmit
     } = props;
 
     const [formJ] = Form.useForm();
@@ -41,10 +42,33 @@ export default function Tab6(props) {
     };
     const onFinishFailedK = err => console.log('Error:',err);
 
-    const params = {
-        showModal, activityList, prevTab,
-        onSubmit, formJ, onFinishJ, onFinishFailedJ,
-        formK, onFinishK, onFinishFailedK
+    // modal logic
+    const [visible, setVisible] = useState(false);
+    const [form] = Form.useForm();
+    const onCreate = values => {
+        setVisible(false);
+        form.resetFields();
+        onSubmit(values);
     };
-    return <Tab6View {...params} />;
+
+    const onOk = () => {
+        form.validateFields()
+        .then(values => onCreate(values))
+        .catch(info => console.log('Validate Failed:', info));
+    };
+
+    const modal_props = { visible, setVisible, onOk, form };
+
+    const tab6_props = {
+        showModal, activityList, prevTab,
+        formJ, onFinishJ, onFinishFailedJ,
+        formK, onFinishK, onFinishFailedK, 
+        setVisible
+    };
+    return (
+        <>
+            <TitleModal {...modal_props} />
+            <Tab6View {...tab6_props} />;
+        </>
+    );
 }

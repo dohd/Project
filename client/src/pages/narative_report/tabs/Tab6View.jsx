@@ -6,11 +6,12 @@ const layout = { labelCol: { span: 24 }, wrapperCol: { span: 18 } };
 export default function Tab6View(props) {
     const {
         showModal, activityList, prevTab,
-        onSubmit, formJ, onFinishJ, onFinishFailedJ,
-        formK, onFinishK, onFinishFailedK
+        formJ, onFinishJ, onFinishFailedJ,
+        formK, onFinishK, onFinishFailedK,
+        setVisible
     } = props;
     return (
-        <div>
+        <div>            
             <Form
                 {...layout}
                 form={formJ}
@@ -85,7 +86,7 @@ export default function Tab6View(props) {
                 <Button
                     type='primary'
                     className='btn-next-2'
-                    onClick={onSubmit}
+                    onClick={() => setVisible(true)}
                 >
                     Submit
                 </Button>
