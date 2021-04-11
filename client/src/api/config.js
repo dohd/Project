@@ -5,7 +5,7 @@ const Api = {};
 for (const key in endpoints) {
     const url = endpoints[key];
     const methods = {
-        get: () => instance.get(url),
+        get: param => param ? instance.get(`${url}?${param}`) : instance.get(url),
         post: data => instance.post(url, data),
         patch: (id, data) => instance.patch(`${url}/${id}`, data),
         delete: id => instance.delete(`${url}/${id}`),
