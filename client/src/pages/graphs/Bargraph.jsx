@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import ProgrammeGraph from './ProgrammeGraph';
 import RegionGraph from './RegionGraph';
 import { useTracked } from 'context';
+import barchart from './barchart';
 
 export default function Bargraph() {
     const [store, dispatch] = useTracked();
@@ -22,64 +23,28 @@ export default function Bargraph() {
     });
 
     useEffect(() => {
-        const programme = store.programmeGraph
+        const programme = store.programmeGraph;
         if (programme.hasOwnProperty('male')) {
             setData(prev => ({
                 ...prev, programme: store.programmeGraph 
             }));
         }
-    }, [store.programmeGraph]);
+        const region = store.programmeGraph;
+        if (region.hasOwnProperty('male')) {
+            setData(prev => ({
+                ...prev, region: store.regionGraph 
+            }));
+        }
+    }, [store.programmeGraph, store.regionGraph]);
 
     const [chartData, setchartData] = useState({
         programme: {}, region: {}
     });
     
-    const barchart = () => {
-        setchartData({
-            programme: {
-                labels: labels.programme,
-                datasets: [
-                    {
-                        label: 'Male',
-                        data: data.programme.male,
-                        backgroundColor: 'rgba(57, 252, 3, 0.8)',
-                    },
-                    {
-                        label: 'Female',
-                        data: data.programme.female,
-                        backgroundColor: 'rgba(252, 198, 3, 0.8)'
-                    },
-                    {
-                        label: 'Transgender',
-                        data: data.programme.transgender,
-                        backgroundColor: 'rgba(252, 3, 3, 0.8)'
-                    }
-                ]
-            },
-            region: {
-                labels: labels.region,
-                datasets: [
-                    {
-                        label: 'Male',
-                        data: [24, 48, 88, 10, 5],
-                        backgroundColor: 'rgba(57, 252, 3, 0.8)',
-                    },
-                    {
-                        label: 'Female',
-                        data: [50, 23, 10, 70, 50],
-                        backgroundColor: 'rgba(252, 198, 3, 0.8)'
-                    },
-                    {
-                        label: 'Transgender',
-                        data: [3, 5, 8, 5, 10],
-                        backgroundColor: 'rgba(252, 3, 3, 0.8)'
-                    }
-                ]
-            }
-        });
-    };
-
-    useEffect(barchart, [labels, data]);
+    useEffect(() => {
+        const chart = barchart(labels, data);
+        setchartData(chart);
+    }, [labels, data]);
 
     const prog_graph_props = {
         data: chartData.programme,

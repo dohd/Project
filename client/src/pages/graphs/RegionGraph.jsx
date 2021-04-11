@@ -4,8 +4,7 @@ import { Bar } from 'react-chartjs-2';
 
 import { GraphFilter } from 'components';
 
-export default function RegionGraph(props) {
-    const { data } = props;
+export default function RegionGraph({ data, ...rest }) {
     return (
         <Card 
             size='small' 
@@ -16,7 +15,7 @@ export default function RegionGraph(props) {
                 marginTop: 16 
             }}
         >
-            <GraphFilter />
+            <GraphFilter {...rest} />
             <div style={{ minWidth: 500 }}>
                 <Bar
                     data={data} 
