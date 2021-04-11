@@ -1,43 +1,63 @@
 import React, { useState, useEffect } from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Card } from 'antd';
+
+import ProgrammeGraph from './ProgrammeGraph';
+import RegionGraph from './RegionGraph';
+import { useTracked } from 'context';
 
 export default function Bargraph() {
+    const [store, dispatch] = useTracked();
+    const [labels, setLabels] = useState({
+        programme: [], region: []
+    });
+
+    useEffect(() => {
+        const programme = store.keyProgrammes.map(v => v.programme);
+        const region = store.targetRegions.map(v => v.area);
+        setLabels({ programme, region });
+    }, [store.keyProgrammes, store.targetRegions]);
+
+    const [data, setData] = useState({
+        programme: { male: [], female: [], transgender: [] },
+        region: { male: [], female: [], transgender: [] }
+    });
+
+    useEffect(() => {
+        const programme = store.programmeGraph
+        if (programme.hasOwnProperty('male')) {
+            setData(prev => ({
+                ...prev, programme: store.programmeGraph 
+            }));
+        }
+    }, [store.programmeGraph]);
+
     const [chartData, setchartData] = useState({
         programme: {}, region: {}
     });
-
+    
     const barchart = () => {
         setchartData({
             programme: {
-                labels: [
-                    'Youth programme',
-                    'Women empowerment',
-                    'Access to justice',
-                    'Inclusive Education',
-                    'Inclusive Health',
-                    'Youth empowerment'
-                ],
+                labels: labels.programme,
                 datasets: [
                     {
                         label: 'Male',
-                        data: [10, 40, 23, 90, 50, 10],
+                        data: data.programme.male,
                         backgroundColor: 'rgba(57, 252, 3, 0.8)',
                     },
                     {
                         label: 'Female',
-                        data: [23, 50, 10, 40, 70, 3],
+                        data: data.programme.female,
                         backgroundColor: 'rgba(252, 198, 3, 0.8)'
                     },
                     {
                         label: 'Transgender',
-                        data: [5, 10, 5, 12, 8, 5],
+                        data: data.programme.transgender,
                         backgroundColor: 'rgba(252, 3, 3, 0.8)'
                     }
                 ]
             },
             region: {
-                labels: ['Nairobi', 'Nakuru', 'Narok', 'Mombasa', 'Moyale'],
+                labels: labels.region,
                 datasets: [
                     {
                         label: 'Male',
@@ -59,79 +79,24 @@ export default function Bargraph() {
         });
     };
 
-    useEffect(() => {
-        barchart();
-    }, []);
+    useEffect(barchart, [labels, data]);
 
+    const prog_graph_props = {
+        data: chartData.programme,
+        apiKey: 'programmeGraph',
+        actionType: 'addProgrammeGraph',
+        dispatch
+    };
+    const region_graph_props = {
+        data: chartData.region,
+        apiKey: 'regionGraph',
+        actionType: 'addRegionGraph',
+        dispatch
+    };
     return (
         <div style={{ padding: 10 }}>
-            <Card size='small' style={{ borderWidth: 2, minWidth: 550, width: '65%' }}>
-                <div style={{ minWidth: 500 }}>
-                    <Bar
-                        data={chartData.programme} 
-                        options={{
-                            responsive: true,
-                            title: { 
-                                text: 'Participants per Programme by Gender in January', 
-                                display: true,
-                                fontSize: 16,
-                                fontColor: 'black'
-                            },
-                            legend: { position: 'right' },
-                            scales: {
-                                yAxes: [
-                                    {
-                                        gridLines: {
-                                            drawOnChartArea: false
-                                        }
-                                    }
-                                ],
-                                xAxes: [
-                                    {
-                                        gridLines: { 
-                                            display: false
-                                        }
-                                    }
-                                ]
-                            }
-                        }}
-                    />
-                </div>
-            </Card>
-
-            <Card size='small' style={{ borderWidth: 2, minWidth: 550, width: '65%', marginTop: 16 }}>
-                <div style={{ minWidth: 500 }}>
-                    <Bar
-                        data={chartData.region} 
-                        options={{
-                            responsive: true,
-                            title: { 
-                                text: 'Participants per Region by Gender in January', 
-                                display: true,
-                                fontSize: 16,
-                                fontColor: 'black'
-                            },
-                            legend: { position: 'right' },
-                            scales: {
-                                yAxes: [
-                                    {
-                                        gridLines: {
-                                            drawOnChartArea: false
-                                        }
-                                    }
-                                ],
-                                xAxes: [
-                                    {
-                                        gridLines: { 
-                                            display: false
-                                        }
-                                    }
-                                ]
-                            }
-                        }}
-                    />
-                </div>
-            </Card>
+            <ProgrammeGraph {...prog_graph_props} />
+            <RegionGraph {...region_graph_props} />
         </div>
     );
 }
