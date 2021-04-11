@@ -3,14 +3,12 @@ import { Modal, Table } from 'antd';
 
 export default function ViewModal(props) {
     const { visible, setVisible, record } = props;
-    const onCancel = () => setVisible(false);
-
     return (
         <Modal
             title='Narrative Report Track'
             visible={visible}
             okText='Done'
-            onCancel={onCancel}
+            onCancel={() => setVisible(false)}
             okButtonProps={{ disabled: true }}
             cancelButtonProps={{ disabled: true }}
         >
