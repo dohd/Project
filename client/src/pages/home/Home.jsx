@@ -5,10 +5,12 @@ import {
     EllipsisOutlined, FileDoneOutlined, CarryOutOutlined
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import { Path } from 'routes';
 import './home.css';
 
-export default function Home(params) {
+import { Path } from 'routes';
+
+export default function Home(props) {
+    const { donors, proposals, activity } = props;
     return (
         <Card
             bordered={false}
@@ -18,14 +20,14 @@ export default function Home(params) {
                 <Col xs={24} sm={12} >
                     <div className='donors'>
                         <TeamOutlined className='category-icon' />
-                        <p className='category-value'>5</p>
+                        <p className='category-value'>{donors}</p>
                         <p className='category-label'>Donors</p>
                     </div>
                 </Col>
                 <Col xs={24} sm={12}>
                     <div className='narrative'>
                         <CarryOutOutlined className='category-icon' />
-                        <p className='category-value'>50</p>
+                        <p className='category-value'>{activity}</p>
                         <p className='category-label'>Activities Implemented</p>
                     </div>
                 </Col>
@@ -35,7 +37,7 @@ export default function Home(params) {
                 <Col xs={24} sm={12} >
                     <div className='pending'>
                         <ProjectOutlined className='category-icon' />
-                        <p className='category-value'>10</p>
+                        <p className='category-value'>{proposals.pending}</p>
                         <p className='category-label'>Pending Proposals</p>
                     </div>
                     
@@ -43,7 +45,7 @@ export default function Home(params) {
                 <Col xs={24} sm={12}>
                     <div className='approved'>
                         <FileDoneOutlined className='category-icon' />
-                        <p className='category-value'>20</p>
+                        <p className='category-value'>{proposals.approved}</p>
                         <p className='category-label'>Approved Proposals</p>
                     </div>
                 </Col>
