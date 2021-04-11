@@ -42,7 +42,14 @@ export default function CreatePlan(props) {
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 layout='vertical'
-            >
+            >   
+                <Form.Item
+                    label='Plan Title'
+                    name='title'
+                    rules={[{ required: true }]}
+                >
+                    <Input />
+                </Form.Item>
                 <Row>
                     <Col xs={24} sm={23}>
                         <Form.Item
