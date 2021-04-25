@@ -1,4 +1,4 @@
-export const Path = {
+const Path = {
     root: function() { return '/'; },
     register: function() { return '/register'; },
     login: function() { return '/login'; },
@@ -10,21 +10,19 @@ export const Path = {
     donors: function() { return `${this.home()}/donors`; },
     donorContacts: function() { return `${this.home()}/donor-contact-person`; },
     responses: function() { return `${this.home()}/responses`; },
-    caseStudies: function() { return `${this.home()}/case-studies`; },
     groups: function() { return `${this.home()}/target-groups`; },
     programmes: function() { return `${this.home()}/key-programmes`; },
     regions: function() { return `${this.home()}/target-regions`; },
-    eventPlans: function() { return `${this.home()}/activity-plans`; },
+    eventCalendar: function() { return `${this.home()}/event-calendar`; },
     participantAnalysis: function() { return `${this.home()}/participant-analysis`; },
     proposals: function() { return `${this.home()}/proposals`; },
     eventPhotos: function() { return `${this.home()}/event-activities`; },
     implement: function() { return `${this.home()}/pending-action-implementation`; },
     pendingReport: function() { return `${this.home()}/activities-pending-narrative-report`; },
     graphs: function() { return `${this.home()}/data-visualization`; },
-    reportActivity: function() { return `${this.home()}/report-activity`; },
+    activityReport: function() { return `${this.home()}/activity-report`; },
 
-    reportView: function() { return `${this.reportActivity()}/:activityId/report`; },
-
+    reportView: function() { return `${this.activityReport()}/:activityId/report`; },
 
     updatePendingAgenda: function() { return `${this.pendingReport()}/:activityId/agenda`; },
     updatePendingReport: function() { 
@@ -34,6 +32,7 @@ export const Path = {
         return `${this.implement()}/:activityId/create-participant`; 
     },
 
+    caseStudies: function() { return `${this.activityReport()}/:activityId/case-studies`; },
     activityPhoto: function() { return `${this.eventPhotos()}/:activityId/photos`; },
 
     createProposal: function() { return `${this.proposals()}/create`; },
@@ -46,8 +45,10 @@ export const Path = {
     agenda: function() { return `${this.participants()}/agenda`; },
     narrativeReport: function() { return `${this.agenda()}/create-narrative-report`; },
 
-    planParticipant: function () { return`${this.eventPlans()}/:planId/create-participant`; },
+    planParticipant: function () { return`${this.eventCalendar()}/:planId/create-participant`; },
 
     createParticipant: function() { return `${this.participants()}/create`; },
     updateParticipant: function() { return `${this.participants()}/:participantId/update`; },
 };
+
+export default Path;

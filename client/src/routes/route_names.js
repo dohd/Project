@@ -1,8 +1,8 @@
-import { Path } from './routes';
+import Path from './routes';
 
 const RouteNameMap = {
     [Path.home()]: 'Dashboard',
-    [Path.proposals()]: 'Project Proposals',
+    [Path.proposals()]: 'Proposals',
     [Path.createProposal()]: 'Create Proposal',
     [Path.updateProposal()]: 'Update Proposal',
     [Path.objectives()]: 'Objectives',
@@ -18,23 +18,23 @@ const RouteNameMap = {
     [Path.narrativeReport()]: 'Create Narrative Report',
     [Path.updatePendingReport()]: 'Create Narrative Report',
     [Path.pendingReport()]: 'Pending Report Activities',
-    [Path.donors()]: 'Project --> Donors',
-    [Path.donorContacts()]: 'Project -> Donor-Info -> Contact',
-    [Path.eventPlans()]: 'Event Plan',
+    [Path.donors()]: 'Donors',
+    [Path.donorContacts()]: 'Donor Contacts',
+    [Path.eventCalendar()]: 'Event Calendar',
     [Path.activityPlans()]: 'Activity Plans',
     [Path.participantAnalysis()]: 'Participant Analysis',
-    [Path.regions()]: 'Organisation --> Target Regions',
-    [Path.programmes()]: 'Organisation --> Key Programmes',
-    [Path.groups()]: 'Organisation --> Target Groups',
-    [Path.responses()]: 'Narrative Report --> Responses',
-    [Path.caseStudies()]: 'Narrative Report --> Case Studies',
-    [Path.eventPhotos()]: 'Narrative Report --> Event Activities',
+    [Path.regions()]: 'Target Regions',
+    [Path.programmes()]: 'Key Programmes',
+    [Path.groups()]: 'Target Groups',
+    [Path.responses()]: 'Responses',
+    [Path.eventPhotos()]: 'Event Activities',
     [Path.activityPhoto()]: 'Event Photos',
-    [Path.users()]: 'Account --> Users',
-    [Path.settings()]: 'Account --> Settings',
+    [Path.users()]: 'Users',
+    [Path.settings()]: 'Settings',
     [Path.graphs()]: 'Data Visualization',
     
-    [Path.reportActivity()]: 'Report Activity',
+    [Path.activityReport()]: 'Activity Report',
+    [Path.caseStudies()]: 'Case Studies',
     [Path.reportView()]: 'Report View'
 };
 
