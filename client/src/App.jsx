@@ -3,8 +3,7 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import 'antd/dist/antd.css';
 
 import { Login, Register, Dashboard, PassRecover } from 'pages';
-import { PrivateRoute } from 'utils';
-import { Path } from 'routes';
+import { Path, PrivateRoute } from 'routes';
 
 export default function App() {
   return (
