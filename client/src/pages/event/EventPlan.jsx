@@ -19,7 +19,7 @@ const fetchActivityPlans = dispatch => {
     }));
 };
 
-export default function EventPlans() {
+export default function EventPlan() {
     const calendar = setCalendar(currentMonth, currentYear);
     const [state, setState] = useState({ 
         currentMonth, currentYear, 

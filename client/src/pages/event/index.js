@@ -1,1 +1,1 @@
-export { default as EventPlans } from './EventPlans';
+export { default as EventPlan } from './EventPlan';
