@@ -14,10 +14,8 @@ const Response = db.define('response', {
     accountId: { type: DataTypes.INTEGER, allowNull: false },
 });
 
-const EventPhoto = db.define('event_photo', {
-    size: { type: DataTypes.INTEGER, allowNull: false },
-    name: { type: DataTypes.STRING, allowNull: false },
-    ext: { type: DataTypes.STRING, allowNull: false },
+const EventImage = db.define('event_image', {
+    url: { type: DataTypes.INTEGER, allowNull: false },
     accountId: { type: DataTypes.INTEGER, allowNull: false },
 });
 
@@ -27,7 +25,7 @@ const CaseStudy = db.define('case_study', {
 });
 
 module.exports = { 
-    NarrativeReport, Response, EventPhoto,
+    NarrativeReport, Response, EventImage,
     CaseStudy, NarrativeQuiz 
 };
 
@@ -39,11 +37,11 @@ NarrativeReport.hasOne(CaseStudy, {
 CaseStudy.belongsTo(NarrativeReport, { as: 'narrativeReport' });
 
 // One-to-Many Association
-NarrativeReport.hasMany(EventPhoto, {
+NarrativeReport.hasMany(EventImage, {
     foreignKey: { name: 'narrativeReportId', allowNull: false },
-    as: 'eventPhotos'
+    as: 'eventImages'
 });
-EventPhoto.belongsTo(NarrativeReport, { as: 'narrativeReport' });
+EventImage.belongsTo(NarrativeReport, { as: 'narrativeReport' });
 
 NarrativeReport.hasMany(Response, {
     foreignKey: { name: 'narrativeReportId', allowNull: false },

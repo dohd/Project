@@ -24,7 +24,7 @@ router.use('/agenda', require('./agenda'));
 
 router.use('/narrative-reports', require('./narrativeReport'));
 router.use('/case-studies', require('./caseStudy'));
-router.use('/event-images', require('./eventPhoto'));
+router.use('/event-images', require('./eventImage'));
 
 router.use('/activity-count', require('./activityCount'));
 router.use('/activity-schedule', require('./activitySchedule'));
