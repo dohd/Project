@@ -1,7 +1,7 @@
 const { db } = require('../utils/database');
 const { 
     NarrativeReport, Response, CaseStudy,
-    NarrativeQuiz
+    NarrativeQuiz, EventImage
 } = require('../models/NarrativeReport');
 const Agenda = require('../models/Agenda');
 const Activity = require('../models/Activity');
@@ -55,13 +55,23 @@ module.exports = {
         try {
             const accountId = req.payload.aud;
             const reports = await NarrativeReport.findAll({
-                where: { accountId, activityId: req.query.activityIds },
+                where: { accountId },
                 attributes: ['id','title'],
                 include: [
                     {
                         model: Activity,
                         as: 'activity',
                         attributes: ['id','action']
+                    },
+                    {
+                        model: CaseStudy,
+                        as: 'caseStudy',
+                        attributes: ['id','case']
+                    },
+                    {
+                        model: EventImage,
+                        as: 'eventImages',
+                        attributes: ['id','url']
                     },
                     {
                         model: Response,
