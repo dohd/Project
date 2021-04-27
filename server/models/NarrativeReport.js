@@ -15,7 +15,7 @@ const Response = db.define('response', {
 });
 
 const EventImage = db.define('event_image', {
-    url: { type: DataTypes.INTEGER, allowNull: false },
+    url: { type: DataTypes.STRING, allowNull: false },
     accountId: { type: DataTypes.INTEGER, allowNull: false },
 });
 
