@@ -5,7 +5,7 @@ const narrativeFilter = require('../middlewares/narrativeFilter');
 
 router.post('/', NarrativeReport.create);
 
-router.get('/', narrativeFilter, NarrativeReport.findAll);
+router.get('/', NarrativeReport.findAll);
 
 router.delete('/:id', NarrativeReport.delete);
 
