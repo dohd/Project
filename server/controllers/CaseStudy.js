@@ -12,7 +12,7 @@ module.exports = {
                 include: [{
                     model: NarrativeReport ,
                     as: 'narrativeReport',
-                    attributes: ['id'],
+                    attributes: ['id','title'],
                     include: [{
                         model: Activity,
                         as: 'activity',
@@ -28,10 +28,19 @@ module.exports = {
 
     update: async (req, res, next) => {
         try {
-            const accountId = req.payload.aud;
             const { id } = req.params;
-            await CaseStudy.update(req.body, { where: { id, accountId } });
+            await CaseStudy.update(req.body, { where: { id } });
             res.sendStatus(200);
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    delete: async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            await CaseStudy.destroy({ where: { id } });
+            res.sendStatus(204);
         } catch (error) {
             next(error);
         }

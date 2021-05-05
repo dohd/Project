@@ -6,4 +6,6 @@ router.get('/', CaseStudy.findAll);
 
 router.patch('/:id', CaseStudy.update);
 
+router.delete('/:id', CaseStudy.delete);
+
 module.exports = router;
