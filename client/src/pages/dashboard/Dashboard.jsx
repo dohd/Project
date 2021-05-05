@@ -8,6 +8,7 @@ import {
     ProfileOutlined, FileTextOutlined, AreaChartOutlined,
     ContactsOutlined, InfoOutlined
 } from '@ant-design/icons';
+
 import MainSection  from './MainSection';
 import { AvatarProfile, Logout } from 'components';
 import { Path } from 'routes';
@@ -59,37 +60,31 @@ export default function Dashboard(props) {
                         </SubMenu>
 
                         <SubMenu
-                            key='project'
-                            title='Project'
-                            icon={<ProjectOutlined />}
-                        >
-                            <SubMenu
-                                key='donor-info'
-                                title='Donor Info'
-                                icon={<InfoOutlined />}
-                            >   
-                                <Menu.Item key='donor'>
-                                    <Link to={Path.donors()}>
-                                        <TeamOutlined /> Donor
-                                    </Link>
-                                </Menu.Item>
+                            key='donor-info'
+                            title='Donor Info'
+                            icon={<InfoOutlined />}
+                        >   
+                            <Menu.Item key='donor'>
+                                <Link to={Path.donors()}>
+                                    <TeamOutlined /> Donor
+                                </Link>
+                            </Menu.Item>
 
-                                <Menu.Item key='contact'>
-                                    <Link to={Path.donorContacts()}>
-                                        <ContactsOutlined /> Contact
-                                    </Link>
-                                </Menu.Item>
-                            </SubMenu>
-
-                            <Menu.Item key='proposals'>
-                                <Link to={Path.proposals()}>
-                                    <FileTextOutlined /> Proposal
+                            <Menu.Item key='contact'>
+                                <Link to={Path.donorContacts()}>
+                                    <ContactsOutlined /> Contact
                                 </Link>
                             </Menu.Item>
                         </SubMenu>
 
+                        <Menu.Item key='proposals'>
+                            <Link to={Path.proposals()}>
+                                <ProjectOutlined /> Proposal
+                            </Link>
+                        </Menu.Item>
+
                         <Menu.Item key='activity-plans'>
-                            <Link to={Path.eventPlans()}>
+                            <Link to={Path.eventCalendar()}>
                                 <ScheduleOutlined /> Event Calendar
                             </Link>
                         </Menu.Item>
@@ -100,13 +95,19 @@ export default function Dashboard(props) {
                             </Link>
                         </Menu.Item>
 
+                        <Menu.Item key='narrative-report'>
+                            <Link to={Path.activityReport()}>
+                                <FileTextOutlined /> Activity Report
+                            </Link>
+                        </Menu.Item>
+
                         <SubMenu
                             key='narrative-report'
                             title='Narrative Report'
                             icon={<SolutionOutlined />}
                         >
-                            <Menu.Item key='report-activity'>
-                                <Link to={Path.reportActivity()}>Report Activity</Link>
+                            <Menu.Item key='activity-report'>
+                                <Link to={Path.activityReport()}>Activity Report</Link>
                             </Menu.Item>
                             <Menu.Item key='response'>
                                 <Link to={Path.responses()}>Response</Link>
@@ -115,7 +116,7 @@ export default function Dashboard(props) {
                                 <Link to={Path.caseStudies()}>Case Study</Link>
                             </Menu.Item>
                             <Menu.Item key='event-activity'>
-                                <Link to={Path.eventPhotos()}>Event Activity</Link>
+                                <Link to={Path.eventImages()}>Event Activity</Link>
                             </Menu.Item>
                         </SubMenu>
 
