@@ -6,7 +6,9 @@ module.exports = {
             const accountId = req.payload.aud;
             const responses = await Response.findAll({
                 where: { accountId },
-                attributes: { exclude: ['accountId'] }
+                attributes: { 
+                    exclude: ['accountId','createdAt','updatedAt'] 
+                }
             });
             res.send(responses);
         } catch (error) {
@@ -16,9 +18,10 @@ module.exports = {
 
     update: async (req, res, next) => {
         try {
-            const accountId = req.payload.aud;
             const { id } = req.params;
-            await Response.update(req.body, { where: { id, accountId } });
+            const { response } = req.body;
+
+            await Response.update({response}, { where: { id } });
             res.sendStatus(200);
         } catch (error) {
             next(error);
@@ -27,9 +30,8 @@ module.exports = {
 
     delete: async (req, res, next) => {
         try {
-            const accountId = req.payload.aud;
             const { id } = req.params;
-            await Response.destroy({ where: { id, accountId } });
+            await Response.destroy({ where: { id } });
             res.sendStatus(204);
         } catch (error) {
             next(error);
