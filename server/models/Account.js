@@ -5,7 +5,7 @@ const ContactPerson = require('./ContactPerson');
 const Proposal = require('./Proposal');
 const Donor = require('./Donor');
 const { TargetGroup, KeyProgramme, Region } = require('./Essential');
-const ProfilePhoto = require('./ProfilePhoto');
+const ProfileImage = require('./ProfileImage');
 
 const Account = db.define('account', {
     name: { type: DataTypes.STRING, allowNull: false },
@@ -34,11 +34,11 @@ Account.hasOne(Detail, {
 });
 Detail.belongsTo(Account, { as: 'account' });
 
-Account.hasOne(ProfilePhoto, {
+Account.hasOne(ProfileImage, {
     foreignKey: { name: 'accountId', allowNull: false },
     as: 'profile_photo'
 });
-ProfilePhoto.belongsTo(Account, { as: 'account' });
+ProfileImage.belongsTo(Account, { as: 'account' });
 
 // One-to-Many Association
 Account.hasMany(User, { 
