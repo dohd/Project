@@ -1,26 +1,58 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import CaseStudy from './CaseStudy';
 import { useTracked } from 'context';
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import Api from 'api';
+import { useParams } from 'react-router';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
+const fetchNarrative = dispatch => {
+    Api.narrative.get()
+    .then(res => dispatch({
+        type: 'addNarratives',
+        payload: res
+    }));
+};
+
 export default function CaseStudyContainer() {
-    const store = useTracked()[0];
+    const { activityId } = useParams();
+    
+    const [store, dispatch] = useTracked();
     const [caseStudies, setCaseStudies] = useState([]);
 
     useEffect(() => {
-        const list = store.caseStudies.map(val => ({
-            key: val.id, 
-            caseStudy: val.case,
-            activity: val.narrativeReport.activity.action
-        }));
+        const list = [];
+        for (const study of store.caseStudies) {
+            const { title, activity } = study.narrativeReport;
+            if (activity.id === parseInt(activityId)) {
+                list.push({ 
+                    key: study.id, 
+                    caseStudy: study.case,
+                    report: title
+                });
+            }
+        }
         setCaseStudies(list);
-    }, [store.caseStudies]);
+    }, [store.caseStudies, activityId]);
 
-    const tableView = useRef();
+    const onDelete = key => {
+        Api.caseStudy.delete(key)
+        .then(res => fetchNarrative(dispatch));
+    };
+
+    // modal logic
+    const [record, setRecord] = useState({});
+    const [visible, setVisible] = useState(false);
+
+    const showModal = record => {
+        setRecord(record);
+        setVisible(true);
+    };
+
+    const tableView = {};
     const onExport = () => {
         const tableDom = tableView.current;
         const tableHeader = tableDom.getElementsByTagName('th');
@@ -74,6 +106,10 @@ export default function CaseStudyContainer() {
         pdfMake.createPdf(dd).open();
     };
 
-    const props = { caseStudies, onExport };
+    const props = { 
+        caseStudies, onExport, record, visible, 
+        setVisible, showModal, onDelete,
+        fetchNarrative: () => fetchNarrative(dispatch)
+    };
     return <CaseStudy {...props} />
 }
