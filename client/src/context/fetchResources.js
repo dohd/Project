@@ -8,7 +8,7 @@ const actionTypeMap = {
     programmeGraph: 'addProgrammeGraph',
     participantAnalysis: 'addParticipantAnalysis',
     gender: 'addGender',
-    avatarImage: 'addAvatarImage',
+    profileImage: 'addProfileImage',
     eventImage: 'addEventImages',
     orgProfile: 'addOrgProfile',
     targetGroup: 'addTargetGroups',
@@ -28,12 +28,11 @@ const actionTypeMap = {
 };
 
 export const fetchResources = dispatch => {
-    const actionTypeKeys = Object.keys(actionTypeMap);
-    actionTypeKeys.forEach(key => {
+    for (const key in actionTypeMap) {
         Api[key].get()
         .then(res => dispatch({ 
             type: actionTypeMap[key], 
             payload: res
         }));
-    });
+    }
 };
