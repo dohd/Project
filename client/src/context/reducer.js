@@ -22,8 +22,8 @@ export const reducer = (state, action) => {
         case 'addGender':
             return {...state, gender: action.payload}
 
-        case 'addAvatarImage':
-            return {...state, avatarImage: action.payload};
+        case 'addProfileImage':
+            return {...state, profileImage: action.payload};
 
         case 'addEventImages':
             return {...state, eventImages: action.payload};
