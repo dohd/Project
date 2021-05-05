@@ -27,7 +27,7 @@ const RouteNameMap = {
     [Path.programmes()]: 'Key Programmes',
     [Path.groups()]: 'Target Groups',
     [Path.responses()]: 'Responses',
-    [Path.eventPhotos()]: 'Event Activities',
+    [Path.eventImages()]: 'Event Activities',
     [Path.activityPhoto()]: 'Event Photos',
     [Path.users()]: 'Users',
     [Path.settings()]: 'Settings',
@@ -35,7 +35,9 @@ const RouteNameMap = {
     
     [Path.activityReport()]: 'Activity Report',
     [Path.caseStudies()]: 'Case Studies',
-    [Path.reportView()]: 'Report View'
+    [Path.reportView()]: 'Report View',
+    [Path.reportImages()]: 'Images',
+    [Path.reportResponses()]: 'Responses',
 };
 
 export default RouteNameMap;
