@@ -16,13 +16,16 @@ const Path = {
     eventCalendar: function() { return `${this.home()}/event-calendar`; },
     participantAnalysis: function() { return `${this.home()}/participant-analysis`; },
     proposals: function() { return `${this.home()}/proposals`; },
-    eventPhotos: function() { return `${this.home()}/event-activities`; },
     implement: function() { return `${this.home()}/pending-action-implementation`; },
     pendingReport: function() { return `${this.home()}/activities-pending-narrative-report`; },
     graphs: function() { return `${this.home()}/data-visualization`; },
     activityReport: function() { return `${this.home()}/activity-report`; },
+    eventImages: function() { return `${this.home()}/event-images`; },
 
     reportView: function() { return `${this.activityReport()}/:activityId/report`; },
+    reportImages: function() { return `${this.activityReport()}/:narrativeReportId/images`; },
+    reportResponses: function() { return `${this.activityReport()}/:narrativeReportId/responses`; },
+
 
     updatePendingAgenda: function() { return `${this.pendingReport()}/:activityId/agenda`; },
     updatePendingReport: function() { 
@@ -33,7 +36,7 @@ const Path = {
     },
 
     caseStudies: function() { return `${this.activityReport()}/:activityId/case-studies`; },
-    activityPhoto: function() { return `${this.eventPhotos()}/:activityId/photos`; },
+    activityPhoto: function() { return `${this.eventImages()}/:activityId/photos`; },
 
     createProposal: function() { return `${this.proposals()}/create`; },
     updateProposal: function() { return `${this.proposals()}/:proposalId/update`; },
