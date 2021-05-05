@@ -1,15 +1,16 @@
-import React from 'react';
-import { Upload, message } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+import { Upload } from 'antd';
+import { UploadOutlined, LoadingOutlined } from '@ant-design/icons';
 
-import Api, { endpoints, fetchToken } from 'api';
-import { useTracked } from 'context';
 import './changeAvatar.css';
+import Api, {fetchAud} from 'api';
+import { useTracked } from 'context';
+import uploadTask from 'utils/firebaseConfig';
 
-const fetchAvatarImage = dispatch => {
-    Api.avatarImage.get()
+const fetchProfileImage = dispatch => {
+    Api.profileImage.get()
     .then(res => dispatch({
-        type: 'addAvatarImage', 
+        type: 'addProfileImage', 
         payload: res
     }));
 };
@@ -17,50 +18,64 @@ const fetchAvatarImage = dispatch => {
 export default function ChangeAvatar(params) {
     const [store, dispatch] = useTracked();
 
-    const handleChange = e => {
-        const { status, response } = e.file;
-        if (status === 'done') fetchAvatarImage(dispatch);
-        if (status === 'error' && response.error) {
-            console.log(response.error);
-            if (response.error.message) {
-                message.error(response.error.message);
-            }
+    const [loading, setLoading] = useState(false);
+
+    const upload = async file => {
+        try {
+            const url = await uploadTask(`/profile/${file.name}`, file);
+            const res = await Api.profileImage.post({url});
+            if (res) fetchProfileImage(dispatch);
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
         }
     };
 
-    const token = fetchToken();
-    const actionUrl = endpoints.avatarImage;
-    const uploadName = 'profile';
+    const handleBeforeUpload = file => {
+        const name = 'image-' + fetchAud();
+        const ren_file = new File([file], name, {type: file.type});
+
+        setLoading(true);
+        upload(ren_file);
+        return false;
+    };
+
+    const [url, setUrl] = useState('');
+    useEffect(() => setUrl(store.profileImage.url), [store.profileImage]);
+
+    const profileStatus = () => {
+        if (loading) return <LoadingOutlined />;
+        else if (url) {
+            return (
+                <img 
+                    src={url} 
+                    alt='event' 
+                    style={{ width: '100%' }} 
+                />
+            );
+        }
+        else return (
+            <div>
+                <UploadOutlined className='settings-upload-outlined' />
+                <p className='settings-upload'>Upload</p>
+            </div>
+        );
+    }
 
     return (
         <div className='settings-avatar-container'>
             <div style={{ width: '9em' }}>
                 <Upload
-                    name={uploadName}
-                    action={actionUrl}
-                    headers={{ authorization: `Bearer ${token}` }}
-                    accept='image/jpg, image/png, image/jpeg'
+                    beforeUpload={handleBeforeUpload}
                     showUploadList={false}
-                    listType= 'picture-card'
-                    onChange={handleChange}
+                    listType='picture-card'
                 >
-                    { 
-                        store.avatarImage ? 
-                        <img 
-                            src={store.avatarImage} 
-                            alt='avatar' 
-                            style={{ width: '100%' }} 
-                        /> : 
-                        <div>
-                            <UploadOutlined className='settings-upload-outlined' />
-                            <p className='settings-upload'>Upload</p>
-                        </div>
-                    }
+                    { profileStatus() }
                 </Upload>
             </div>
 
             <div className='settings-avatar-content'>
-                <h3>Change Avatar</h3>  
+                <h3>Change Profile</h3>  
                 <p className='settings-paragraph'>
                     Change organisation profile picture
                 </p>
