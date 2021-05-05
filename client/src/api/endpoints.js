@@ -1,4 +1,5 @@
 const endpoints = {
+    narrativeResponse: '/responses',
     activitySchedule: '/activity-schedule',
     activityCount: '/activity-count',
     regionGraph: '/graphs/participants-per-region',
@@ -6,7 +7,7 @@ const endpoints = {
     participantAnalysis: '/participant-analysis',
     gender: '/gender',
     eventImage: '/event-images',
-    avatarImage: '/avatar-image',
+    profileImage: '/profile-image',
     orgProfile: '/organisation-profile',
     targetGroup: '/target-groups',
     targetRegion: '/target-regions',
