@@ -8,7 +8,7 @@ router.use('/donors', require('./donor'));
 router.use('/donor-contacts', require('./donorContact'));
 router.use('/narrative-quiz', require('./narrativeQuiz'));
 
-router.use('/avatar-image', require('./profilePhoto'));
+router.use('/profile-image', require('./profileImage'));
 router.use('/organisation-profile', require('./orgProfile'));
 router.use('/target-regions', require('./region'));
 router.use('/target-groups', require('./targetGroup'));
@@ -39,6 +39,6 @@ router.use('/activity-plan-regions', require('./planRegion'));
 router.use('/activity-plan-dates', require('./planEvent'));
 router.use('/activity-plan-materials', require('./planMaterial'));
 router.use('/activity-plan-programmes', require('./planProgramme'));
-router.use('/narrative-report-responses', require('./response'));
+router.use('/responses', require('./response'));
 
 module.exports = router;
