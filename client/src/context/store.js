@@ -9,7 +9,7 @@ const initial_state = {
     programmeGraph: {},
     participantAnalysis: [],
     gender: [],
-    avatarImage: '',
+    profileImage: {},
     eventImages: [],
     orgProfile: {},
     targetGroups: [],
