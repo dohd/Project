@@ -9,6 +9,7 @@
     "chart.js": "^2.9.4",
     "core-js": "^3.9.0",
     "dayjs": "^1.10.4",
+    "firebase": "^8.4.2",
     "jwt-decode": "^3.1.2",
     "pdfmake": "^0.1.70",
     "react": "^16.14.0",
