@@ -44,7 +44,7 @@ export default function PendingObjectivesContainer() {
     const pendingAct = key => {
         sessionStorage.act_state = 'pending';
         const params = { objectiveId: key, proposalId };
-        return parseUrl(Path.activities(), params);
+        return parseUrl(Path.activities, params);
     };
 
     const tableView = useRef();

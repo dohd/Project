@@ -11,7 +11,7 @@ export default function LoginContainer({ history }) {
         const res = await Api.login.post(data);
         if (!res) return setLoading(false);
         setToken(res.accessToken);
-        return isAuth() && history.push(Path.home());
+        return isAuth() && history.push(Path.home);
     };
 
     const onFinish = values => {

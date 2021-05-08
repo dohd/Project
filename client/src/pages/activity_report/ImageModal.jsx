@@ -32,7 +32,7 @@ export default function ImageModal(props) {
                         key: 'image',
                         render: (txt, {key}) => {
                             const params = { narrativeReportId: key };
-                            const imagePath = parseUrl(Path.reportImages(), params);
+                            const imagePath = parseUrl(Path.reportImages, params);
                             return (
                                 <Button type='link'>
                                     <Link to={imagePath}>images</Link>

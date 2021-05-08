@@ -39,7 +39,7 @@ export default function Implement({ history }) {
     }, [proposals, activityPlans, participants]);
 
     const createParticipant = key => {
-        const pattern = new UrlPattern(Path.implementParticipant());
+        const pattern = new UrlPattern(Path.implementParticipant);
         const path = pattern.stringify({ activityId: key });
         history.push(path);
     };

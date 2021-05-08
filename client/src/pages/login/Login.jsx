@@ -56,13 +56,13 @@ export default function Login(props) {
                             </Button>
                         </Form.Item>
                     </Form>
-                    <Link to={Path.passwordRecover()}>
+                    <Link to={Path.passwordRecover}>
                         <p className='passwordText'>Forgot password ?</p>
                     </Link>
                 </Card>
                 <p className='registerText'>
                     Don't have an account? &nbsp;
-                    <Link to={Path.register()}>
+                    <Link to={Path.register}>
                         <span className='whiteText'>Register</span>
                     </Link>
                 </p>

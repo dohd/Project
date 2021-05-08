@@ -45,7 +45,7 @@ export default function ActivityPlans(props) {
                         key: 'action',
                         render: (txt, {key}) => {
                             const obj = { activityPlanId: key, ...params };
-                            const path = parseUrl(Path.participants(), obj);
+                            const path = parseUrl(Path.participants, obj);
                             return <Link to={path}>Participants</Link>;
                         }
                     }

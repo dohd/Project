@@ -9,14 +9,14 @@ export default function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path={Path.root()} render={() => <Redirect to={Path.login()} /> } />
-        <Route path={Path.login()} component={Login} />
-        <Route path={Path.passwordRecover()} component={PassRecover} />
-        <Route path={Path.register()} component={Register} />
+        <Route exact path={Path.root} render={() => <Redirect to={Path.login} /> } />
+        <Route path={Path.login} component={Login} />
+        <Route path={Path.passwordRecover} component={PassRecover} />
+        <Route path={Path.register} component={Register} />
       </Switch>
       
       <Switch>
-        <PrivateRoute path={Path.home()} component={Dashboard} />
+        <PrivateRoute path={Path.home} component={Dashboard} />
       </Switch>
     </BrowserRouter>
   );

@@ -44,13 +44,13 @@ export default function Proposals({ history }) {
     const setApprovedObj = key => {
         sessionStorage.obj_state = 'approved';
         const params = { proposalId: key };
-        return parseUrl(Path.objectives(), params);
+        return parseUrl(Path.objectives, params);
     };
 
     const setPendingObj = key => {
         sessionStorage.setItem('obj_state', 'pending');
         const params = { proposalId: key };
-        return parseUrl(Path.objectives(), params);
+        return parseUrl(Path.objectives, params);
     }
 
     const tableView = useRef();

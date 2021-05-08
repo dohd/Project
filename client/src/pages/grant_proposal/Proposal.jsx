@@ -110,7 +110,7 @@ export default function Proposal(props) {
                     <Button 
                         type='primary' 
                         icon={<PlusOutlined />} 
-                        onClick={() => history.push(Path.createProposal())}
+                        onClick={() => history.push(Path.createProposal)}
                     >
                         Create           
                     </Button>
@@ -212,7 +212,7 @@ export default function Proposal(props) {
                             );
                             
                             const params = {proposalId: key}
-                            const path = parseUrl(Path.updateProposal(), params);
+                            const path = parseUrl(Path.updateProposal, params);
                             return (
                                 <div>
                                     <Dropdown

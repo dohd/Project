@@ -99,7 +99,7 @@ export default function Agenda(props) {
     });
 
     const params = useParams();
-    const reportPath = parseUrl(Path.narrativeReport(), params);
+    const reportPath = parseUrl(Path.narrativeReport, params);
     
     return (
         <Card 

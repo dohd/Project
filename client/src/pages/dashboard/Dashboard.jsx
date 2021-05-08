@@ -36,7 +36,7 @@ export default function Dashboard(props) {
                         theme='dark'
                     >
                         <Menu.Item key='dashboard'>
-                            <Link to={Path.home()}>
+                            <Link to={Path.home}>
                                 <DashboardOutlined />Dashboard
                             </Link>
                         </Menu.Item> 
@@ -47,15 +47,15 @@ export default function Dashboard(props) {
                             icon={<GlobalOutlined />}
                         >
                             <Menu.Item key='key-programme'>
-                                <Link to={Path.programmes()}>Key Programme</Link>
+                                <Link to={Path.programmes}>Key Programme</Link>
                             </Menu.Item>
 
                             <Menu.Item key='target-region'>
-                                <Link to={Path.regions()}>Target Region</Link>
+                                <Link to={Path.regions}>Target Region</Link>
                             </Menu.Item>
                             
                             <Menu.Item key='target-group'>
-                                <Link to={Path.groups()}>Target Group</Link>
+                                <Link to={Path.groups}>Target Group</Link>
                             </Menu.Item>
                         </SubMenu>
 
@@ -65,38 +65,38 @@ export default function Dashboard(props) {
                             icon={<InfoOutlined />}
                         >   
                             <Menu.Item key='donor'>
-                                <Link to={Path.donors()}>
+                                <Link to={Path.donors}>
                                     <TeamOutlined /> Donor
                                 </Link>
                             </Menu.Item>
 
                             <Menu.Item key='contact'>
-                                <Link to={Path.donorContacts()}>
+                                <Link to={Path.donorContacts}>
                                     <ContactsOutlined /> Contact
                                 </Link>
                             </Menu.Item>
                         </SubMenu>
 
                         <Menu.Item key='proposals'>
-                            <Link to={Path.proposals()}>
+                            <Link to={Path.proposals}>
                                 <ProjectOutlined /> Proposal
                             </Link>
                         </Menu.Item>
 
                         <Menu.Item key='activity-plans'>
-                            <Link to={Path.eventCalendar()}>
+                            <Link to={Path.eventCalendar}>
                                 <ScheduleOutlined /> Event Calendar
                             </Link>
                         </Menu.Item>
 
                         <Menu.Item key='participant-analysis'>
-                            <Link to={Path.participantAnalysis()}>
+                            <Link to={Path.participantAnalysis}>
                                <AuditOutlined /> Participant Analysis
                             </Link>
                         </Menu.Item>
 
                         <Menu.Item key='narrative-report'>
-                            <Link to={Path.activityReport()}>
+                            <Link to={Path.activityReport}>
                                 <FileTextOutlined /> Activity Report
                             </Link>
                         </Menu.Item>
@@ -107,16 +107,16 @@ export default function Dashboard(props) {
                             icon={<SolutionOutlined />}
                         >
                             <Menu.Item key='activity-report'>
-                                <Link to={Path.activityReport()}>Activity Report</Link>
+                                <Link to={Path.activityReport}>Activity Report</Link>
                             </Menu.Item>
                             <Menu.Item key='response'>
-                                <Link to={Path.responses()}>Response</Link>
+                                <Link to={Path.responses}>Response</Link>
                             </Menu.Item>
                             <Menu.Item key='case-study'>
-                                <Link to={Path.caseStudies()}>Case Study</Link>
+                                <Link to={Path.caseStudies}>Case Study</Link>
                             </Menu.Item>
                             <Menu.Item key='event-activity'>
-                                <Link to={Path.eventImages()}>Event Activity</Link>
+                                <Link to={Path.eventImages}>Event Activity</Link>
                             </Menu.Item>
                         </SubMenu>
 
@@ -126,15 +126,15 @@ export default function Dashboard(props) {
                             icon={<ExceptionOutlined />}
                         >
                             <Menu.Item key='implement'>
-                                <Link to={Path.implement()}>Implementation</Link>
+                                <Link to={Path.implement}>Implementation</Link>
                             </Menu.Item>
                             <Menu.Item key='report'>
-                                <Link to={Path.pendingReport()}>Narrative Report</Link>
+                                <Link to={Path.pendingReport}>Narrative Report</Link>
                             </Menu.Item>
                         </SubMenu>
 
                         <Menu.Item key='graphs'>
-                            <Link to={Path.graphs()}>
+                            <Link to={Path.graphs}>
                                 <AreaChartOutlined />
                                 Data Visualization
                             </Link>
@@ -148,14 +148,14 @@ export default function Dashboard(props) {
                             {
                                 isAdmin() &&
                                 <Menu.Item key='users'>
-                                    <Link to={Path.users()}>
+                                    <Link to={Path.users}>
                                     <TeamOutlined /> Users
                                     </Link>
                                 </Menu.Item>
                             }
                             
                             <Menu.Item key='settings'>
-                                <Link to={Path.settings()}>
+                                <Link to={Path.settings}>
                                     <SettingOutlined /> Settings
                                 </Link>
                             </Menu.Item>
@@ -166,7 +166,7 @@ export default function Dashboard(props) {
                 <Layout style={{ marginLeft: 200 }}>
                     <Header className='header'>
                         <div className='header-icons'>
-                            <Link to={Path.settings()}>
+                            <Link to={Path.settings}>
                                 <SettingOutlined className='setting-icon'/>
                             </Link>
                             <Logout />

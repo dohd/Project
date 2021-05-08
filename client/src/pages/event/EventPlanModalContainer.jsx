@@ -55,7 +55,7 @@ export default function EventPlanModalContainer(props) {
     // };
 
     // const createParticipant = (planId, activityId) => {
-    //     const pattern = new UrlPattern(Path.planParticipant());
+    //     const pattern = new UrlPattern(Path.planParticipant);
     //     const path = pattern.stringify({ planId });
     //     history.push({ pathname: path, plans: { activityId } });
     // };

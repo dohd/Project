@@ -94,8 +94,8 @@ export default function Participants(props) {
     });
 
     const params = useParams();
-    const agendaPath = parseUrl(Path.agenda(), params);
-    const addParticipantPath = parseUrl(Path.createParticipant(), params);
+    const agendaPath = parseUrl(Path.agenda, params);
+    const addParticipantPath = parseUrl(Path.createParticipant, params);
         
     return (
         <Card
@@ -194,7 +194,7 @@ export default function Participants(props) {
                         fixed: 'right',
                         render: (text, {key}) => {
                             const obj = { participantId: key, ...params };
-                            const editPath = parseUrl(Path.updateParticipant(), obj);
+                            const editPath = parseUrl(Path.updateParticipant, obj);
                             return (
                                 <div>
                                     <Popconfirm

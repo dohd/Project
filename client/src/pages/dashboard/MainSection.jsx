@@ -39,53 +39,53 @@ export default function MainSection() {
     return (
         <>
             <Switch>
-                <Route exact path={Path.reportResponses()} component={ReportResponse} />
+                <Route exact path={Path.reportResponses} component={ReportResponse} />
 
-                <Route exact path={Path.reportImages()} component={ReportImage} />
+                <Route exact path={Path.reportImages} component={ReportImage} />
 
-                <Route exact path={Path.settings()} component={Settings} />
-                <Route exact path={Path.graphs()} component={Bargraph} />
+                <Route exact path={Path.settings} component={Settings} />
+                <Route exact path={Path.graphs} component={Bargraph} />
                 
-                <Route exact path={Path.home()} component={Home} />
+                <Route exact path={Path.home} component={Home} />
 
-                <Route exact path={Path.caseStudies()} component={CaseStudy} />
-                <Route exact path={Path.users()} component={Users} />
+                <Route exact path={Path.caseStudies} component={CaseStudy} />
+                <Route exact path={Path.users} component={Users} />
 
-                <Route exact path={Path.objectives()} component={Objectives} />
-                <Route exact path={Path.proposals()} component={Proposals} />
-                <Route exact path={Path.createProposal()} component={CreateProposal} />
-                <Route exact path={Path.updateProposal()} component={EditPendingProposal} />
-                <Route exact path={Path.donors()} component={Donors} />
+                <Route exact path={Path.objectives} component={Objectives} />
+                <Route exact path={Path.proposals} component={Proposals} />
+                <Route exact path={Path.createProposal} component={CreateProposal} />
+                <Route exact path={Path.updateProposal} component={EditPendingProposal} />
+                <Route exact path={Path.donors} component={Donors} />
 
-                <Route exact path={Path.donorContacts()} component={DonorContact} />
-                <Route exact path={Path.participants()} component={Participants} />
+                <Route exact path={Path.donorContacts} component={DonorContact} />
+                <Route exact path={Path.participants} component={Participants} />
 
-                <Route exact path={Path.createParticipant()} component={CreateParticipant} />
-                <Route exact path={Path.planParticipant()} component={CreateParticipant} />
-                <Route exact path={Path.implementParticipant()} component={CreateParticipant} />
+                <Route exact path={Path.createParticipant} component={CreateParticipant} />
+                <Route exact path={Path.planParticipant} component={CreateParticipant} />
+                <Route exact path={Path.implementParticipant} component={CreateParticipant} />
 
-                <Route exact path={Path.updateParticipant()} component={UpdateParticipant} />
+                <Route exact path={Path.updateParticipant} component={UpdateParticipant} />
 
-                <Route exact path={Path.eventCalendar()} component={EventPlan} />
-                <Route exact path={Path.participantAnalysis()} component={ParticipantAnalysis} />
+                <Route exact path={Path.eventCalendar} component={EventPlan} />
+                <Route exact path={Path.participantAnalysis} component={ParticipantAnalysis} />
 
-                <Route exact path={Path.programmes()} component={KeyProgrammes} />
-                <Route exact path={Path.groups()} component={TargetGroups} />
+                <Route exact path={Path.programmes} component={KeyProgrammes} />
+                <Route exact path={Path.groups} component={TargetGroups} />
 
-                <Route exact path={Path.regions()} component={Regions} />
-                <Route exact path={Path.activityPlans()} component={ActivityPlans} />
+                <Route exact path={Path.regions} component={Regions} />
+                <Route exact path={Path.activityPlans} component={ActivityPlans} />
 
                 
-                <Route exact path={Path.activityReport()} component={ActivityReport} />
+                <Route exact path={Path.activityReport} component={ActivityReport} />
 
-                <Route exact path={Path.activities()} component={Activities} />
-                {/* <Route exact path={Path.implement()} component={Implement} /> */}
-                {/* <Route exact path={Path.pendingReport()} component={PendingReport} /> */}
+                <Route exact path={Path.activities} component={Activities} />
+                {/* <Route exact path={Path.implement} component={Implement} /> */}
+                {/* <Route exact path={Path.pendingReport} component={PendingReport} /> */}
 
-                <Route exact path={Path.agenda()} component={Agenda} />
-                <Route exact path={Path.updatePendingAgenda()} component={Agenda} />
-                <Route exact path={Path.narrativeReport()} component={Narrative} />
-                <Route exact path={Path.updatePendingReport()} component={Narrative} />
+                <Route exact path={Path.agenda} component={Agenda} />
+                <Route exact path={Path.updatePendingAgenda} component={Agenda} />
+                <Route exact path={Path.narrativeReport} component={Narrative} />
+                <Route exact path={Path.updatePendingReport} component={Narrative} />
 
             </Switch>
         </>

@@ -138,7 +138,7 @@ function Credentials({ state, setState }) {
                 </Card>
                 <p className='loginText'>
                     Already have an account? &nbsp;
-                    <Link to={Path.login()}>
+                    <Link to={Path.login}>
                         <span className='whiteText'>Sign in</span>
                     </Link>
                 </p>

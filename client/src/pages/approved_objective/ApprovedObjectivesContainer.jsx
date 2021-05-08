@@ -27,7 +27,7 @@ export default function ApprovedObjectivesContainer() {
     const approvedAct = key => {
         sessionStorage.act_state = 'approved';
         const params = { objectiveId: key, proposalId };
-        return parseUrl(Path.activities(), params);
+        return parseUrl(Path.activities, params);
     };
 
     const props = { objectives, approvedAct };

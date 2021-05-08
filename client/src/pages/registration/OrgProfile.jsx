@@ -17,7 +17,7 @@ export default function OrgProfile({ state, setState, history }) {
         Api.register.post(data)
         .then(res => {
             sessionStorage.token = res.accessToken;
-            history.push(Path.home());
+            history.push(Path.home);
         })
         .catch(err => {
             setLoad(false);

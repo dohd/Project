@@ -31,7 +31,7 @@ export default function PendingReport({ history }) {
     }, [proposals, narratives]);
 
     const createAgenda = key => {
-        const pattern = new UrlPattern(Path.updatePendingAgenda());
+        const pattern = new UrlPattern(Path.updatePendingAgenda);
         const path = pattern.stringify({ activityId: key });
         history.push(path);
     };
@@ -46,7 +46,7 @@ export default function PendingReport({ history }) {
             }
         }
         if (!exists) return message.error('Add an agenda!');
-        const pattern = new UrlPattern(Path.updatePendingReport());
+        const pattern = new UrlPattern(Path.updatePendingReport);
         const path = pattern.stringify({ activityId: key });
         history.push(path);
     };

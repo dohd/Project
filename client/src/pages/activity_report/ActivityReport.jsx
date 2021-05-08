@@ -71,7 +71,7 @@ export default function ActivityReport() {
                         key: 'action',
                         render: (txt, {key}) => {
                             const params = { activityId: key };
-                            const casePath = parseUrl(Path.caseStudies(), params);
+                            const casePath = parseUrl(Path.caseStudies, params);
                             return (
                                 <Dropdown
                                     overlay={
