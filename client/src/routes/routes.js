@@ -1,57 +1,57 @@
 const Path = {
-    root: function() { return '/'; },
-    register: function() { return '/register'; },
-    login: function() { return '/login'; },
-    passwordRecover: function() { return '/recover-password'; },
+    get root() { return '/'; },
+    get register() { return '/register'; },
+    get login() { return '/login'; },
+    get passwordRecover() { return '/recover-password'; },
 
-    home: function() { return '/home'; },
-    users: function() { return `${this.home()}/users`; },
-    settings: function() { return `${this.home()}/settings`; },
-    donors: function() { return `${this.home()}/donors`; },
-    donorContacts: function() { return `${this.home()}/donor-contact-person`; },
-    responses: function() { return `${this.home()}/responses`; },
-    groups: function() { return `${this.home()}/target-groups`; },
-    programmes: function() { return `${this.home()}/key-programmes`; },
-    regions: function() { return `${this.home()}/target-regions`; },
-    eventCalendar: function() { return `${this.home()}/event-calendar`; },
-    participantAnalysis: function() { return `${this.home()}/participant-analysis`; },
-    proposals: function() { return `${this.home()}/proposals`; },
-    implement: function() { return `${this.home()}/pending-action-implementation`; },
-    pendingReport: function() { return `${this.home()}/activities-pending-narrative-report`; },
-    graphs: function() { return `${this.home()}/data-visualization`; },
-    activityReport: function() { return `${this.home()}/activity-report`; },
-    eventImages: function() { return `${this.home()}/event-images`; },
+    get home() { return '/home'; },
+    get users() { return `${this.home}/users`; },
+    get settings() { return `${this.home}/settings`; },
+    get donors() { return `${this.home}/donors`; },
+    get donorContacts() { return `${this.home}/donor-contact-person`; },
+    get responses() { return `${this.home}/responses`; },
+    get groups() { return `${this.home}/target-groups`; },
+    get programmes() { return `${this.home}/key-programmes`; },
+    get regions() { return `${this.home}/target-regions`; },
+    get eventCalendar() { return `${this.home}/event-calendar`; },
+    get participantAnalysis() { return `${this.home}/participant-analysis`; },
+    get proposals() { return `${this.home}/proposals`; },
+    get implement() { return `${this.home}/pending-action-implementation`; },
+    get pendingReport() { return `${this.home}/activities-pending-narrative-report`; },
+    get graphs() { return `${this.home}/data-visualization`; },
+    get activityReport() { return `${this.home}/activity-report`; },
+    get eventImages() { return `${this.home}/event-images`; },
 
-    reportView: function() { return `${this.activityReport()}/:activityId/report`; },
-    reportImages: function() { return `${this.activityReport()}/:narrativeReportId/images`; },
-    reportResponses: function() { return `${this.activityReport()}/:narrativeReportId/responses`; },
+    get reportView() { return `${this.activityReport}/:activityId/report`; },
+    get reportImages() { return `${this.activityReport}/:narrativeReportId/images`; },
+    get reportResponses() { return `${this.activityReport}/:narrativeReportId/responses`; },
 
 
-    updatePendingAgenda: function() { return `${this.pendingReport()}/:activityId/agenda`; },
-    updatePendingReport: function() { 
-        return `${this.pendingReport()}/:activityId/create-narrative-report`; 
+    get updatePendingAgenda() { return `${this.pendingReport}/:activityId/agenda`; },
+    get updatePendingReport() { 
+        return `${this.pendingReport}/:activityId/create-narrative-report`; 
     },
-    implementParticipant: function() { 
-        return `${this.implement()}/:activityId/create-participant`; 
+    get implementParticipant() { 
+        return `${this.implement}/:activityId/create-participant`; 
     },
 
-    caseStudies: function() { return `${this.activityReport()}/:activityId/case-studies`; },
-    activityPhoto: function() { return `${this.eventImages()}/:activityId/photos`; },
+    get caseStudies() { return `${this.activityReport}/:activityId/case-studies`; },
+    get activityPhoto() { return `${this.eventImages}/:activityId/photos`; },
 
-    createProposal: function() { return `${this.proposals()}/create`; },
-    updateProposal: function() { return `${this.proposals()}/:proposalId/update`; },
-    objectives: function() { return `${this.proposals()}/:proposalId/objectives`; },
+    get createProposal() { return `${this.proposals}/create`; },
+    get updateProposal() { return `${this.proposals}/:proposalId/update`; },
+    get objectives() { return `${this.proposals}/:proposalId/objectives`; },
 
-    activities: function() { return `${this.objectives()}/:objectiveId/activities`; },
-    activityPlans: function() { return `${this.activities()}/:activityId/activity-plans`; },
-    participants: function() { return `${this.activityPlans()}/:activityPlanId/participants`; },
-    agenda: function() { return `${this.participants()}/agenda`; },
-    narrativeReport: function() { return `${this.agenda()}/create-narrative-report`; },
+    get activities() { return `${this.objectives}/:objectiveId/activities`; },
+    get activityPlans() { return `${this.activities}/:activityId/activity-plans`; },
+    get participants() { return `${this.activityPlans}/:activityPlanId/participants`; },
+    get agenda() { return `${this.participants}/agenda`; },
+    get narrativeReport() { return `${this.agenda}/create-narrative-report`; },
 
-    planParticipant: function () { return`${this.eventCalendar()}/:planId/create-participant`; },
+    get planParticipant()  { return`${this.eventCalendar}/:planId/create-participant`; },
 
-    createParticipant: function() { return `${this.participants()}/create`; },
-    updateParticipant: function() { return `${this.participants()}/:participantId/update`; },
+    get createParticipant() { return `${this.participants}/create`; },
+    get updateParticipant() { return `${this.participants}/:participantId/update`; },
 };
 
 export default Path;
