@@ -24,7 +24,7 @@ export default function Dashboard(props) {
         <div>
             <Layout>
                 <Sider className='sider'>
-                    <h2 className='app-name'>APP NAME</h2>
+                    <h2 className='app-name'>PROJ-BOOK</h2>
                     <div className='avatar-container'>
                         <AvatarProfile profileImage={profileImage} />
                         <p className='profile-name'>{ profileName }</p>
