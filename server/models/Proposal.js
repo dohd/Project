@@ -1,6 +1,5 @@
 const { db, DataTypes } = require('../utils/database');
 const Objective = require('./Objective');
-const Status = require('./Status');
 
 const Proposal = db.define('proposal', {
     title: { type: DataTypes.STRING, allowNull: false },
@@ -8,23 +7,10 @@ const Proposal = db.define('proposal', {
     endPeriod: { type: DataTypes.STRING, allowNull: false },
     dateSubmitted: { type: DataTypes.STRING, allowNull: false },
     budget: { type: DataTypes.INTEGER, allowNull: false },
-});
-
-// Hooks
-Proposal.beforeValidate(async (proposal, options) => {
-    const { statusId } = proposal;
-    if (!statusId) proposal.statusId = 1;
+    status: { type: DataTypes.INTEGER, defaultValue: 0 }
 });
 
 module.exports = Proposal;
-
-// One-to-One Association
-Status.hasOne(Proposal, {
-    foreignKey: { name: 'statusId', allowNull: false },
-    as: 'proposal',
-    onDelete: 'set null'
-});
-Proposal.belongsTo(Status, { as: 'status' });
 
 // One-to-Many Association
 Proposal.hasMany(Objective, { 

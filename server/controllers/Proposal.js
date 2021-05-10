@@ -1,5 +1,4 @@
 const { db } = require('../utils/database');
-const Status = require('../models/Status');
 const Proposal = require('../models/Proposal');
 const Donor = require('../models/Donor');
 const Objective = require('../models/Objective');
@@ -79,10 +78,6 @@ module.exports = {
                     ] 
                 },
                 include: [
-                    {
-                        model: Status,
-                        as: 'status'
-                    },
                     {
                         model: Donor,
                         as: 'donor',
