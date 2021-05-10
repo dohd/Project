@@ -27,9 +27,8 @@ export default function HomeContainer() {
         let approved = 0;
         let pending = 0;
         proposals.forEach(v => {
-            const isApproved = v.status.value === 'Approved';
-            if (isApproved) approved++; 
-            if (!isApproved) pending++;
+            if (v.status === 1) approved++; 
+            else pending++;
         });
         setProposals({ approved, pending });
     }, [store.proposals]);
@@ -40,7 +39,7 @@ export default function HomeContainer() {
         if (activity.hasOwnProperty('count')) {
             setActivity(activity.count);
         }
-    }, [store.activityCount])
+    }, [store.activityCount]);
 
     const props = {
         proposals, activity, schedule,
