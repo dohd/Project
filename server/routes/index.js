@@ -30,6 +30,8 @@ router.use('/activity-count', require('./activityCount'));
 router.use('/activity-schedule', require('./activitySchedule'));
 router.use('/participant-analysis', require('./participantAnalysis'));
 
+router.use('/pending-action', require('./pendingAction'));
+
 // graphs
 router.use('/graphs', require('./graph'));
 
