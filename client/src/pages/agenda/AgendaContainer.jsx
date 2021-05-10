@@ -11,7 +11,7 @@ const fetchAgenda = dispatch => {
         type: 'addAgenda',
         payload: res
     }));
-}
+};
 
 export default function AgendaContainer() { 
     const [store, dispatch] = useTracked();
@@ -24,8 +24,7 @@ export default function AgendaContainer() {
         const list = store.agenda.filter(v => {
             if (v.activityId === parseInt(activityId)) {
                 v.key = v.id;
-                const { startTime, endTime } = v;
-                v.time = [startTime, endTime].join(' - ');
+                v.time = [v.startTime, v.endTime].join(' - ');
                 return true;
             }
             return false;
