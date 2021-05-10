@@ -20,6 +20,7 @@ export default function Proposal(props) {
         showModal, onExport, state, setPendingObj, 
         setApprovedObj, fetchProposals
     } = props;
+
     const history = useHistory();
 
     // custom search filter 
@@ -170,13 +171,13 @@ export default function Proposal(props) {
                         dataIndex: 'status',
                         key: 'status',
                         filters: [
-                            { text: 'Pending', value: 'Pending' },
-                            { text: 'Approved', value: 'Approved' }
+                            { text: 'Pending', value: 0 },
+                            { text: 'Approved', value: 1 }
                         ],
-                        onFilter: (value, {status}) => (status.indexOf(value) === 0),
+                        onFilter: (value, record) => (record.status === value),
                         render: text => {
-                            const color = (text === 'Approved') ? 'geekblue' : 'green';
-                            return <Tag color={color}>{ text }</Tag>;
+                            const color = text === 1 ? 'geekblue' : 'green';
+                            return <Tag color={color}>{ text === 1 ? 'Approved' : 'Pending' }</Tag>                            
                         }
                     },
                     {
@@ -190,7 +191,7 @@ export default function Proposal(props) {
                         width: 180,
                         render: (text, record) => {
                             const {key, status} = record;
-                            if (status === 'Approved') return (
+                            if (status === 1) return (
                                 <Dropdown
                                     overlay={
                                         <Menu>

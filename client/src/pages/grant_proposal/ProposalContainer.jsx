@@ -29,8 +29,7 @@ export default function Proposals({ history }) {
             endPeriod: val.endPeriod,
             budget: val.budget,
             dateSubmitted: val.dateSubmitted,
-            status: val.status.value,
-            statusId: val.status.id,
+            status: val.status,
             donor: val.donor.name
         }));
         setState(prev => ({...prev, proposals: list}));
@@ -42,7 +41,7 @@ export default function Proposals({ history }) {
     };
 
     const setApprovedObj = key => {
-        sessionStorage.obj_state = 'approved';
+        sessionStorage.setItem('obj_state', 'approved');
         const params = { proposalId: key };
         return parseUrl(Path.objectives, params);
     };
