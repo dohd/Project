@@ -30,9 +30,8 @@ const initial_state = {
 
 export const isValidType = payload => {
     const isObject = typeof payload === 'object';
-    const string = typeof payload === 'string';
     const isArray = Array.isArray(payload);
-    return isObject || isArray || string;
+    return isObject || isArray;
 };
 
 export const { Provider, useTracked } = createContainer(
