@@ -151,9 +151,7 @@ export default function Participants(props) {
                             { text: 'Female', value: 'Female' },
                             { text: 'Transgender', value: 'Transgender' }
                         ],
-                        onFilter: (value, {gender}) => {
-                            return (gender.indexOf(value) === 0);
-                        }
+                        onFilter: (value, {gender}) => gender.indexOf(value) === 0
                     },
                     {
                         title: 'Disability',

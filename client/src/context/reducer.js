@@ -1,79 +1,89 @@
 import { isValidType } from './store';
 
 export const reducer = (state, action) => {
-    if (!isValidType(action.payload)) return state;
+    const { type, payload } = action;
+    if (!isValidType(payload)) return state;
 
-    switch (action.type) {
+    switch (type) {
+        case 'addPendingReports':
+            return {...state, pendingReports: payload}
+
+        case 'addPendingParticipants':
+            return {...state, pendingParticipants: payload}
+
+        case 'addPendingPlans':
+            return {...state, pendingPlans: payload}
+
         case 'addActivitySchedule':
-            return {...state, activitySchedule: action.payload}
+            return {...state, activitySchedule: payload}
 
         case 'addActivityCount':
-            return {...state, activityCount: action.payload}
+            return {...state, activityCount: payload}
 
         case 'addRegionGraph':
-            return {...state, regionGraph: action.payload}
+            return {...state, regionGraph: payload}
 
         case 'addProgrammeGraph':
-            return {...state, programmeGraph: action.payload}
+            return {...state, programmeGraph: payload}
 
         case 'addParticipantAnalysis':
-            return {...state, participantAnalysis: action.payload}
+            return {...state, participantAnalysis: payload}
             
         case 'addGender':
-            return {...state, gender: action.payload}
+            return {...state, gender: payload}
 
         case 'addProfileImage':
-            return {...state, profileImage: action.payload};
+            return {...state, profileImage: payload};
 
         case 'addEventImages':
-            return {...state, eventImages: action.payload};
+            return {...state, eventImages: payload};
 
         case 'addOrgProfile':
-            return {...state, orgProfile: action.payload};
+            return {...state, orgProfile: payload};
 
         case 'addTargetGroups':
-            return {...state, targetGroups: action.payload};
+            return {...state, targetGroups: payload};
 
         case 'addTargetRegions':
-            return {...state, targetRegions: action.payload};
+            return {...state, targetRegions: payload};
 
         case 'addKeyProgrammes':
-            return {...state, keyProgrammes: action.payload};
+            return {...state, keyProgrammes: payload};
 
         case 'addDonors':
-            return {...state, donors: action.payload};
+            return {...state, donors: payload};
 
         case 'addDonorContacts':
-            return {...state, donorContacts: action.payload};
+            return {...state, donorContacts: payload};
 
         case 'addParticipants':
-            return {...state, participants: action.payload};
+            return {...state, participants: payload};
 
         case 'addProposals':
-            return {...state, proposals: action.payload};
+            return {...state, proposals: payload};
 
         case 'addAgenda':
-            return {...state, agenda: action.payload};
+            return {...state, agenda: payload};
 
         case 'addActivityPlans':
-            return {...state, activityPlans: action.payload}
+            return {...state, activityPlans: payload}
 
         case 'addQuiz': 
-            return {...state, quiz: action.payload};
+            return {...state, quiz: payload};
 
         case 'addNarratives':
-            return {...state, narratives: action.payload};
+            return {...state, narratives: payload};
 
         case 'addCaseStudies':
-            return {...state, caseStudies: action.payload};
+            return {...state, caseStudies: payload};
 
         case 'addUsers':
-            return {...state, users: action.payload};
+            return {...state, users: payload};
 
         case 'addRoles':
-            return {...state, roles: action.payload}
+            return {...state, roles: payload}
 
         default:
-            throw new Error("Invalid action type: " + action.type);
+            throw new Error("Invalid action type: " + type);
     }
 };

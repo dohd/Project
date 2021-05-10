@@ -11,7 +11,6 @@ import {
     UpdateParticipant, 
 } from '../participant';
 import { ParticipantAnalysis } from '../participant_analysis';
-// import { Implement, PendingReport } from '../pending_action';
 import { TargetGroups } from '../target_group';
 import { KeyProgrammes } from '../key_programme';
 import { Regions } from '../target_region';
@@ -22,7 +21,6 @@ import { Agenda } from '../agenda';
 import { Users } from '../user';
 import { Donors } from '../donor';
 import { DonorContact } from '../donor_contact';
-// import { Responses } from '../response';
 import { Settings } from '../setting';
 import { Home } from '../home';
 import { Objectives, Activities } from './ObjActWrapper';
@@ -31,6 +29,11 @@ import { ActivityReport } from '../activity_report';
 import { CaseStudy } from '../case_study';
 import {  ReportImage } from '../report_image';
 import { ReportResponse } from '../report_response';
+import { 
+    PendingActivity, 
+    PlanParticipant, 
+    PendingReport 
+} from '../pending_action';
 
 export default function MainSection() {
     // reset scrollbar position
@@ -39,6 +42,12 @@ export default function MainSection() {
     return (
         <>
             <Switch>
+                <Route exact path={Path.pendingActivityReport} component={PendingReport} />
+
+                <Route exact path={Path.pendingPlans} component={PlanParticipant} />
+
+                <Route exact path={Path.pendingActivities} component={PendingActivity} />
+
                 <Route exact path={Path.reportResponses} component={ReportResponse} />
 
                 <Route exact path={Path.reportImages} component={ReportImage} />
@@ -79,14 +88,11 @@ export default function MainSection() {
                 <Route exact path={Path.activityReport} component={ActivityReport} />
 
                 <Route exact path={Path.activities} component={Activities} />
-                {/* <Route exact path={Path.implement} component={Implement} /> */}
-                {/* <Route exact path={Path.pendingReport} component={PendingReport} /> */}
 
                 <Route exact path={Path.agenda} component={Agenda} />
                 <Route exact path={Path.updatePendingAgenda} component={Agenda} />
                 <Route exact path={Path.narrativeReport} component={Narrative} />
                 <Route exact path={Path.updatePendingReport} component={Narrative} />
-
             </Switch>
         </>
     );

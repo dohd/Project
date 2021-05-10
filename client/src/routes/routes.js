@@ -21,11 +21,13 @@ const Path = {
     get graphs() { return `${this.home}/data-visualization`; },
     get activityReport() { return `${this.home}/activity-report`; },
     get eventImages() { return `${this.home}/event-images`; },
+    get pendingActivities() { return `${this.home}/pending-activities`; },
+    get pendingPlans() { return `${this.home}/plan-participants`; },
+    get pendingActivityReport() { return `${this.home}/pending-activity-reports`; },
 
     get reportView() { return `${this.activityReport}/:activityId/report`; },
     get reportImages() { return `${this.activityReport}/:narrativeReportId/images`; },
     get reportResponses() { return `${this.activityReport}/:narrativeReportId/responses`; },
-
 
     get updatePendingAgenda() { return `${this.pendingReport}/:activityId/agenda`; },
     get updatePendingReport() { 

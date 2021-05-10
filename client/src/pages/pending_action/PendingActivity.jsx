@@ -7,7 +7,7 @@ import Highlighter from 'react-highlight-words';
 import { parseUrl } from 'utils';
 import { Path } from 'routes';
 
-export default function PendingReport(props) {
+export default function PendingActivity(props) {
     const { activities, onExport } = props;
     const history = useHistory();
 

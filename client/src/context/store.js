@@ -3,6 +3,9 @@ import { createContainer } from 'react-tracked';
 import { reducer } from './reducer';
 
 const initial_state = {
+    pendingPlans: [],
+    pendingParticipants: [],
+    pendingReports: [],
     activitySchedule: [],
     activityCount: {},
     regionGraph: {},

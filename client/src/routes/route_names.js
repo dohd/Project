@@ -38,6 +38,9 @@ const RouteNameMap = {
     [Path.reportView]: 'Report View',
     [Path.reportImages]: 'Images',
     [Path.reportResponses]: 'Responses',
+    [Path.pendingActivities]: 'Pending Activity Plans',
+    [Path.pendingPlans]: 'Plan Participants',
+    [Path.pendingActivityReport]: 'Pending Activity Reports'
 };
 
 export default RouteNameMap;

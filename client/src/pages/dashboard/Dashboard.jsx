@@ -3,16 +3,16 @@ import { Route, Link } from 'react-router-dom';
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { 
     DashboardOutlined, ScheduleOutlined, SettingOutlined,
-    AuditOutlined, SolutionOutlined, TeamOutlined,
+    AuditOutlined, TeamOutlined, InfoOutlined,
     ProjectOutlined, GlobalOutlined, ExceptionOutlined,
     ProfileOutlined, FileTextOutlined, AreaChartOutlined,
-    ContactsOutlined, InfoOutlined
+    ContactsOutlined
 } from '@ant-design/icons';
 
+import './dashboard.css';
 import MainSection  from './MainSection';
 import { AvatarProfile, Logout } from 'components';
 import { Path } from 'routes';
-import './dashboard.css';
 import { isAdmin } from 'api';
 
 const { Header, Sider, Content, Footer } = Layout;
@@ -77,13 +77,13 @@ export default function Dashboard(props) {
                             </Menu.Item>
                         </SubMenu>
 
-                        <Menu.Item key='proposals'>
+                        <Menu.Item key='proposal'>
                             <Link to={Path.proposals}>
                                 <ProjectOutlined /> Proposal
                             </Link>
                         </Menu.Item>
 
-                        <Menu.Item key='activity-plans'>
+                        <Menu.Item key='event-calendar'>
                             <Link to={Path.eventCalendar}>
                                 <ScheduleOutlined /> Event Calendar
                             </Link>
@@ -102,34 +102,18 @@ export default function Dashboard(props) {
                         </Menu.Item>
 
                         <SubMenu
-                            key='narrative-report'
-                            title='Narrative Report'
-                            icon={<SolutionOutlined />}
-                        >
-                            <Menu.Item key='activity-report'>
-                                <Link to={Path.activityReport}>Activity Report</Link>
-                            </Menu.Item>
-                            <Menu.Item key='response'>
-                                <Link to={Path.responses}>Response</Link>
-                            </Menu.Item>
-                            <Menu.Item key='case-study'>
-                                <Link to={Path.caseStudies}>Case Study</Link>
-                            </Menu.Item>
-                            <Menu.Item key='event-activity'>
-                                <Link to={Path.eventImages}>Event Activity</Link>
-                            </Menu.Item>
-                        </SubMenu>
-
-                        <SubMenu
                             key='actions'
                             title='Pending Action'
                             icon={<ExceptionOutlined />}
                         >
-                            <Menu.Item key='implement'>
-                                <Link to={Path.implement}>Implementation</Link>
+                            <Menu.Item key='activity-plan'>
+                                <Link to={Path.pendingActivities}>Activity Plan</Link>
                             </Menu.Item>
-                            <Menu.Item key='report'>
-                                <Link to={Path.pendingReport}>Narrative Report</Link>
+                            <Menu.Item key='plan-participant'>
+                                <Link to={Path.pendingPlans}>Plan Participant</Link>
+                            </Menu.Item>
+                            <Menu.Item key='activity-report'>
+                                <Link to={Path.pendingActivityReport}>Activity Report</Link>
                             </Menu.Item>
                         </SubMenu>
 

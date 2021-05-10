@@ -1,4 +1,7 @@
 const endpoints = {
+    pendingReport: '/pending-action/activity-reports',
+    pendingParticipant: '/pending-action/plan-participants',
+    pendingPlan: '/pending-action/activity-plans',
     narrativeResponse: '/responses',
     activitySchedule: '/activity-schedule',
     activityCount: '/activity-count',
