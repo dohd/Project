@@ -121,7 +121,7 @@ export default function Agenda(props) {
                     <Link to={reportPath}>
                         <Button 
                             type='primary'
-                            disabled={!state.agenda}
+                            disabled={!state.agenda.length}
                         >
                             Narrative Report
                         </Button>
