@@ -8,14 +8,12 @@ export default function HomeContainer() {
 
     const [schedule, setSchedule] = useState([]);
     useEffect(() => {
-        const schedule = store.activitySchedule.map(v => {
-            const obj = {};
-            obj.key = v.id;
-            obj.activity = v.activity.action;
-            obj.date = v.planEvents.date;
-            obj.days = v.planEvents.daysLeft;
-            return obj;
-        });
+        const schedule = store.activitySchedule.map(v => ({
+            key: v.id,
+            activity: v.activity.action,
+            date: v.planEvents.date,
+            days: v.planEvents.daysLeft
+        }));
         setSchedule(schedule);
     }, [store.activitySchedule]);
 
