@@ -14,15 +14,9 @@ export default function EditParticipant(props) {
 
     const checkName = (rule, value) => {
         const names = value.split(' ').filter(val => val);
-        if (names.length > 1) return Promise.resolve();
-        return Promise.reject('first & last name is required');
+        if (names.length < 2) return Promise.reject('first & last name is required');
+        return Promise.resolve();
     };
-
-    const genderList = state.gender.map(v => (
-        <Select.Option key={v.id} value={v.id}>
-            { v.type }
-        </Select.Option>
-    ));
 
     const regionList = state.regions.map(v => (
         <Select.Option key={v.id} value={v.id}>
@@ -67,14 +61,11 @@ export default function EditParticipant(props) {
                             labelCol={{ span: 5 }}
                             wrapperCol={{ span: 8 }}
                             label='Gender'
-                            name='genderId'
-                            rules={[{ 
-                                required: true,
-                                message: 'gender is required' 
-                            }]}
+                            name='gender'
                         >
                             <Select placeholder='Select gender'>
-                                { genderList }
+                                <Select.Option value='M'>Male</Select.Option>
+                                <Select.Option value='F'>Female</Select.Option>
                             </Select>
                         </Form.Item>
                     </Col>

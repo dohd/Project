@@ -147,11 +147,10 @@ export default function Participants(props) {
                         dataIndex: 'gender',
                         key: 'gender',
                         filters: [
-                            { text: 'Male', value: 'Male' },
-                            { text: 'Female', value: 'Female' },
-                            { text: 'Transgender', value: 'Transgender' }
+                            { text: 'Male', value: 'M' },
+                            { text: 'Female', value: 'F' },
                         ],
-                        onFilter: (value, {gender}) => gender.indexOf(value) === 0
+                        onFilter: (value, record) => record.gender === value
                     },
                     {
                         title: 'Disability',
@@ -195,6 +194,16 @@ export default function Participants(props) {
                             const editPath = parseUrl(Path.updateParticipant, obj);
                             return (
                                 <div>
+                                    <Link to={editPath}>
+                                        <Button
+                                            type='link'
+                                            icon={
+                                                <EditTwoTone 
+                                                    style={{ fontSize: '20px' }} 
+                                                />
+                                            }
+                                        />
+                                    </Link>
                                     <Popconfirm
                                         title='Are you sure to delete this participant?'
                                         onConfirm={() => onDelete(key)}
@@ -211,17 +220,7 @@ export default function Participants(props) {
                                                 />
                                             }
                                         />
-                                    </Popconfirm>
-                                    <Link to={editPath}>
-                                        <Button
-                                            type='link'
-                                            icon={
-                                                <EditTwoTone 
-                                                    style={{ fontSize: '20px' }} 
-                                                />
-                                            }
-                                        />
-                                    </Link>
+                                    </Popconfirm>                                    
                                 </div>
                             );
                         }

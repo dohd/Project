@@ -152,11 +152,6 @@ export default function ParticipantAnalysis(props) {
                                 key: 'female'
                             },
                             {
-                                title: 'Transgender',
-                                dataIndex:'transgender',
-                                key: 'transgender'
-                            },
-                            {
                                 title: 'Total',
                                 dataIndex:'total',
                                 key: 'total'

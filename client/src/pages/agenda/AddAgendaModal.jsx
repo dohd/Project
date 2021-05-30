@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Modal, Input, TimePicker } from 'antd';
+import { useParams } from 'react-router';
 
 import Api from 'api';
 
@@ -8,6 +9,7 @@ const layout = { labelCol: { span: 5 }, wrapperCol: { span: 16 } };
 
 export default function CreateAgenda(props) {
     const { visible, setVisible, fetchAgenda } = props;
+    const { activityId } = useParams();
 
     const [form] = Form.useForm();
     const onCreate = values => {
@@ -15,6 +17,8 @@ export default function CreateAgenda(props) {
         const time = values.time.map(val => val.format(timeFormat));
         values.startTime = time[0];
         values.endTime = time[1];
+        values.activityId = activityId;
+
         Api.agenda.post(values)
         .then(res => {
             form.resetFields();

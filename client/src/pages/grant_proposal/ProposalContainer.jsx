@@ -22,7 +22,7 @@ export default function Proposals({ history }) {
     });
 
     useEffect(() => {
-        const list = store.proposals.map(val => ({
+        const proposals = store.proposals.map(val => ({
             key: val.id,
             title: val.title,
             startPeriod: val.startPeriod,
@@ -32,7 +32,7 @@ export default function Proposals({ history }) {
             status: val.status,
             donor: val.donor.name
         }));
-        setState(prev => ({...prev, proposals: list}));
+        setState(prev => ({...prev, proposals}));
     }, [store.proposals]);
     
     const onDelete = key => {
@@ -41,13 +41,13 @@ export default function Proposals({ history }) {
     };
 
     const setApprovedObj = key => {
-        sessionStorage.setItem('obj_state', 'approved');
+        sessionStorage.setItem('objectiveState', 'approved');
         const params = { proposalId: key };
         return parseUrl(Path.objectives, params);
     };
 
     const setPendingObj = key => {
-        sessionStorage.setItem('obj_state', 'pending');
+        sessionStorage.setItem('objectiveState', 'pending');
         const params = { proposalId: key };
         return parseUrl(Path.objectives, params);
     }

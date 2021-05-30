@@ -11,7 +11,6 @@ const initialState = {
     regionGraph: {},
     programmeGraph: {},
     participantAnalysis: [],
-    gender: [],
     profileImage: {},
     eventImages: [],
     orgProfile: {},

@@ -58,15 +58,18 @@ export default function CreateParticipant() {
         values.activityDate = activityDate.format(dateFormat);
         values.activityId = activityId;
         values.keyProgrammeId = state.keyProgramme.id;
+        values.activityPlanId = activityPlanId;
 
         const [fName, lName] = name.split(' ');
         values.fName = fName;
         values.lName = lName;
-        
+        delete values.name;
+        delete values.keyProgramme;
+
         Api.participant.post(values)
         .then(res => {
             form.resetFields();
-            message.success('Form submitted successfully');
+            message.success('Participant created successfully');
             fetchParticipants(dispatch);
         });
     };

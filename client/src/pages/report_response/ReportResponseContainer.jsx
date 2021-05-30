@@ -22,27 +22,29 @@ export default function ReportResponseContainer() {
     });
 
     useEffect(() => {
-        const obj = {};
-        for (const report of store.narratives) {
-            if (report.id === parseInt(narrativeReportId)) {
-                const quizMap = report.responses.reduce((r,c) => {
-                    const key = c.narrativeQuiz.id;
-                    const quiz = c.narrativeQuiz.query;
-                    if (!r[key]) r[key] = { key, quiz };
-                    return r;    
-                }, {});
-
-                obj.quiz = Object.values(quizMap);
-                obj.responses = report.responses.map(v => ({ 
-                    key: v.id,  
-                    task: v.agenda.task, 
-                    response: v.response,
-                    quizId: v.narrativeQuiz.id
-                }));
-                break;
+        const report = {};
+        for (const v of store.narratives) {
+            for (const n of v.narratives) {
+                if (n.id === parseInt(narrativeReportId)) {
+                    const quizMap = n.responses.reduce((r,c) => {
+                        const key = c.narrativeQuiz.id;
+                        const quiz = c.narrativeQuiz.query;
+                        if (!r[key]) r[key] = { key, quiz };
+                        return r;    
+                    }, {});
+    
+                    report.quiz = Object.values(quizMap);
+                    report.responses = n.responses.map(v => ({ 
+                        key: v.id,  
+                        task: v.agenda.task, 
+                        response: v.response,
+                        quizId: v.narrativeQuiz.id
+                    }));
+                    break;
+                }
             }
         }
-        setState(obj);
+        setState(report);
     }, [store.narratives, narrativeReportId]);
 
     const onDelete = key => {
@@ -59,8 +61,8 @@ export default function ReportResponseContainer() {
     };
 
     const props = {
-        visible, setVisible, record, state, 
-        onDelete, showModal, 
+        visible, setVisible, record, 
+        state, onDelete, showModal, 
         fetchNarrative: () => fetchNarrative(dispatch)
     }
     return <ReportResponse {...props} />

@@ -1,7 +1,7 @@
 const { db } = require('../utils/database');
 const createError = require('http-errors');
 const Activity = require('../models/Activity');
-const Participant = require('../models/Participant');
+const { Participant } = require('../models/Participant');
 const {
     ActivityPlan, PlanRegion, PlanEvent, PlanGroup, 
     PlanProgramme, PlanMaterial
@@ -15,13 +15,14 @@ module.exports = {
         try {
             const accountId = req.payload.aud;
             const data = req.body;
-            const { activityId } = data;
 
             const result = await db.transaction(async t => {
                 const transaction = t;
 
                 const plan = await ActivityPlan.create({ 
-                    accountId, activityId 
+                    accountId, 
+                    activityId: data.activityId,
+                    title: data.title
                 }, {transaction});
 
                 const material = await PlanMaterial.create({

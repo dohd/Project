@@ -2,7 +2,6 @@ const { DatabaseError } = require('sequelize');
 const { Op } = require('../utils/database');
 const createError = require('http-errors');
 const Donor = require('../models/Donor');
-const DonorContact = require('../models/DonorContact');
 
 module.exports = {
     create: async (req, res, next) => {
@@ -41,13 +40,7 @@ module.exports = {
             const donors = await Donor.findAll({ 
                 where: { accountId },
                 attributes: ['id','name','phone','email'],
-                include: [
-                    { 
-                        model: DonorContact, 
-                        as: 'donorContact',
-                        attributes: { exclude: ['accountId', 'createdAt', 'updatedAt'] } 
-                    }
-                ]
+                order: [['updatedAt', 'DESC']]
             });
             res.send(donors);
         } catch (err) {
@@ -61,7 +54,7 @@ module.exports = {
             const { id } = req.params;
             const { name, phone, email } = req.body;
 
-            const donor_match = await Donor.findOne({
+            const isMatch = await Donor.findOne({
                 attributes: ['id'],
                 where: {
                     accountId,
@@ -74,8 +67,8 @@ module.exports = {
                 },
             });
 
-            if (donor_match) throw new createError.FailedDependency(
-                'name or email or phone already exists'
+            if (isMatch) throw new createError.FailedDependency(
+                'name or email or phone already exists!'
             );
             await Donor.update({ name, phone, email }, { where: { id, accountId } });
 

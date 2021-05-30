@@ -16,7 +16,7 @@ module.exports = {
     register: async (req, res, next) => {
         try {
             const data = req.body;
-            
+
             const result = await db.transaction(async t => {
                 const transaction = t;
                 // Account
@@ -26,8 +26,8 @@ module.exports = {
                 }, {transaction});
 
                 // User
-                const [fName, lName] = data.username.split(' ');
-                const initial = `${fName.charAt(0)}.${lName}`;
+                let names = data.username.split(' ');
+                const initial = `${names[0][0]}.${names[1]}`;
                 // roleId = 1 for Admin
                 const user = await User.create({
                     initial,
@@ -46,12 +46,12 @@ module.exports = {
                 }, {transaction});
                 
                 // Contact person
-                const [f_name, l_name] = data.name.split(' ');
+                names = data.name.split(' ');
                 const person = await ContactPerson.create({
                     telephone: data.cpTelephone,
                     email: data.cpEmail,
-                    firstName: f_name,
-                    lastName: l_name,
+                    fName: names[0],
+                    lName: names[1],
                     accountId: account.id
                 }, {transaction});
 
@@ -85,7 +85,10 @@ module.exports = {
     login: async (req, res, next) => {
         try {
             const { email, password } = req.body;
-            
+
+            if(!email || !password) throw new createError.NotFound(
+                'Email or password is required!'
+            );            
             const login = await Login.findOne({ 
                 where: { email }, attributes: ['userId','password']
             });

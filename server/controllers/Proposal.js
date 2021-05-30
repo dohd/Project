@@ -71,12 +71,8 @@ module.exports = {
             const accountId = req.payload.aud;
             const proposals = await Proposal.findAll({
                 where: { accountId },
-                attributes: { 
-                    exclude: [
-                        'accountId','donorId','statusId',
-                        'createdAt','updatedAt'
-                    ] 
-                },
+                attributes: { exclude: ['accountId'] },
+                order: [['updatedAt', 'DESC']],
                 include: [
                     {
                         model: Donor,
@@ -86,11 +82,11 @@ module.exports = {
                     {
                         model: Objective,
                         as: 'objectives',
-                        attributes: ['id', 'objective'],
+                        attributes: { exclude: ['accountId'] },
                         include: [{
                             model: Activity,
                             as: 'activities',
-                            attributes: ['id', 'action'],
+                            attributes: { exclude: ['accountId'] },
                         }]
                     }
                 ]

@@ -16,8 +16,7 @@ export default function ParticipantAnalysisContainer() {
             obj.title = v.activity.action;
             obj.male = v.participants.male;
             obj.female = v.participants.female;
-            obj.transgender = v.participants.transgender;
-            obj.total = obj.male + obj.female + obj.transgender;
+            obj.total = obj.male + obj.female;
             obj.date = v.planEvents.join(', ');
             obj.groups = v.planGroups.join(', ');
             obj.programme = v.planProgramme[0];
@@ -27,6 +26,5 @@ export default function ParticipantAnalysisContainer() {
         setAnalysis(list);
     }, [store.participantAnalysis])
 
-    const props = { analysis };
-    return <ParticipantAnalysis {...props} />;
+    return <ParticipantAnalysis analysis={analysis} />;
 }

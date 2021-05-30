@@ -18,8 +18,8 @@ export default function Bargraph() {
     }, [store.keyProgrammes, store.targetRegions]);
 
     const [data, setData] = useState({
-        programme: { male: [], female: [], transgender: [] },
-        region: { male: [], female: [], transgender: [] }
+        programme: { male: [], female: [] },
+        region: { male: [], female: [] }
     });
 
     useEffect(() => {

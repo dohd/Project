@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Card, Table, Button, Dropdown, Menu } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -7,40 +7,14 @@ import ResponseModal from './ResponseModal';
 import ImageModal from './ImageModal';
 import { parseUrl } from 'utils';
 import { Path } from 'routes';
-import { useTracked } from 'context';
 
-export default function ActivityReport() {
-    const store = useTracked()[0];
-    const [activities, setActivities] = useState([]);
-
-    useEffect(() => {
-        const activityMap = store.narratives.reduce((r,c) => {
-            const key = c.activity.id;
-            if (!r[key]) r[key] = { key, activity: c.activity.action };
-            return r;
-        }, {});
-        const list = Object.values(activityMap);
-        setActivities(list);
-    }, [store.narratives]);
-
-    // modal logic
-    const [record, setRecord] = useState([]);
-    const [visible, setVisible] = useState({
-        response: false, image: false
-    });
-    const showResponseModal = key => {
-        setVisible(prev => ({...prev, response: true}));
-        const list = store.narratives.filter(v => v.activity.id === key);
-        const reports = list.map(v => ({ key: v.id, report: v.title }));
-        setRecord(reports);
-    };
-    const showImageModal = key => {
-        setVisible(prev => ({...prev, image: true}));
-        const list = store.narratives.filter(v => v.activity.id === key);
-        const reports = list.map(v => ({ key: v.id, report: v.title }));
-        setRecord(reports);
-    };
-
+export default function ActivityReport(props) {
+    const {
+        visible, setVisible, record, 
+        activities, showResponseModal,
+        showImageModal
+    } = props;
+    
     return (
         <Card
             title='Activity Reports'

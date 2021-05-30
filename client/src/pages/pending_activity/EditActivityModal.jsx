@@ -9,6 +9,7 @@ export default function EditActivity(props) {
     const onCreate = values => {
         setVisible(prev => ({...prev, edit: false}));
         values.action = values.activity;
+        
         Api.activity.patch(record.key, values)
         .then(res => fetchProposals())
     };

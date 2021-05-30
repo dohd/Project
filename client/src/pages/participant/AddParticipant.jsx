@@ -15,15 +15,9 @@ export default function AddParticipant(props) {
     const checkName = (rule, value) => {
         const regex = new RegExp(/^([a-zA-Z]{2,})\s([a-zA-Z]{2,})$/);
         if (!value) return Promise.reject('name is required');
-        if (regex.test(value)) return Promise.resolve();
-        return Promise.reject('first and last name is required');
+        if (!regex.test(value)) return Promise.reject('first and last name is required');
+        return Promise.resolve();
     };
-
-    const genderList = state.gender.map(v => (
-        <Select.Option key={v.id} value={v.id}>
-            { v.type }
-        </Select.Option>
-    ));
 
     const regionList = state.regions.map(v => (
         <Select.Option key={v.id} value={v.id}>
@@ -68,14 +62,11 @@ export default function AddParticipant(props) {
                             labelCol={{ span: 5 }}
                             wrapperCol={{ span: 8 }}
                             label='Gender'
-                            name='genderId'
-                            rules={[{ 
-                                required: true,
-                                message: 'gender is required' 
-                            }]}
+                            name='gender'
                         >
                             <Select placeholder='Select gender'>
-                                { genderList }
+                                <Select.Option value='M'>Male</Select.Option>
+                                <Select.Option value='F'>Female</Select.Option>
                             </Select>
                         </Form.Item>
                     </Col>

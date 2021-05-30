@@ -13,8 +13,8 @@ export default function PlanParticipant(props) {
 
     // set objective & activity state to approved
     // to load approved pages
-    sessionStorage.setItem('obj_state', 'approved');
-    sessionStorage.setItem('act_state', 'approved');
+    sessionStorage.setItem('objectiveState', 'approved');
+    sessionStorage.setItem('activityState', 'approved');
 
     return (
         <Card

@@ -23,16 +23,16 @@ export default function UpdateParticipant() {
     } = useParams();
 
     const [state, setState] = useState({
-        keyProgramme: {}, gender: [], regions: []
+        keyProgramme: {}, regions: []
     });
 
     useEffect(() => {
         const plans = store.activityPlans;
+
         for(const p of plans) {
             if (p.id === parseInt(activityPlanId)) {
                 const keyProgramme = p.planProgramme.keyProgramme;
                 let regions = [];
-
                 p.planEvents.forEach(event => {
                     event.planRegions.forEach(v => {
                         regions.push(v.region);
@@ -46,17 +46,11 @@ export default function UpdateParticipant() {
                 }, {});
 
                 regions = Object.values(regionObj);
-
-                setState({ 
-                    keyProgramme, regions,
-                    gender: store.gender
-                });
+                setState({keyProgramme, regions});
                 break;
             }
-        }
-    }, [store.activityPlans, store.gender, activityPlanId]);
-
-    const [form] = Form.useForm();
+        }     
+    }, [store.activityPlans, activityPlanId]);
 
     const onFinish = values => {
         const { activityDate, name } = values;
@@ -75,6 +69,8 @@ export default function UpdateParticipant() {
     };
     const onFinishFailed = err => console.log('Error:',err);
 
+    const [form] = Form.useForm();
+
     // Initial form values
     useEffect(() => {
         for (const p of store.participants) {
@@ -82,11 +78,11 @@ export default function UpdateParticipant() {
                 form.setFieldsValue({
                     name: `${p.fName} ${p.lName}`,
                     activityDate: moment(p.activityDate, dateFormat),
-                    genderId: p.gender.id,
-                    disability: p.disability,
-                    phone: p.phone,
-                    email: p.email,
-                    designation: p.designation,
+                    gender: p.gender,
+                    disability: p.detail.disability,
+                    phone: p.detail.phone,
+                    email: p.detail.email,
+                    designation: p.detail.designation,
                     regionId: p.regionId,
                 });
                 break;

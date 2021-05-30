@@ -37,9 +37,10 @@ export default function ActivityPlansContainer() {
     const [state, setState] = useState({ 
         events: [ [],[] ] 
     });
-    const [form] = Form.useForm();
 
-    const onFinish = values => {
+    const [form] = Form.useForm();
+    const onCreate = values => {
+        setVisible(false);
         values.events = state.events[0].map((val, i) => ({
             date: val, regions: [...state.events[1][i]]
         }));
@@ -50,15 +51,20 @@ export default function ActivityPlansContainer() {
         Api.activityPlan.post(values)
         .then(res => {
             form.resetFields();
-            message.success('Form submitted successfully');
+            message.success('Activity plan saved successfully');
             fetchActivityPlans(dispatch);
         });
     };
-    const onFinishFailed = err => console.log('Error:', err);
+
+    const onOk = () => {
+        form.validateFields()
+        .then(values => onCreate(values))
+        .catch(err => console.log('Validation failed:',err))
+    };
 
     const modal_props = { 
         visible, setVisible, state, setState, 
-        onFinish, onFinishFailed, form,
+        form, onOk,
         keyProgrammes: store.keyProgrammes,
         targetGroups: store.targetGroups,
         targetRegions: store.targetRegions

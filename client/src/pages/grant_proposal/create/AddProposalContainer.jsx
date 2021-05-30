@@ -8,7 +8,7 @@ import { useTracked } from 'context';
 const fetchProposals = dispatch => {
     Api.proposal.get()
     .then(res => dispatch({
-        type: 'addProposal',
+        type: 'addProposals',
         payload: res
     }));
 };

@@ -172,7 +172,12 @@ export default function Agenda(props) {
                         key: 'action',
                         render: (text, record) => {
                             return (
-                                <Space>                                    
+                                <Space>  
+                                    <Button 
+                                        type='link' 
+                                        onClick={() => showUpdateModal(record)}
+                                        icon={<EditTwoTone style={{ fontSize: '20px' }} />}
+                                    />                                                                      
                                     <Popconfirm
                                         title='Are you sure to delete this agenda?'
                                         onConfirm={() => onDelete(record.key)}
@@ -187,12 +192,7 @@ export default function Agenda(props) {
                                                 />
                                             }
                                         />
-                                    </Popconfirm>
-                                    <Button 
-                                        type='link' 
-                                        onClick={() => showUpdateModal(record)}
-                                        icon={<EditTwoTone style={{ fontSize: '20px' }} />}
-                                    />
+                                    </Popconfirm>      
                                 </Space>
                             );
                         }

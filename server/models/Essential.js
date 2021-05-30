@@ -2,7 +2,7 @@ const { db, DataTypes } = require('../utils/database');
 const {
     PlanRegion, PlanGroup, PlanProgramme  
 } = require('./ActivityPlan');
-const Participant = require('./Participant');
+const { Participant } = require('./Participant');
 
 const TargetGroup = db.define('target_group', {
     group: { type: DataTypes.STRING, allowNull: false }

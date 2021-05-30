@@ -97,11 +97,11 @@ export default function EditPendingProposal(props) {
                 <Form.Item
                     labelCol={{ span: 4 }}
                     label='Status'
-                    name='statusId'
+                    name='status'
                 >
                     <Radio.Group>
-                        <Radio value={1}>Pending</Radio>
-                        <Radio value={2}>Approved</Radio>
+                        <Radio value={0}>Pending</Radio>
+                        <Radio value={1}>Approved</Radio>
                     </Radio.Group>
                 </Form.Item>
 

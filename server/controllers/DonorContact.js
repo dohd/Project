@@ -10,7 +10,7 @@ module.exports = {
             const donor_contact = await DonorContact.create({
                 fName: data.fName,
                 lName: data.lName,
-                telephone: data.phone,
+                telephone: data.telephone,
                 email: data.email,
                 donorId: data.donorId,
                 accountId
@@ -27,16 +27,17 @@ module.exports = {
     findAll: async (req, res, next) => {
         try {
             const accountId = req.payload.aud;
-            const donor_contacts = await DonorContact.findAll({
+            const donorContacts = await DonorContact.findAll({
                 where: { accountId }, 
                 attributes: { exclude: ['accountId'] },
+                order: [['updatedAt','DESC']],
                 include: [{
                     model: Donor,
                     as: 'donor',
                     attributes: ['id','name']
                 }]
             });
-            res.send(donor_contacts);
+            res.send(donorContacts);
         } catch (error) {
             next(error);
         }
@@ -46,7 +47,6 @@ module.exports = {
         try {
             const accountId = req.payload.aud;
             const { id } = req.params;
-            req.body.telephone = req.body.phone;
             await DonorContact.update(req.body, { where: { id, accountId } });
             res.sendStatus(200);
         } catch (err) {

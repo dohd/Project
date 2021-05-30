@@ -8,7 +8,6 @@ const endpoints = {
     regionGraph: '/graphs/participants-per-region',
     programmeGraph: '/graphs/participants-per-programme',
     participantAnalysis: '/participant-analysis',
-    gender: '/gender',
     eventImage: '/event-images',
     profileImage: '/profile-image',
     orgProfile: '/organisation-profile',

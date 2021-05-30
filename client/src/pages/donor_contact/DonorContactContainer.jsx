@@ -30,7 +30,7 @@ export default function DonorContactContainer(params) {
     }, [store.donorContacts, store.donors]);
 
     const onDelete = key => {
-        Api.donor.delete(key)
+        Api.donorContact.delete(key)
         .then(res => fetchDonorContacts(dispatch));
     };
 

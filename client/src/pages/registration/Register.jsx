@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Form, Button, Input } from 'antd';
-import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import { Path } from 'routes';
-import OrgProfile from './OrgProfile';
+import { Form } from 'antd';
+import { useHistory } from 'react-router';
+
 import './register.css';
+import OrgProfile from './OrgProfile';
+import BasicInfo from './BasicInfo';
+import Api, { isAuth, setToken } from 'api';
+import { Path } from 'routes';
 
-const layout = { labelCol: { span: 16 }, wrapperCol: { span: 24 } };
-const tailLayout = { wrapperCol: { span: 24 } };
-
-export default function Register({ history }) {
+export default function Register() {
     const [state, setState] = useState({
-       register: {}, 
        home: false,  
        profile: false,
+       register: {}, 
     });
 
-    if (state.profile) return (
-        <OrgProfile state={state} setState={setState} history={history} />
+    const props = {state, setState};
+    return (
+        state.profile ? 
+        <OrgProfileContainer {...props} /> : 
+        <BasicInfoContainer {...props} />
     );
-    return <Credentials state={state} setState={setState} />;
 }
 
-function Credentials({ state, setState }) {
+function BasicInfoContainer({state, setState}) {
     const [form] = Form.useForm();
     const onFinish = values => {
         setState(prev => ({
@@ -36,7 +37,7 @@ function Credentials({ state, setState }) {
 
     useEffect(() => {
         const { register } = state;
-        if (Object.keys(register).length) {
+        if (register.hasOwnProperty('orgName')) {
             form.setFieldsValue({
                 orgName: register.orgName,
                 username: register.username,
@@ -47,102 +48,35 @@ function Credentials({ state, setState }) {
         }
     }, [state, form]);
 
-    const nameValidator = (rule, value) => {
-        const regex = new RegExp(/^([a-zA-Z]{2,})\s([a-zA-Z]{2,})$/);
-        if (!value) return Promise.reject('username is required');
-        if (regex.test(value)) return Promise.resolve();
-        return Promise.reject('username is invalid');
+
+    const props = {form, onFinish, onFinishFailed};
+    return <BasicInfo {...props} />;
+}
+
+function OrgProfileContainer({state, setState}) {
+    const handleBack = () => setState(prev => ({
+        ...prev, profile: !prev.profile
+    }));
+    const [isLoading, setLoading] = useState(false);
+
+    const history = useHistory();
+    const Register = async data => {
+        try {
+            const res = await  Api.register.post(data);
+            setToken(res.accessToken);
+            return isAuth() && history.push(Path.home);
+        } catch (error) {
+            setLoading(false);
+        }
     };
 
-    const confirmValidator = ({ getFieldValue }) => ({
-        validator(rule, value) {
-            if(!value || getFieldValue('password') === value) {
-                return Promise.resolve();
-            }
-            return Promise.reject('passwords do not match!')
-        }
-    });
+    const onFinish = values => {
+        const data = {...state.register, ...values};
+        setLoading(true);
+        Register(data);
+    };
+    const onFinishFailed = err => console.log('Error:', err);
 
-    return (
-        <div className='landing-container'>
-            <div className='register'>
-                <Card
-                    title='Create Account'
-                >
-                    <Form
-                        {...layout}
-                        form={form}
-                        layout='vertical'
-                        onFinish={onFinish}
-                        onFinishFailed={onFinishFailed}
-                        initialValues={{ remember: true }}
-                    >   
-                        <Form.Item 
-                            label='Organisation Name' 
-                            name='orgName'
-                            rules={[{ 
-                                required: true,
-                                message: 'organisation name is required'
-                            }]}
-                        >
-                            <Input maxLength={55} />
-                        </Form.Item>
-                        <Form.Item 
-                            label='Username' 
-                            name='username'
-                            rules={[{ 
-                                required: true,
-                                validator: nameValidator
-                            }]}
-                        >
-                            <Input prefix={<UserOutlined />} placeholder='e.g John Doe' />
-                        </Form.Item>
-                        <Form.Item 
-                            label='Email' 
-                            name='email'
-                            rules={[{ required: true }]}
-                        >
-                            <Input type='email' prefix={<MailOutlined />} />
-                        </Form.Item>
-                        <Form.Item 
-                            label='Password' 
-                            name='password'
-                            rules={[{ required: true }]}
-                        >
-                            <Input.Password prefix={<LockOutlined />} />
-                        </Form.Item>
-                        <Form.Item 
-                            label='Confirm' 
-                            name='confirm'
-                            dependencies={['password']}
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'confirm your password!'
-                                },
-                                confirmValidator
-                            ]}
-                        >
-                            <Input.Password prefix={<LockOutlined />} />
-                        </Form.Item>
-                        <Form.Item {...tailLayout}>
-                            <Button 
-                                type='primary' 
-                                htmlType='submit'
-                                block
-                            >
-                                Next
-                            </Button>
-                        </Form.Item>
-                    </Form>
-                </Card>
-                <p className='loginText'>
-                    Already have an account? &nbsp;
-                    <Link to={Path.login}>
-                        <span className='whiteText'>Sign in</span>
-                    </Link>
-                </p>
-            </div>
-        </div>
-    );
+    const props = {isLoading, onFinish, onFinishFailed, handleBack};
+    return <OrgProfile {...props} />;
 }

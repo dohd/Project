@@ -10,7 +10,6 @@ const actionTypeMap = {
     regionGraph: 'addRegionGraph',
     programmeGraph: 'addProgrammeGraph',
     participantAnalysis: 'addParticipantAnalysis',
-    gender: 'addGender',
     profileImage: 'addProfileImage',
     eventImage: 'addEventImages',
     orgProfile: 'addOrgProfile',

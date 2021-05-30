@@ -8,15 +8,19 @@ export default function AddActivity(props) {
     const {visible, setVisible, fetchProposals} = props;
     const { objectiveId } = useParams();
 
+    const [form] = Form.useForm();
     const onCreate = values => {
         setVisible(prev => ({...prev, add: false}));
         values.action = values.activity;
         values.objectiveId = objectiveId;
+
         Api.activity.post(values)
-        .then(res => fetchProposals());
+        .then(res => {
+            form.resetFields();
+            fetchProposals();
+        });
     };
 
-    const [form] = Form.useForm();
     const onOk = () => {
         form.validateFields()
         .then(values => onCreate(values))

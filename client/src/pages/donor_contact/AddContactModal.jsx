@@ -17,6 +17,8 @@ export default function AddContact(props) {
         const [fName, lName] = values.contactName.split(' ');
         values.fName = fName;
         values.lName = lName;
+        delete values.contact;
+
         Api.donorContact.post(values)
         .then(res => {
             form.resetFields();
@@ -34,8 +36,8 @@ export default function AddContact(props) {
     const checkName = (rule, value) => {
         const regex = new RegExp(/^([a-zA-Z]{2,})\s([a-zA-Z]{2,})$/);
         if (!value) return Promise.reject('contact-name is required');
-        if (regex.test(value)) return Promise.resolve();
-        return Promise.reject('contact-name is invalid');
+        if (!regex.test(value)) return Promise.reject('contact-name is invalid');
+        return Promise.resolve();
     };
 
     const donorList = donors.map(v => (
@@ -59,8 +61,11 @@ export default function AddContact(props) {
             >
                 <Form.Item
                     label='Donor'
-                    name='donor'
-                    rules={[{ required: true }]}
+                    name='donorId'
+                    rules={[{ 
+                        required: true,
+                        message: 'donor is required'
+                    }]}
                 >
                     <Select>
                         { donorList }
@@ -69,14 +74,14 @@ export default function AddContact(props) {
 
                 <Form.Item
                     label='Contact Name'
-                    name='contact'
+                    name='contactName'
                     rules={[{ required: true, validator: checkName }]}
                 >
                     <Input placeholder='e.g John Doe' />
                 </Form.Item>
                 <Form.Item
-                    label='Phone'
-                    name='phone'
+                    label='Telephone'
+                    name='telephone'
                     rules={[{ required: true }]}
                 >
                     <Input type='tel' maxLength={15} />

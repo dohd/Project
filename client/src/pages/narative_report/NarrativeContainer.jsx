@@ -23,12 +23,17 @@ export default function NarrativeContainer() {
     const [store, dispatch] = useTracked();
     const [agendaActivities, setAgendaActivities] = useState([]);
 
+    const { activityId } = useParams();
     useEffect(() => {
-        const list = store.agenda.map(v => ({ 
-            id: v.id, activity: v.task 
-        }));
-        setAgendaActivities(list);
-    }, [store.agenda]);
+        const agenda = store.agenda.filter(v => {
+            if (v.activityId === parseInt(activityId)) {
+                v.activity = v.task;
+                return true;
+            }
+            return false;
+        });
+        setAgendaActivities(agenda);
+    }, [store.agenda, activityId]);
 
     const initialState = {
         formA: [], formB: [], formC: [], formD: [], 
@@ -36,7 +41,6 @@ export default function NarrativeContainer() {
         formI: {}, formJ: [], formK: []
     };
     const [state, setState] = useState(initialState);
-    const { activityId } = useParams();
 
     const onSubmit = values => {
         const responses = [];
@@ -48,10 +52,7 @@ export default function NarrativeContainer() {
                 responses.push(v);
             });
         }
-
-        if (!responses.length) {
-            return message.error('Response required!');
-        }
+        if (!responses.length) return message.error('Response required!');
 
         const report  = { 
             activityId, responses,
@@ -62,8 +63,8 @@ export default function NarrativeContainer() {
         Api.narrative.post(report)
         .then(res => {
             setState(initialState);
-            setTab({ key: '1' });
-            message.success('Form submitted successfully');
+            setTab({key: '1'});
+            message.success('Report submitted successfully');
             fetchNarratives(dispatch);
         });
     };

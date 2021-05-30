@@ -13,7 +13,7 @@ export default function Narrative(props) {
     } = props;
     const history = useHistory();
 
-    const onSave = () => message.success('Data saved!');
+    const onSave = () => message.success('Data saved');
 
     const activityList = agendaActivities.map(({id, activity}) => (
         <Select.Option key={id} value={id}>{ activity }</Select.Option>

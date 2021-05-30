@@ -1,28 +1,12 @@
-const express = require('express');
-require('dotenv/config');
-const httpLogger = require('morgan');
 const createError = require('http-errors');
-const cookieParser = require('cookie-parser');
-const cors = require('cors');
+
+const appConfig = require('./utils/config');
 const { verifyAccessToken } = require('./utils/JWT');
-const privateApiRoute = require('./routes');
 const authRoute = require('./routes/auth');
+const privateApiRoute = require('./routes');
 
-// Initiate express app server
-const app = express();
-const port = process.env.PORT;
-
-// Log http server requests
-app.use(httpLogger('dev'));
-// Parse content-type - application/json
-app.use(express.json());
-// Parse content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
-// Parse cookies
-app.use(cookieParser());
-// Allow cross-origin resource sharing
-app.use(cors());
-
+// App instance
+const app = new appConfig();
 
 // Routes
 app.use('/api/auth', authRoute);
@@ -43,13 +27,12 @@ app.use((err, req, res, next) => {
     });
 });
 
-
 // Server instance
-const server = app.listen(port, () => {
-    console.log('Server running on port:', port);
+const server = app.listen(app.port, () => {
+    console.log('Server ready on port:', app.port);
 });
 
 process.on('SIGINT', () => {
-    console.log(' Server connection terminated ');
+    console.log(' Server disconnected! ');
     server.close();
 });

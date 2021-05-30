@@ -16,7 +16,7 @@ module.exports = {
                 }
             });
             if (programme_match) throw new createError.Conflict(
-                'programme already exists'
+                'programme already exists!'
             );
 
             const programme = await KeyProgramme.create({ 
@@ -37,6 +37,7 @@ module.exports = {
             const programmes = await KeyProgramme.findAll({ 
                 where: { accountId }, 
                 attributes: ['id','programme'],
+                order: [['updatedAt','DESC']]
             });
             res.send(programmes);
         } catch (error) {
@@ -59,7 +60,7 @@ module.exports = {
                 }
             });
             if (programme_match) throw new createError.Conflict(
-                `programme already exists`
+                'programme already exists!'
             );
 
             await KeyProgramme.update({ programme },{

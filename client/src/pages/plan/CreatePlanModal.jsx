@@ -6,8 +6,8 @@ import DateModal from './DateModal';
 export default function CreatePlan(props) {
     const { 
         visible, setVisible, state, setState, 
-        form, onFinish, onFinishFailed,
-        keyProgrammes, targetGroups, targetRegions
+        form, onOk, keyProgrammes, targetGroups, 
+        targetRegions
     } = props;
 
     const dateList = state.events[0].map((val, i) => (
@@ -32,15 +32,13 @@ export default function CreatePlan(props) {
         <Modal
             title='Add Plan'
             visible={visible}
-            onOk={() => setVisible(false)}
+            onOk={onOk}
             onCancel={() => setVisible(false)}
             okText='Save'
         >
             <Form
                 form = {form}
                 initialValues={{ remember: true }}
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
                 layout='vertical'
             >   
                 <Form.Item

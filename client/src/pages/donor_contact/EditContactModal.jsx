@@ -14,7 +14,12 @@ export default function EditContact(props) {
     const [form] = Form.useForm();
     const onCreate = values => {
         setVisible(prev => ({...prev, update: false}));
-        Api.donor.patch(record.key, values)
+        const [fName, lName] = values.contactName.split(' ');
+        values.fName = fName;
+        values.lName = lName;
+        delete values.contact;
+
+        Api.donorContact.patch(record.key, values)
         .then(res => {
             form.resetFields();
             fetchDonorContacts();
@@ -30,25 +35,28 @@ export default function EditContact(props) {
 
     // Initial form values
     useEffect(() => {
-        if (record.hasOwnProperty('record')) {
+        if (record.hasOwnProperty('key')) {
+            const {fName, lName} = record; 
             form.setFieldsValue({
-                donor: record.donor,
-                contactName: record.contactName,
+                donorId: record.donorId,
+                contactName: `${fName} ${lName}`,
                 telephone: record.telephone,
                 email: record.email,
-            });    
+            });
         }
     }, [record, form]);
 
     const checkName = (rule, value) => {
         const regex = new RegExp(/^([a-zA-Z]{2,})\s([a-zA-Z]{2,})$/);
         if (!value) return Promise.reject('contact-name is required');
-        if (regex.test(value)) return Promise.resolve();
-        return Promise.reject('contact-name is invalid');
+        if (!regex.test(value)) return Promise.reject('contact-name is invalid');
+        return Promise.resolve();
     };
 
     const donorList = donors.map(v => (
-        <Select.Option key={v.id} value={v.id}>{v.name}</Select.Option>
+        <Select.Option key={v.id} value={v.id}>
+            {v.name}
+        </Select.Option>
     ));
     
     return (
@@ -66,8 +74,11 @@ export default function EditContact(props) {
             >
                 <Form.Item
                     label='Donor'
-                    name='donor'
-                    rules={[{ required: true }]}
+                    name='donorId'
+                    rules={[{ 
+                        required: true,
+                        message: 'donor is required' 
+                    }]}
                 >
                     <Select>
                         { donorList }

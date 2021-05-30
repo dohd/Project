@@ -16,8 +16,11 @@ export default function ApprovedObjectivesContainer() {
         for (const proposal of store.proposals) {
             if (proposal.id === parseInt(proposalId)) {
                 objectives = proposal.objectives.map(v => ({
-                    key: v.id, objective: v.objective
-                }));
+                    key: v.id, 
+                    objective: v.objective,
+                    updatedAt: new Date(v.updatedAt)
+                }))
+                .sort((a,b) => b.updatedAt - a.updatedAt);
                 break;
             }
         }
@@ -25,7 +28,7 @@ export default function ApprovedObjectivesContainer() {
     }, [store.proposals, proposalId]);
 
     const approvedAct = key => {
-        sessionStorage.act_state = 'approved';
+        sessionStorage.setItem('activityState', 'approved');
         const params = { objectiveId: key, proposalId };
         return parseUrl(Path.activities, params);
     };

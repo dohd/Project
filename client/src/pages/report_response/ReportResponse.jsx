@@ -50,14 +50,14 @@ export default function ReportResponse(props) {
                                 dataSource={data}
                                 columns={[
                                     {
-                                        title: 'Task',
-                                        dataIndex: 'task',
-                                        key: 'task'
-                                    },
-                                    {
                                         title: 'Response',
                                         dataIndex: 'response',
                                         key: 'response'
+                                    },
+                                    {
+                                        title: 'Task',
+                                        dataIndex: 'task',
+                                        key: 'task'
                                     },
                                     {
                                         title: 'Action',
@@ -71,8 +71,7 @@ export default function ReportResponse(props) {
                                                         icon={
                                                             <EditTwoTone style={{ fontSize: '20px' }} />
                                                         }
-                                                    />
-                                                    
+                                                    />                                                    
                                                     <Popconfirm
                                                         title='Are you sure to delete this response?'
                                                         onConfirm={() => onDelete(record.key)}

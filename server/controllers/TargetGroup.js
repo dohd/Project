@@ -1,5 +1,5 @@
-const createError = require('http-errors');
 const { Op } = require('../utils/database');
+const createError = require('http-errors');
 const { DatabaseError } = require('sequelize');
 const { TargetGroup } = require('../models/Essential');
 
@@ -8,24 +8,24 @@ module.exports = {
         try {
             const accountId = req.payload.aud;
 
-            const group_match = await TargetGroup.findOne({
+            const isMatch = await TargetGroup.findOne({
                 attributes: ['id'],
                 where: {
                     accountId,
                     group: { [Op.iLike]: req.body.group }
                 }
             });
-            if (group_match) throw new createError.Conflict(
-                'target group already exists'
+            if (isMatch) throw new createError.Conflict(
+                'target group already exists!'
             );
 
             const group = await TargetGroup.create({ 
                 group: req.body.group, accountId 
             });
-            const saved_group = group.toJSON();
-            delete saved_group.accountId;
+            const savedGroup = group.toJSON();
+            delete savedGroup.accountId;
 
-            res.send(saved_group);
+            res.send(savedGroup);
         } catch (error) {
             next(error);
         }
@@ -36,7 +36,8 @@ module.exports = {
             const accountId = req.payload.aud;
             const groups = await TargetGroup.findAll({ 
                 where: { accountId }, 
-                attributes: ['id','group']
+                attributes: ['id','group'],
+                order: [['updatedAt','DESC']]
             });
             res.send(groups);
         } catch (error) {
@@ -50,7 +51,7 @@ module.exports = {
             const { id } = req.params;
             const { group } = req.body;
 
-            const group_match = await TargetGroup.findOne({
+            const isMatch = await TargetGroup.findOne({
                 attributes: ['id'],
                 where: {
                     accountId,
@@ -58,8 +59,8 @@ module.exports = {
                     group: { [Op.iLike]: group }
                 }
             });
-            if (group_match) throw new createError.Conflict(
-                'target group already exists'
+            if (isMatch) throw new createError.Conflict(
+                'target group already exists!'
             );
 
             await TargetGroup.update({ group }, { 

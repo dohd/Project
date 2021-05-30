@@ -5,8 +5,7 @@ const {
 } = require('../models/ActivityPlan');
 const { TargetGroup, KeyProgramme, Region } = require('../models/Essential');
 const Activity = require('../models/Activity');
-const Participant = require('../models/Participant');
-const Gender = require('../models/Gender');
+const { Participant } = require('../models/Participant');
 
 // Extract unique plans with participants
 const unique_plan = arr => {
@@ -49,14 +48,12 @@ const analyse = arr => {
 
         let male = 0;
         let female = 0;
-        let transgender = 0;
         participants.forEach(p => {
-            if (p.gender.type === 'Male') male++;
-            if (p.gender.type === 'Female') female++;
-            if (p.gender.type === 'Transgender') transgender++;
+            if (p.gender === 'M') male++;
+            else female++;
         });
 
-        obj.participants = { male, female, transgender };
+        obj.participants = { male, female };
         obj.planEvents = Array.from(new Set(v.planEvents.map(v => v.date)));
 
         const regionSet = new Set();
@@ -99,13 +96,7 @@ module.exports = {
                     {
                         model: Participant,
                         as: 'participants',
-                        attributes: ['id','fName','lName'],
-                        include: [
-                            {
-                                model: Gender,
-                                as: 'gender'
-                            }
-                        ]
+                        attributes: ['id','fName','lName','gender'],
                     },
                     {
                         model: PlanEvent,

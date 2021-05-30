@@ -1,3 +1,5 @@
+const { Op } = require('../utils/database');
+const createError = require('http-errors');
 const Agenda = require('../models/Agenda');
 
 module.exports = {
@@ -6,6 +8,17 @@ module.exports = {
             const accountId = req.payload.aud;
             const data = req.body;
             const { activityId } = data;
+
+            const isMatch = await Agenda.findOne({
+                attributes: ['id'],
+                where: {
+                    accountId, activityId,
+                    task: { [Op.iLike]: req.body.task }
+                }
+            });
+            if (isMatch) throw new createError.Conflict(
+                'task already exists!'
+            );
 
             const agenda = await Agenda.create({
                 accountId,activityId,
@@ -16,10 +29,10 @@ module.exports = {
                 designation: data.designation,
             });
 
-            const saved_agenda = agenda.toJSON();
-            delete saved_agenda.accountId;
+            const savedAgenda = agenda.toJSON();
+            delete savedAgenda.accountId;
 
-            res.send(saved_agenda);
+            res.send(savedAgenda);
         } catch (err) {
             next(err);
         }

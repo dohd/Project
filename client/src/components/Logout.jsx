@@ -16,7 +16,7 @@ export default function Logout() {
     };
 
     return (
-        isLoggedOut ? <Redirect to={Path.login()} /> :
+        isLoggedOut ? <Redirect to={Path.login} /> :
         <LogoutOutlined 
             onClick={toggleLogout} 
             className='logout-icon' 

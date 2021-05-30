@@ -1,7 +1,7 @@
 const Activity = require('../models/Activity');
 const Objective = require('../models/Objective');
 const Proposal = require('../models/Proposal');
-const Participant = require('../models/Participant');
+const { Participant } = require('../models/Participant');
 const { ActivityPlan } = require('../models/ActivityPlan');
 const { NarrativeReport } = require('../models/NarrativeReport');
 
@@ -97,12 +97,12 @@ module.exports = {
                     attributes: ['id','action'],
                     where: { 
                         accountId, 
-                        '$narrativeReport$': null,
+                        '$narratives$': null,
                     },
                     include: [
                         {
                             model: NarrativeReport,
-                            as: 'narrativeReport',
+                            as: 'narratives',
                             attributes: []
                         },
                         {

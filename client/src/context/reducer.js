@@ -29,9 +29,6 @@ export const reducer = (state, action) => {
         case 'addParticipantAnalysis':
             return {...state, participantAnalysis: payload}
             
-        case 'addGender':
-            return {...state, gender: payload}
-
         case 'addProfileImage':
             return {...state, profileImage: payload};
 

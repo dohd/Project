@@ -15,17 +15,19 @@ const fetchNarratives = dispatch => {
 };
 
 export default function ReportImageContainer() {
-    const { narrativeReportId } = useParams();
-
     const [store, dispatch] = useTracked();
+    const { narrativeReportId } = useParams();
     const [eventImages, setEventImages] = useState([]);
 
     useEffect(() => {
+        activityLoop:
         for (const v of store.narratives) {
-            if (v.id === parseInt(narrativeReportId)) {
-                setEventImages(v.eventImages);
-                break;
-            }
+            for (const r of v.narratives) {
+                if (r.id === parseInt(narrativeReportId)) {
+                    setEventImages(r.eventImages);
+                    break activityLoop;
+                }
+            }            
         }
     }, [store.narratives, narrativeReportId]);
 
@@ -45,10 +47,10 @@ export default function ReportImageContainer() {
 
     const handleBeforeUpload = file => {
         const name = `${fetchAud()}-${narrativeReportId}-${file.name}`;
-        const ren_file = new File([file], name, {type: file.type});
+        const renamedFile = new File([file], name, {type: file.type});
 
         setLoading(true);
-        upload(ren_file);
+        upload(renamedFile);
         return false;
     };
 

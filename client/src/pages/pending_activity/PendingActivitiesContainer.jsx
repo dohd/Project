@@ -14,7 +14,7 @@ const fetchProposals = dispatch => {
     }));
 };
 
-export default function PendingActivitesContainer({ match, history }) {
+export default function PendingActivitesContainer() {
     const [store, dispatch] = useTracked();
     const [state, setState] = useState({ 
         activities: [], record: {}
@@ -28,8 +28,11 @@ export default function PendingActivitesContainer({ match, history }) {
             for (const obj of proposal.objectives) {
                 if (obj.id === parseInt(objectiveId)) {
                     activities = obj.activities.map(v => ({
-                        key: v.id, activity: v.action 
-                    }));
+                        key: v.id, 
+                        activity: v.action,
+                        updatedAt: new Date(v.updatedAt)
+                    }))
+                    .sort((a,b) => b.updatedAt - a.updatedAt);
                     break proposal_loop;
                 }
             }

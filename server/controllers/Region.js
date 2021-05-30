@@ -16,7 +16,7 @@ module.exports = {
                 }
             });
             if (region_match) throw new createError.Conflict(
-                'region already exists'
+                'region already exists!'
             );
 
             const region = await Region.create({ area, accountId });
@@ -34,7 +34,8 @@ module.exports = {
             const accountId = req.payload.aud;
             const regions = await Region.findAll({ 
                 where: { accountId }, 
-                attributes: ['id','area']
+                attributes: ['id','area'],
+                order: [['updatedAt','DESC']]
             });
             res.send(regions);
         } catch (error) {
@@ -56,7 +57,7 @@ module.exports = {
                 }
             });
             if (region_match) throw new createError.Conflict(
-                'region already exists'
+                'region already exists!'
             );
 
             await Region.update({ area }, { 

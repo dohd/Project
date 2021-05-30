@@ -1,8 +1,7 @@
 const { Op } = require('../utils/database');
 const moment = require('moment');
-const Participant = require('../models/Participant');
+const { Participant } = require('../models/Participant');
 const { Region } = require('../models/Essential');
-const Gender = require('../models/Gender');
 
 module.exports = {
     findAll: async (req, res, next) => {
@@ -26,7 +25,7 @@ module.exports = {
                         [Op.between]: [fromDate, toDate]
                     }
                 },
-                attributes: ['id','genderId','regionId']
+                attributes: ['id','gender','regionId']
             });
 
             const regions = await Region.findAll({
@@ -34,31 +33,21 @@ module.exports = {
                 attributes: ['id']
             });
 
-            const gender = await Gender.findAll();
-
-            const dataset = { 
-                male: [], female: [], transgender: [] 
-            };
+            const dataset = { male: [], female: [] };
 
             for (const region of regions) {
                 let maleCount = 0;
                 let femaleCount = 0;
-                let transCount = 0;
 
                 for (const p of participants) {
                     const region_match = p.regionId === region.id;
-                    for (const g of gender) {
-                        const gender_match = g.id === p.genderId;
-                        if (region_match && gender_match) {
-                            if (g.type === 'Male') maleCount++;
-                            if (g.type === 'Female') femaleCount++;
-                            if (g.type === 'Transgender') transCount++;
-                        }
+                    if (region_match ) {
+                        if (p.gender === 'M') maleCount++;
+                        if (p.gender === 'F') femaleCount++;
                     }
                 }
                 dataset.male.push(maleCount);
                 dataset.female.push(femaleCount);
-                dataset.transgender.push(transCount);
             }
 
             res.send(dataset);

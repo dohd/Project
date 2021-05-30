@@ -5,7 +5,7 @@ import { PendingObjectives } from '../pending_objective';
 import { PendingActivities } from '../pending_activity';
 
 export function Objectives(props) {
-    const state = sessionStorage.getItem('obj_state');
+    const state = sessionStorage.getItem('objectiveState');
     return (
         state === 'approved' ? 
         <ApprovedObjectives {...props} /> : 
@@ -14,7 +14,7 @@ export function Objectives(props) {
 }
 
 export function Activities(props) {
-    const state = sessionStorage.getItem('act_state');
+    const state = sessionStorage.getItem('activityState');
     return (
         state === 'approved' ?
         <PlanActivities {...props} /> :

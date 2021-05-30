@@ -10,20 +10,21 @@ module.exports = {
     create: async (req, res, next) => {
         try {
             const accountId = req.payload.aud;
-            const { activityId, caseStudy, response } = req.body;
+            const { activityId, caseStudy, responses } = req.body;
 
             const result = await db.transaction(async t => {
                 const transaction = t;
 
                 const report = await NarrativeReport.create({
-                    accountId, activityId
+                    accountId, activityId, 
+                    title: req.body.title
                 }, {transaction});
 
                 const case_study = await CaseStudy.create({ 
                     accountId, case: caseStudy, narrativeReportId: report.id
                 }, {transaction});
 
-                const report_responses = response.map(val => {
+                const report_responses = responses.map(val => {
                     val.accountId = accountId;
                     val.narrativeReportId = report.id;
                     return val;
@@ -41,7 +42,7 @@ module.exports = {
 
                 return {
                     caseStudy: saved_caseStudy,
-                    response: saved_response,
+                    responses: saved_response,
                 };
             });
 
@@ -54,44 +55,49 @@ module.exports = {
     findAll: async (req, res, next) => {
         try {
             const accountId = req.payload.aud;
-            const reports = await NarrativeReport.findAll({
+
+            const activityReports = await Activity.findAll({
                 where: { accountId },
-                attributes: ['id','title'],
+                attributes: ['id','action'],
+                order: [['updatedAt', 'DESC']],
                 include: [
                     {
-                        model: Activity,
-                        as: 'activity',
-                        attributes: ['id','action']
-                    },
-                    {
-                        model: CaseStudy,
-                        as: 'caseStudy',
-                        attributes: ['id','case']
-                    },
-                    {
-                        model: EventImage,
-                        as: 'eventImages',
-                        attributes: ['id','url']
-                    },
-                    {
-                        model: Response,
-                        as: 'responses',
-                        attributes: ['id','response'],
+                        model: NarrativeReport,
+                        as: 'narratives',
+                        required: true,
                         include: [
                             {
-                                model: Agenda,
-                                as: 'agenda',
-                                attributes: ['id','task']
+                                model: CaseStudy,
+                                as: 'caseStudy',
+                                attributes: ['id','case']
                             },
                             {
-                                model: NarrativeQuiz,
-                                as: 'narrativeQuiz'
+                                model: EventImage,
+                                as: 'eventImages',
+                                attributes: ['id','url']
+                            },
+                            {
+                                model: Response,
+                                as: 'responses',
+                                attributes: ['id','response'],
+                                include: [
+                                    {
+                                        model: Agenda,
+                                        as: 'agenda',
+                                        attributes: ['id','task']
+                                    },
+                                    {
+                                        model: NarrativeQuiz,
+                                        as: 'narrativeQuiz'
+                                    }
+                                ]
                             }
-                        ]
+                        ]    
                     }
                 ]
             });
-            res.send(reports);
+
+            res.send(activityReports);
         } catch (error) {
             next(error);
         }

@@ -1,5 +1,5 @@
 const { db, DataTypes } = require('../utils/database');
-const Participant = require('./Participant');
+const { Participant } = require('./Participant');
 const Agenda = require('./Agenda');
 const { NarrativeReport } = require('./NarrativeReport');
 const { ActivityPlan } = require('./ActivityPlan');
@@ -12,14 +12,13 @@ const Activity = db.define('activity', {
 
 module.exports = Activity;
 
-// One-to-one Association
-Activity.hasOne(NarrativeReport, {
+// One-to-Many Association
+Activity.hasMany(NarrativeReport, {
     foreignKey: { name: 'activityId', allowNull: false },
-    as: 'narrativeReport'
+    as: 'narratives'
 });
 NarrativeReport.belongsTo(Activity, { as: 'activity' });
 
-// One-to-Many Association
 Activity.hasMany(Agenda, { 
     foreignKey: { name: 'activityId', allowNull: false }, 
     as: 'agenda' 

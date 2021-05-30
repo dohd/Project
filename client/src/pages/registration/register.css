@@ -2,9 +2,17 @@
     background: linear-gradient(to bottom right, cyan,rgb(47, 34, 131));
     width: 100%;
     min-height: 100vh;
+    overflow: auto;
 }
 
-.register {
+.register-basic {
+    width: 35em;
+    padding-top: .8em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.register-profile {
     width: 35em;
     padding-top: 1.8em;
     margin-left: auto;
@@ -14,7 +22,7 @@
 .loginText {
     color: rgb(180, 179, 179);
     font-size: 1.2em;
-    margin-top: 0.5em;
+    margin-top: .3em;
     margin-left: 6em;
 }
 

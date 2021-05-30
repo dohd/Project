@@ -8,18 +8,22 @@ export default function AddObjective(props) {
     const {visible, setVisible, fetchProposals} = props;
     const { proposalId } = useParams();
 
+    const [form] = Form.useForm();
     const onCreate = values => { 
         setVisible(prev => ({...prev, add: false}));
         values.proposalId = proposalId;
+
         Api.objective.post(values)
-        .then(res => fetchProposals())
+        .then(res => {
+            form.resetFields();
+            fetchProposals();
+        });
     };
     
-    const [form] = Form.useForm();
     const onOk = () => {
         form.validateFields()
         .then(values => onCreate(values))
-        .catch(err => console.log('validation Failed:', err));
+        .catch(err => console.log('Validation Failed:', err));
     };
     const onCancel = () => setVisible(prev => ({...prev, add: false}));
 

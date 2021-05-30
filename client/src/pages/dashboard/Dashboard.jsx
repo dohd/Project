@@ -169,7 +169,7 @@ export default function Dashboard(props) {
 
                     <Footer className='footer'>
                         <p style={{ fontWeight: 'bold' }}>
-                            Copyright ©2020. All rights reserved.
+                            Copyright ©2021. All rights reserved.
                         </p>
                     </Footer>
                 </Layout>

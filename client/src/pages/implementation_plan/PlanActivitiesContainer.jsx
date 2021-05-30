@@ -27,8 +27,10 @@ export default function PlanActivitiesContainer({ match, history }) {
                 if (obj.id === Number(objectiveId)) {
                     activities = obj.activities.map(v => ({
                         key: v.id, 
-                        activity: v.action
-                    }));
+                        activity: v.action,
+                        updatedAt: new Date(v.updatedAt)
+                    }))
+                    .sort((a,b) => b.updatedAt - a.updatedAt);
                     break proposal_loop;
                 }
             }

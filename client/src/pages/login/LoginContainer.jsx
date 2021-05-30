@@ -8,10 +8,13 @@ export default function LoginContainer({ history }) {
     const [isLoading, setLoading] = useState(false);
 
     const loginAuth = async data => {
-        const res = await Api.login.post(data);
-        if (!res) return setLoading(false);
-        setToken(res.accessToken);
-        return isAuth() && history.push(Path.home);
+        try {
+            const res = await Api.login.post(data);
+            setToken(res.accessToken);
+            return isAuth() && history.push(Path.home);
+        } catch (error) {
+            setLoading(false);
+        }
     };
 
     const onFinish = values => {

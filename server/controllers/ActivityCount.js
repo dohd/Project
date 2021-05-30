@@ -1,6 +1,6 @@
 const moment = require('moment');
 const { Op } = require('../utils/database');
-const Participant = require('../models/Participant');
+const { Participant } = require('../models/Participant');
 
 module.exports = {
     findAll: async (req, res, next) => {

@@ -1,1 +1,1 @@
-export { default as ActivityReport } from './ActivityReport';
+export { default as ActivityReport } from './ActivityReportContainer';

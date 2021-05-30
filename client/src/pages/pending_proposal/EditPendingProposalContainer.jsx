@@ -20,10 +20,10 @@ export default function EditPendingProposalContainer({history}) {
     const [donors, setDonors] = useState([]);
 
     useEffect(() => {
-        const list = store.donors.map(v => ({
+        const donors = store.donors.map(v => ({
             id: v.id, name: v.name
         }));
-        setDonors(list);
+        setDonors(donors);
     }, [store.donors]);
 
     const { proposalId } = useParams();
@@ -54,7 +54,7 @@ export default function EditPendingProposalContainer({history}) {
                     title: proposal.title, 
                     budget: proposal.budget,
                     donorId: proposal.donor.id, 
-                    statusId: proposal.status.id,
+                    status: proposal.status,
                     period: periods.map(date => moment(date, dateFormat)),
                     dateSubmitted: moment(proposal.dateSubmitted, dateFormat)
                 });
