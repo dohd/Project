@@ -6,6 +6,14 @@ const cors = require('cors');
 
 // Initiate express app server
 const app = express();
+const corsOptions = {
+    origin: [
+        'http://localhost:5000', 
+        'http://127.0.0.1:5000'
+    ],
+    maxAge: 86400,
+    credentials: true
+};
 
 class Config {
     constructor() {
@@ -18,7 +26,7 @@ class Config {
         // Parse cookies
         app.use(cookieParser());
         // Allow cross-origin resource sharing
-        app.use(cors());
+        app.use(cors(corsOptions));
     }
 
     use(...args) { return app.use(...args); }
