@@ -6,13 +6,17 @@ import ActivityPlans from './ActivityPlans';
 import CreatePlanModal from './CreatePlanModal';
 import Api from 'api';
 import { useTracked } from 'context';
+import { clientSocket } from 'utils';
 
 const fetchActivityPlans = dispatch => {
     Api.activityPlan.get()
-    .then(res => dispatch({
-        type: "addActivityPlans",
-        payload: res
-    }));
+    .then(res => {
+        dispatch({
+            type: "addActivityPlans",
+            payload: res
+        });
+        clientSocket.emit('activityPlans', res);
+    });
 };
 
 export default function ActivityPlansContainer() {

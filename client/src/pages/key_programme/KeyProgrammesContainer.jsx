@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import KeyProgrammes from './KeyProgrammes';
 import Api from 'api';
 import { useTracked } from "context";
+import { clientSocket } from "utils";
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -10,10 +11,13 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const fetchKeyProgrammes = dispatch => {
     Api.keyProgramme.get()
-    .then(res => dispatch({
-        type: 'addKeyProgrammes',
-        payload: res
-    }));
+    .then(res => {
+        dispatch({
+            type: 'addKeyProgrammes',
+            payload: res
+        });
+        clientSocket.emit('keyProgrammes', res);
+    });
 };
 
 export default function KeyProgrammesContainer() {

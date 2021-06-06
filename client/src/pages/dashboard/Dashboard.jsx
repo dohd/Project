@@ -12,14 +12,27 @@ import {
 import './dashboard.css';
 import MainSection  from './MainSection';
 import { AvatarProfile, Logout } from 'components';
-import { Path } from 'routes';
+import { Path, RouteNameMap } from 'routes';
 import { isAdmin } from 'api';
 
 const { Header, Sider, Content, Footer } = Layout;
 const { SubMenu } = Menu;
 
 export default function Dashboard(props) {
-    const { breadcrumbItems, profileName, profileImage } = props;
+    const { routePaths, profileName, profileImage } = props;
+    
+    const breadcrumbItems = routePaths.map((url,i,arr) => {
+        const last = arr.indexOf(url) === arr.length - 1;
+        return (
+            <Breadcrumb.Item key={url}>
+                { 
+                    last ? <span>{ RouteNameMap[url] }</span> :
+                    <Link to={url}>{ RouteNameMap[url] }</Link> 
+                }
+            </Breadcrumb.Item>
+        );
+    });
+
     return (
         <div>
             <Layout>

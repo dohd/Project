@@ -3,13 +3,17 @@ import React, { useState, useEffect } from 'react';
 import Users from './Users';
 import Api from 'api';
 import { useTracked } from 'context';
+import { clientSocket } from 'utils';
 
 const fetchUsers = dispatch => {
     Api.user.get()
-    .then(res => dispatch({
-        type: 'addUsers',
-        payload: res
-    }));
+    .then(res => {
+        dispatch({
+            type: 'addUsers',
+            payload: res
+        });
+        clientSocket.emit('users', res);
+    });
 };
 
 export default function UsersContainer() {

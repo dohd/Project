@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import TargetGroups from './TargetGroups';
 import Api from 'api';
 import { useTracked } from "context";
+import { clientSocket } from "utils";
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -10,10 +11,13 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const fetchTargetGroups = dispatch => {
     Api.targetGroup.get()
-    .then(res => dispatch({
-        type: 'addTargetGroups',
-        payload: res
-    }));
+    .then(res => {
+        dispatch({
+            type: 'addTargetGroups',
+            payload: res
+        });
+        clientSocket.emit('targetGroups', res);
+    });
 }
 
 export default function TargetGroupsContainer() {

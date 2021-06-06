@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 import './register.css';
 import OrgProfile from './OrgProfile';
 import BasicInfo from './BasicInfo';
-import Api, { isAuth, setToken } from 'api';
+import { Auth } from 'api';
 import { Path } from 'routes';
 
 export default function Register() {
@@ -58,22 +58,15 @@ function OrgProfileContainer({state, setState}) {
         ...prev, profile: !prev.profile
     }));
     const [isLoading, setLoading] = useState(false);
-
     const history = useHistory();
-    const Register = async data => {
-        try {
-            const res = await  Api.register.post(data);
-            setToken(res.accessToken);
-            return isAuth() && history.push(Path.home);
-        } catch (error) {
-            setLoading(false);
-        }
-    };
 
     const onFinish = values => {
         const data = {...state.register, ...values};
         setLoading(true);
-        Register(data);
+
+        Auth.register(data)
+        .then(res => res && history.push(Path.home))
+        .catch(err => setLoading(false));
     };
     const onFinishFailed = err => console.log('Error:', err);
 

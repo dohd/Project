@@ -2,16 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 
 import Participants from './Participants';
-import Api from 'api';
 import { useTracked } from 'context';
-
-const fetchParticipants = dispatch => {
-    Api.participant.get()
-    .then(res => dispatch({
-        type: 'addParticipants',
-        payload: res
-    }));
-};
+import Api from 'api';
+import { fetchParticipants } from './participantApi';
 
 export default function ParticipantsContainer({ match, history }) {
     const [store, dispatch] = useTracked();

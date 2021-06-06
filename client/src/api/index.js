@@ -8,3 +8,4 @@ export {
     eraseToken, 
     fetchAud
 } from './tokenHandler';
+export { Auth } from './auth';

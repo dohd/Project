@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Regions from "./Regions";
 import Api from 'api';
 import { useTracked } from "context";
+import { clientSocket } from 'utils';
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -10,10 +11,13 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const fetchTargetRegions = dispatch => {
     Api.targetRegion.get()
-    .then(res => dispatch({
-        type: 'addTargetRegions',
-        payload: res
-    }));
+    .then(res => {
+        dispatch({
+            type: 'addTargetRegions',
+            payload: res
+        });
+        clientSocket.emit('targetRegions', res);
+    });
 };
 
 export default function RegionsContainer() {
@@ -22,12 +26,13 @@ export default function RegionsContainer() {
         regions: [], record: {}
     });
 
+    const { targetRegions } = store;
     useEffect(() => {
-        const list = store.targetRegions.map(v => ({
+        const list = targetRegions.map(v => ({
             key: v.id, region: v.area
         }));
         setState(prev => ({...prev, regions: list})); 
-    }, [store.targetRegions]);
+    }, [targetRegions]);
 
     const onDelete = key => {
         Api.targetRegion.delete(key)

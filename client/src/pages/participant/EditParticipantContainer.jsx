@@ -6,14 +6,7 @@ import { useParams } from 'react-router';
 import  EditParticipant, { dateFormat } from './EditParticipant';
 import Api from 'api';
 import { useTracked } from 'context';
-
-const fetchParticipants = dispatch => {
-    Api.participant.get()
-    .then(res => dispatch({
-        type: 'addParticipants',
-        payload: res
-    }));
-};
+import { fetchParticipants } from './participantApi';
 
 export default function UpdateParticipant() {
     const [store, dispatch] = useTracked();

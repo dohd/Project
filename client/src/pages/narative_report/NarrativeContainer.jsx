@@ -5,13 +5,17 @@ import { message } from 'antd';
 import Narrative from './Narrative';
 import Api from 'api';
 import { useTracked } from 'context';
+import { clientSocket } from 'utils';
 
 const fetchNarratives = dispatch => {
     Api.narrative.get()
-    .then(res => dispatch({
-        type: 'addNarratives',
-        payload: res
-    }));
+    .then(res => {
+        dispatch({
+            type: 'addNarratives',
+            payload: res
+        });
+        clientSocket.emit('narratives', res);
+    });
 };
 
 export default function NarrativeContainer() {

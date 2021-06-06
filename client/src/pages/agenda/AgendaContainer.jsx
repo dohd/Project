@@ -4,13 +4,17 @@ import { useParams } from 'react-router-dom';
 import Agenda from './Agenda';
 import Api from 'api';
 import { useTracked } from 'context';
+import { clientSocket } from 'utils';
 
 const fetchAgenda = dispatch => {
     Api.agenda.get()
-    .then(res => dispatch({
-        type: 'addAgenda',
-        payload: res
-    }));
+    .then(res => {
+        dispatch({
+            type: 'addAgenda',
+            payload: res
+        });
+        clientSocket.emit('agenda', res);
+    });
 };
 
 export default function AgendaContainer() { 

@@ -5,7 +5,7 @@ import { useTracked } from 'context';
 
 export default function HomeContainer() {
     const store = useTracked()[0];
-
+    
     const [schedule, setSchedule] = useState([]);
     useEffect(() => {
         const schedule = store.activitySchedule.map(v => ({

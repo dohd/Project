@@ -7,14 +7,18 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import Api from 'api';
 import { useParams } from 'react-router';
+import { clientSocket } from 'utils';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const fetchNarrative = dispatch => {
     Api.narrative.get()
-    .then(res => dispatch({
-        type: 'addNarratives',
-        payload: res
-    }));
+    .then(res => {
+        dispatch({
+            type: 'addNarratives',
+            payload: res
+        });
+        clientSocket.emit('narratives', res);
+    });
 };
 
 export default function CaseStudyContainer() {

@@ -6,6 +6,7 @@ import EventPlanModalContainer from './EventPlanModalContainer';
 import setCalendar, { currentYear, currentMonth } from 'utils/setCalendar';
 import { useTracked } from 'context';
 import Api from 'api';
+import { clientSocket } from 'utils';
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -13,10 +14,13 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const fetchActivityPlans = dispatch => {
     Api.activityPlan.get()
-    .then(res => dispatch({
-        type: 'addActivityPlans',
-        payload: res
-    }));
+    .then(res => {
+        dispatch({
+            type: 'addActivityPlans',
+            payload: res
+        });
+        clientSocket.emit('activityPlans', res);
+    });
 };
 
 export default function EventPlan() {

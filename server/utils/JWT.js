@@ -89,4 +89,10 @@ module.exports = {
             });
         });
     }),
+
+    verifySocketToken: (socket, next) => {
+        const { token } = socket.handshake.query
+        // verify token
+        next();
+    }
 };

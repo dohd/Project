@@ -4,13 +4,17 @@ import DonorContact from './DonorContact';
 import pdfExport from './pdfExport';
 import Api from 'api';
 import { useTracked } from 'context';
+import { clientSocket } from 'utils';
 
 const fetchDonorContacts = dispatch => {
     Api.donorContact.get()
-    .then(res => dispatch({
-        type: 'addDonorContacts',
-        payload: res
-    }));
+    .then(res => {
+        dispatch({
+            type: 'addDonorContacts',
+            payload: res
+        });
+        clientSocket.emit('donorContacts', res);
+    });
 };
 
 export default function DonorContactContainer(params) {

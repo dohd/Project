@@ -9,7 +9,7 @@ export default function ReportResponse(props) {
     const history = useHistory();
     const {
         visible, setVisible, record, state, onDelete,
-        showModal, fetchNarrative
+        showModal, fetchNarratives
     } = props;
 
     return (
@@ -29,7 +29,7 @@ export default function ReportResponse(props) {
                 visible={visible}
                 setVisible={setVisible}
                 record={record}
-                fetchNarrative={fetchNarrative}
+                fetchNarratives={fetchNarratives}
             />
 
             <Table

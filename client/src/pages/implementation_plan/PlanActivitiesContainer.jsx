@@ -5,13 +5,17 @@ import PlanActivities from './PlanActivities';
 import pdfExport from './activityPdfExport';
 import { useTracked } from 'context';
 import Api from 'api';
+import { clientSocket } from 'utils';
 
 const fetchProposals = dispatch => {
     Api.proposal.get()
-    .then(res => dispatch({
-        type: 'addProposals',
-        payload: res
-    }));
+    .then(res => {
+        dispatch({
+            type: 'addProposals',
+            payload: res
+        });
+        clientSocket.emit('proposals', res);
+    });
 }
 
 export default function PlanActivitiesContainer({ match, history }) {

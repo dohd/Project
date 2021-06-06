@@ -5,14 +5,17 @@ import pdfExport from './pdfExport';
 import Api from 'api';
 import { Path } from 'routes';
 import { useTracked } from 'context';
-import { parseUrl } from 'utils';
+import { clientSocket, parseUrl } from 'utils';
 
 const fetchProposals = dispatch => {
     Api.proposal.get()
-    .then(res => dispatch({
-        type: 'addProposals',
-        payload: res
-    }));
+    .then(res => {
+        dispatch({
+            type: 'addProposals',
+            payload: res
+        });
+        clientSocket.emit('proposals', res);
+    });
 };
 
 export default function Proposals({ history }) {

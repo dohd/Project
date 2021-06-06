@@ -5,13 +5,17 @@ import ReportImage from './ReportImage';
 import uploadTask from 'utils/firebaseConfig';
 import { useTracked } from 'context';
 import Api, { fetchAud } from 'api';
+import { clientSocket } from 'utils';
 
 const fetchNarratives = dispatch => {
     Api.narrative.get()
-    .then(res => dispatch({
-        type: 'addNarratives',
-        payload: res
-    }));
+    .then(res => {
+        dispatch({
+            type: 'addNarratives',
+            payload: res
+        });
+        clientSocket.emit('narratives', res);
+    });
 };
 
 export default function ReportImageContainer() {

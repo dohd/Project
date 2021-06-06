@@ -4,13 +4,17 @@ import { Form, message } from 'antd';
 import AddProposal, { dateFormat } from './AddProposal';
 import Api from 'api';
 import { useTracked } from 'context';
+import { clientSocket } from 'utils';
 
 const fetchProposals = dispatch => {
     Api.proposal.get()
-    .then(res => dispatch({
-        type: 'addProposals',
-        payload: res
-    }));
+    .then(res => {
+        dispatch({
+            type: 'addProposals',
+            payload: res
+        });
+        clientSocket.emit('proposals', res);
+    });
 };
 
 export default function AddProposalContainer({ history }) {

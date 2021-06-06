@@ -6,7 +6,7 @@ import Api from 'api';
 export default function EditResponseModal(props) {
     const { 
         record, visible, setVisible, 
-        fetchNarrative 
+        fetchNarratives
     } = props;
 
     const [form] = Form.useForm();
@@ -16,7 +16,7 @@ export default function EditResponseModal(props) {
         Api.narrativeResponse.patch(record.key, values)
         .then(res => {
             form.resetFields();
-            fetchNarrative();
+            fetchNarratives();
         });
     };
 

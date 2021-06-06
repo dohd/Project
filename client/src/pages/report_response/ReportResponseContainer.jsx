@@ -4,13 +4,17 @@ import { useParams } from 'react-router';
 import ReportResponse from './ReportResponse';
 import { useTracked } from 'context';
 import Api from 'api';
+import { clientSocket } from 'utils';
 
-const fetchNarrative = dispatch => {
+const fetchNarratives = dispatch => {
     Api.narrative.get()
-    .then(res => dispatch({
-        type: 'addNarratives',
-        payload: res
-    }));
+    .then(res => {
+        dispatch({
+            type: 'addNarratives',
+            payload: res
+        });
+        clientSocket.emit('narratives', res);
+    });
 };
 
 export default function ReportResponseContainer() {
@@ -49,7 +53,7 @@ export default function ReportResponseContainer() {
 
     const onDelete = key => {
         Api.narrativeResponse.delete(key)
-        .then(res => fetchNarrative(dispatch));
+        .then(res => fetchNarratives(dispatch));
     };
 
     // modal logic
@@ -63,7 +67,7 @@ export default function ReportResponseContainer() {
     const props = {
         visible, setVisible, record, 
         state, onDelete, showModal, 
-        fetchNarrative: () => fetchNarrative(dispatch)
+        fetchNarratives: () => fetchNarratives(dispatch)
     }
     return <ReportResponse {...props} />
 }
