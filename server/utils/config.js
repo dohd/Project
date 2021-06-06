@@ -1,4 +1,3 @@
-require('dotenv/config');
 const express = require('express');
 const httpLogger = require('morgan');
 const cookieParser = require('cookie-parser');
@@ -6,12 +5,6 @@ const cors = require('cors');
 
 // Initiate express app server
 const app = express();
-const corsOptions = {
-    origin: 'http://localhost:3000',
-    maxAge: 86400,
-    credentials: true
-};
-
 class Config {
     constructor() {
         // Log http server requests
@@ -23,13 +16,14 @@ class Config {
         // Parse cookies
         app.use(cookieParser());
         // Allow cross-origin resource sharing
-        app.use(cors(corsOptions));
+        app.use(cors({
+            origin: process.env.CLIENT_URL,
+            maxAge: 86400,
+            credentials: true
+        }));
     }
 
-    use(...args) { return app.use(...args); }
-    listen(...args) { return app.listen(...args); }
-
-    get port() { return process.env.PORT; }
+    get app() { return app; }
 }
 
 module.exports = Config;
