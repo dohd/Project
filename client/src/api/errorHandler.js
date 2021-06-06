@@ -1,11 +1,8 @@
 import { message } from 'antd';
 
 const errorHandler = data => {
-    if (data.error) {
-        console.log(data.error);
-        message.error(data.error.message);
-    }
-    return Promise.reject();
+    if (data.error) message.error(data.error.message);
+    return Promise.reject(data).catch(console.log);
 };
 
 export default errorHandler;
