@@ -4,7 +4,7 @@ import errorHandler from './errorHandler';
 import { fetchToken } from './tokenHandler';
 
 const instance = axios.create();
-instance.defaults.baseURL = 'http://localhost:3001/api';
+instance.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 instance.defaults.withCredentials = true;
 instance.defaults.timeout = 5000;
 
