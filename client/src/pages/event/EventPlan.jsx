@@ -12,15 +12,18 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-const fetchActivityPlans = dispatch => {
-    Api.activityPlan.get()
-    .then(res => {
-        dispatch({
-            type: 'addActivityPlans',
-            payload: res
-        });
-        clientSocket.emit('activityPlans', res);
+const fetchActivityPlans = async dispatch => {
+    const activityPlans = await Api.activityPlan.get();
+    const activitySchedule = await Api.activitySchedule.get();
+    dispatch({
+        type: "addActivityPlans",
+        payload: activityPlans
     });
+
+    const eventsDataMap = {activityPlans, activitySchedule};
+    for (const event in eventsDataMap) {
+        clientSocket.emit(event, eventsDataMap[event]);
+    }
 };
 
 export default function EventPlan() {
@@ -214,9 +217,9 @@ export default function EventPlan() {
     };
     
     return (
-        <div>
+        <>
             <CalendarContainer {...calendarProps} />
             <EventPlanModalContainer {...modalProps} />
-        </div>
+        </>
     );
 }

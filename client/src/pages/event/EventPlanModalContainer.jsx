@@ -44,21 +44,6 @@ export default function EventPlanModalContainer(props) {
         });
         setPlans(list);
     }, [activityPlans, store.participants]);
-
-    // const onDelete = (key, activityId) => {
-    //     return console.log(key);
-    //     Api.activityPlan.delete(key)
-    //     .then(res => {
-    //         fetchActivityPlans();
-    //         setVisible(false);
-    //     })
-    // };
-
-    // const createParticipant = (planId, activityId) => {
-    //     const pattern = new UrlPattern(Path.planParticipant);
-    //     const path = pattern.stringify({ planId });
-    //     history.push({ pathname: path, plans: { activityId } });
-    // };
     
     const params = { plans, onOk, onCancel, ...props };
     return <EventPlanModal {...params} />;

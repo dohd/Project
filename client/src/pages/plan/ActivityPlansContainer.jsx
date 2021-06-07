@@ -8,15 +8,18 @@ import Api from 'api';
 import { useTracked } from 'context';
 import { clientSocket } from 'utils';
 
-const fetchActivityPlans = dispatch => {
-    Api.activityPlan.get()
-    .then(res => {
-        dispatch({
-            type: "addActivityPlans",
-            payload: res
-        });
-        clientSocket.emit('activityPlans', res);
+const fetchActivityPlans = async dispatch => {
+    const activityPlans = await Api.activityPlan.get();
+    const activitySchedule = await Api.activitySchedule.get();
+    dispatch({
+        type: "addActivityPlans",
+        payload: activityPlans
     });
+
+    const eventsDataMap = {activityPlans, activitySchedule};
+    for (const event in eventsDataMap) {
+        clientSocket.emit(event, eventsDataMap[event]);
+    }
 };
 
 export default function ActivityPlansContainer() {
