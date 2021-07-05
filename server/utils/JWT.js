@@ -2,8 +2,8 @@ const JWT = require('jsonwebtoken');
 const createError = require('http-errors');
 const client = require('./redis');
 
-const accessToken = process.env.ACCESS_TOKEN_SECRET;
-const refreshToken = process.env.REFRESH_TOKEN_SECRET;
+const accessToken = process.env.ACCESS_TOKEN;
+const refreshToken = process.env.REFRESH_TOKEN;
 
 module.exports = {
     signAccessToken: user => new Promise((resolve, reject) => {
@@ -92,7 +92,7 @@ module.exports = {
 
     verifySocketToken: (socket, next) => {
         const { token } = socket.handshake.query
-        // verify token
+        // jwt verify
         next();
     }
 };
